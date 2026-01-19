@@ -1,0 +1,723 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{thesis_style}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\let\Bbbk\relax
+\usepackage{amssymb,amsfonts}
+\usepackage{dsfont}
+
+\addbibresource{References.bib}
+
+%----------------------------------------------------------------------------------------
+%	METADATA AND CONFIGURATION
+%----------------------------------------------------------------------------------------
+
+\journalname{PHYC40900}
+\title{Literature Review on Speeding Up Quantum Annealing}
+
+\author{Niall Carbery}
+\affil{University College Dublin}
+\affil{22380966}
+
+\institution{School of Physics}
+\footinfo{Speeding Up Quantum Annealing}
+\theday{\today}
+\leadauthor{Niall Carbery}
+\course{Proj. Theoretical Physics}
+
+\setcounter{tocdepth}{3}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+    \begin{refsection}
+
+    \pagenumbering{roman}
+    \singlespacing
+
+    \maketitle 
+    
+    \newpage
+
+    \tableofcontents
+
+    \newpage
+    \section*{Abstract}
+    
+    \qquad Quantum annealing represents a promising heuristic approach to solving combinatorial optimization problems by encoding solutions as ground states of a problem Hamiltonian. However, the requirement for adiabatic evolution leads to prohibitively long computation times, particularly near avoided crossings where energy gaps become exponentially small. We base this literature review around recent developments in expanding this energy gap in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper}. The methods developed in this paper are examined in detail and extended to larger systems. From there they are compared to other developments in literature on quantum optimal control and shortcuts to adiabaticity (STA).
+
+    \pagenumbering{arabic}
+    \doublespacing
+    
+    \newpage
+    \section{Introduction}
+
+    \qquad Quantum annealing protocols aim to generate optimization solutions to problems, typically combinatorial, by encoding the solution to the problem as the ground state of a Hamiltonian. The system is initialized in the ground state of a simple Hamiltonian $H_0$, and through adiabatic evolution, is transformed to the ground state of a problem Hamiltonian $H_P$ that encodes the optimization landscape. This adiabatic evolution is in principle a slowly varying parameter of a quantum system that is changing sufficiently slowly i.e an electromagnetic field. The time-dependent Hamiltonian takes the form
+
+    \begin{equation}
+        H(t) = (1-\lambda(t))H_0 + \lambda(t)H_P
+    \end{equation}
+
+    \qquad Quantum annealing, however, is a heuristic method with a non-quantified speedup compared to classical optimization techniques. The fundamental limitation arises from the \textit{adiabatic theorem}, which requires evolution times much longer than the minimum energy gap between the ground and first excited states. For many combinatorial problems, this gap decreases exponentially with system size, leading to impractical computation times that negate any potential quantum advantage. Despite this annealing devices repersent a state of art way of studying time evolutions of this form better than classical computers.\cite{DWAVEBeyondClassical2025}
+
+    \qquad There is current research focused on shortcuts to adiabaticity designed to circumvent this fundamental limitation. These techniques include counterdiabatic driving, where auxiliary control fields suppress transitions to excited states, Floquet engineering, where uses time-periodic modulation to effectively modify the Hamiltonian, and reservoir engineering, where controlled dissipation accelerates convergence to the ground state.
+
+    \qquad A key element of some of these shortcuts to adiabaticity rely on knowing the eigenspectrum of the Hamiltonian prior to the annealing protocol. For the application to quantum annealing, knowing the eigenspectrum \textit{a priori} defeats the purpose of the protocol, as if one could efficiently compute the eigenspectrum, the optimization problem would already be solved. Therefore, there is a trade-off between practical applicability and performance. 
+
+    \qquad The review will be structured in two main sections. First we will examine dephasing techniques developed in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper}, reproducing and extending the results to larger systems. Then we will review other shortcut to adiabaticity techniques, focusing on counterdiabatic driving methods. Throughout this review will refer generally to both of these as speed up methods, while in general they increase the energy gap the resulting effect is a reduced likelihood of diabatic transitions.
+
+%-------------------------------------------------------------
+
+\section{Theoretical Foundations}
+
+    %---------------------------------------------------------
+
+    \subsection{Quantum Annealing Problems}
+    \qquad This analysis focuses on combinatorial optimization problems expressible through the Quadratic Unconstrained Binary Optimization (QUBO) framework. QUBO formulations have proven versatile across practical applications spanning traffic-flow, logistics and finance.\cite{BaltimoreQA,TrafficFlowOptimizationQA, FinancePortfolioQA} This includes NP-hard classed problems including MAXCUT, graph colouring, and vertex cover.\cite{ClassofQuboProblems} At its core, a QUBO problem involves finding the minimum of a quadratic objective function with respect to binary variables $x_i \in \{0,1\}$ and a symmetric $N \times N$ matrix $Q$
+
+    \begin{equation}
+        f(x) = \sum_{i=1}^{N} \sum_{j=1}^{N} Q_{ij} x_i x_j
+    \end{equation} 
+    
+    \qquad To reformulate QUBO in a quantum mechanical setting, one performs the variable transformation $z_i = 2x_i - 1$ to obtain an equivalent Ising model with Hamiltonian \cite{IsingFormulationsNPQA}
+
+    \begin{equation}\label{IsingProblemEquation}
+        H_P = \sum_{i} h_i \sigma_i^z + \sum_{i<j} J_{ij} \sigma_i^z \sigma_j^z
+    \end{equation}
+
+    \qquad Here, $\sigma_i^z$ denote pauli-z operators on qubit $i$, with $h_i$ representing local field strengths and $J_{ij}$ encoding inter-qubit coupling interactions. The solution landscape of the original optimization problem becomes the ground state configuration of this Hamiltonian.
+
+    \subsection{Quantum Annealing}
+    \qquad Since directly accessing the ground state of the problem Hamiltonian $H_P$ is challenging, quantum annealing begins by preparing the system in the ground state of a simple initial Hamiltonian $H_0$, then gradually transitions the system to $H_P$. The initial Hamiltonian is typically chosen to be a transverse field form $H_T = \sum_i \sigma_i^x$, whose ground state comprises an equal superposition across all possible computational basis configurations. The annealing evolution is governed by a time-dependent interpolation
+
+    \begin{equation}
+        H(t) = (1-\lambda(t))H_0 + \lambda(t)H_P,
+    \end{equation}
+
+    where $\lambda(t)$ increases from 0 to 1 during the evolution interval $[0, \tau]$. Beginning in the ground state of $H_0$ at $t=0$, the system remains in the instantaneous eigenstate of $H(t)$ provided the evolution proceeds sufficiently slowly, and finally reaches the ground state of $H_P$ at $t=\tau$.The adiabatic theorem ensures this outcome, however, the constraint that evolution must be "sufficiently slow" represents the fundamental limitation of quantum annealing. This slowness requirement scales inversely with \cite{Amin2009ConsistencyAdiabatic}
+    \begin{equation}
+        \frac{|\langle m(t)|\dot H(t)|n(t)\rangle|}{|E_n(t) - E_m(t)|^2} \ll 1 \qquad (m \neq n),
+    \end{equation}
+
+%----------------------------------------------------------
+
+\section{Speeding up Quantum Annealing Using Engineered Dephasing}
+
+    \qquad The work of Sveistrys et al. in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper} proposes an approach to improve quantum annealing efficiency by exploiting controlled dephasing in the system. The fundamental mechanism involves intentionally coupling the quantum system to an ancillary degree of freedom in a manner that induces dephasing, which paradoxically reduces the rate of undesired transitions away from the target state and enhances the success probability of reaching the problem ground state.
+
+    \qquad The methodology considers a time-dependent quantum system with Hamiltonian $H_S(t)$ evolving through an annealing schedule The approach employs a quantum non-demolition (QND) measurement interaction with an auxiliary measurement apparatus, producing dephasing effects in the instantaneous energy eigenbasis of $H_S(t)$. The composite system Hamiltonian takes the form
+    \begin{equation}
+        H(t) = H_S(t) + X_M \otimes H_S(t) + H_M,
+    \end{equation}
+    where $X_M$ is a meter observable and $H_M$ governs the meter dynamics. The resulting interaction continuously monitors the instantaneous energy without causing transitions among energy levels, thereby inducing selective dephasing in the energy representation.
+
+    \qquad The dephasing reduces the non-adiabatic couplings between energy eigenstates of $H_S(t)$, the spectral gaps are modified. The maximum performance gain occurs when the system and measurement apparatus evolve without entanglement. The magnitude of the speed-up scales linearly with the coupling strength of the meter interaction. Resulting in a constant speed up factor in time. This work's findings are reproduced and generalized to larger system sizes in the sections that follow. The subsequent discussion develops the underlying concepts systematically, beginning with formal definitions and mathematical derivations.
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Quantum Non-Demolition (QND) Interaction}
+
+    \qquad A quantum non-demolition (QND) protocol is a coupling and measurement strategy that preserves the eigenvalues of a chosen system observable while allowing repeated readout without back action on that observable. Concretely, for a system observable $O_S$ and a meter operator $X_M$ the interaction is chosen so that $H_{\rm int}=X_M\otimes O_S$, and the QND condition requires that $O_S$ commutes with the system Hamiltonian. Under this condition the interaction correlates meter pointer states with the eigenvalues of $O_S$ but does not change the populations of those eigenstates, only coherences in the $O_S$ basis are suppressed. Thus a QND-like energy coupling of the form $X_M\otimes H_S(t)$ implements an effective measurement of instantaneous energy because it induces dephasing in the instantaneous energy basis while leaving energy populations intact, which is the key mechanism exploited by engineered-dephasing protocols to reduce diabatic transitions.
+
+    \qquad As mentioned in the paper the protocol is named QND-like as correlations between the system and meter are not necessarily generated. However, the typical QND protocols reduce to this protocol when the energy of the QND coupling exceeds the meter eigenenergy.
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Dephasing Effects}
+
+    \qquad The meter coupling induces dephasing, this is shown through a single qubit initialized in the superposition state $|+\rangle = \tfrac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$. Then selecting the meter observable as $X_M=x_0\sigma_z$ and assume negligible intrinsic meter dynamics ($H_M=0$), while keeping the system Hamiltonian $H_S(t)$ general. Here, $x_0$ represents the coupling strength of the QND-like interaction. The resulting composite Hamiltonian is given by
+
+    \begin{equation}
+        H(t)=H_S(t)\otimes\mathds{1}_M + x_0 H_S(t)\otimes\sigma_z
+        = (1+x_0)H_S(t)\otimes|0\rangle\langle0| + (1-x_0)H_S(t)\otimes|1\rangle\langle1|.
+    \end{equation}
+
+    The derivation in detail is within Appendix \ref{DephasingEffectsDerivation}, by considering that the interaction is diagonal in the meter basis. Then written as a time evolution operator, the total Hamiltonian decomposes into two branches corresponding to the meter states $|0\rangle$ and $|1\rangle$. The total operator form of the master equation turns to be,
+    \begin{equation}
+        \frac{d}{dt}\rho_S(t) = -\frac{i}{\hbar}[H_S(t),\rho_S(t)] + i\frac{x_0}{2\hbar}[H_S(t),\rho^{[1+x_0]}_S(t)-\rho^{[1-x_0]}_S(t)].
+    \end{equation}
+    Typically, assuming standard initial conditions and ensemble averaging, this secondary term suppresses the off-diagonal components in the energy basis, thereby generating an effective dephasing process.
+    \begin{equation}\label{density_matrix_correct_evolution}
+        \frac{d}{dt}(\rho_S(t))_{mn} = -\frac{i}{\hbar}([H_S(t),\rho_S(t)])_{mn} + i\frac{x_0}{2\hbar}(E_m(t)-E_n(t))((\rho^{[1+x_0]}_S(t))_{mn}-(\rho^{[1-x_0]}_S(t))_{mn})
+    \end{equation}
+    \qquad Equation (\ref{density_matrix_correct_evolution}) indicates that the meter interaction introduces a corrective term to the density matrix's evolution. At leading order, this correction specifically targets the off-diagonal elements in the instantaneous energy frame via the prefactor $(E_m - E_n)$. 
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Energy Rescaling}
+
+    \qquad The framework established above can be broadened to include general interactions of the form $Y_S(t) \otimes X_M$, provided that the system coupling operator commutes with the Hamiltonian at all instants, $[Y_S(t), H_S(t)] = 0$. This commutation constraint is the necessary condition for restricting the open-system dynamics to pure dephasing within the energy eigenbasis.
+
+    \qquad To appreciate why commutativity is essential, consider the counter-case where $[Y_S(t), H_S(t)] \neq 0$. In the instantaneous eigenbasis $\{|\psi_i(t)\rangle\}$ of the system Hamiltonian, the interaction operator can be represented as
+    
+    \begin{equation}
+        Y_S(t) \otimes X_M = \left( \sum_{i,j} Y_{ij}(t) |\psi_i(t)\rangle\langle\psi_j(t)| \right) \otimes X_M.
+    \end{equation}
+
+    Non-commutativity implies the existence of non-zero off-diagonal matrix elements, $Y_{mn}(t) \neq 0$ for some $m \neq n$. These terms directly couple distinct energy eigenstates $|\psi_m(t)\rangle$ and $|\psi_n(t)\rangle$ via the meter. Consequently, tracing out the environment does not merely suppress coherences but also induces transitions between energy levels, leading to relaxation rather than pure dephasing. When the operators do commute, they share a simultaneous eigenbasis. Therefore, the total Hamiltonian is expressed in a diagonal form
+
+    \begin{equation}
+        H(t) = \sum_i |\psi_i(t)\rangle\langle\psi_i(t)| \otimes (E_i(t)\mathds{1} + y_i(t)X_M),
+    \end{equation}
+
+    where $y_i(t)$ are the eigenvalues of $Y_S(t)$ corresponding to the eigenstates $|\psi_i(t)\rangle$. By expanding the meter operator in its own eigenbasis $\{|m_j\rangle\}$ with eigenvalues $m_j$, the Hamiltonian separates into block-diagonal sectors
+
+    \begin{equation}
+        H(t) = \sum_{i,j} (E_i(t) + y_i(t)m_j) |\psi_i(t)\rangle\langle\psi_i(t)| \otimes |m_j\rangle\langle m_j|.
+    \end{equation}
+
+    This diagonal structure allows the unitary evolution operator to be factorized as a sum over the meter index $j$
+    
+    \begin{equation}
+        U(t) = \sum_j U_R^{[j]}(t) \otimes |m_j\rangle\langle m_j|.
+    \end{equation}
+
+    Here, each $U_R^{[j]}(t)$ is the propagator for a specific "rescaled" system Hamiltonian $H_R^{[j]}(t)$
+
+    \begin{equation}
+        i\hbar \frac{d}{dt} U_R^{[j]}(t) = H_R^{[j]}(t) U_R^{[j]}(t), \qquad H_R^{[j]}(t) = \sum_i (E_i(t) + y_i(t)m_j) |\psi_i(t)\rangle\langle\psi_i(t)|.
+    \end{equation}
+
+    \qquad This formulation recovers the specific QND-like when $Y_S(t) = x_0 H_S(t)$. For a system and meter initialized in the product state $\rho_S(0) \otimes \rho_M(0)$, the reduced dynamics of the system is given by the Kraus map $\rho_S(t) = \sum_j K_j(t) \rho_S(0) K_j^\dagger(t)$, with operators
+
+    \begin{equation}
+        K_j(t) = \sqrt{\langle m_j | \rho_M(0) | m_j \rangle} \, U_R^{[j]}(t).
+    \end{equation}
+
+    \qquad The physical interpretation of this result is that the system's quantum state effectively splits into $\dim(X_M)$ distinct branches. Each branch evolves according to the corresponding meter eigenvalue $m_j$ and the coupling $y_i(t)$, weighted by the initial overlap with the meter state.
+
+    \qquad \color{red} To see the effect on fidelity we consider the adiabatic condition, which requires the rate of Hamiltonian change to be small compared to the squared energy gap. For the specific QND-like coupling $Y_S(t) = x_0 H_S(t)$, the branch Hamiltonian is $H_R^{[j]}(t) = (1 + x_0 m_j) H_S(t)$. Consequently, both the energy gap and the time-derivative of the Hamiltonian are rescaled by the factor $(1 + x_0 m_j)$. The adiabatic parameter for the $j$-th branch scales as
+
+    \begin{equation}
+        \frac{\hbar |\langle \psi_e | \dot{H}_R^{[j]} | \psi_g \rangle|}{(E_e^{(j)} - E_g^{(j)})^2} 
+        = \frac{(1+x_0 m_j)\hbar |\langle \psi_e | \dot{H}_S | \psi_g \rangle|}{(1+x_0 m_j)^2 (E_e - E_g)^2} 
+        = \frac{1}{1+x_0 m_j} \left( \frac{\hbar |\langle \psi_e | \dot{H}_S | \psi_g \rangle|}{(E_{e} - E_{g})^2} \right).
+    \end{equation}
+
+    For branches where $(1 + x_0 m_j) > 1$, the effective adiabatic parameter is reduced. This effectively slows down the dynamics relative to the energy gap, suppressing non-adiabatic transitions and thereby preserving the fidelity of the ground state.
+    \color{black}
+
+    \qquad The QND-like protocol where $Y_S(t) = H_S(t)$ is a specific instance where $y_i(t) = E_i(t)$. In this scenario, if the meter is prepared in an eigenstate with $m_j > 0$, all energy gaps scale by a factor $(1+m_j)$. This global rescaling suppresses excitation out of the ground state. A tailored interaction $Y_S(t)$ (analogous to counterdiabatic driving) to specifically separate the ground and first excited states requires detailed knowledge of the instantaneous eigenspectrum. As noted in the introduction, knowing the spectrum a priori is equivalent to solving the problem, rendering such methods impractical for quantum annealing speedups. The QND-like approach avoids this by using $H_S(t)$ itself, which we have as we have defined the problem and annealing schedule, ensuring a gap increase without requiring diagonalisation.
+
+    \qquad To maximize the gap amplification $(1+x_0 m_j)$, one should initialize the meter in the eigenstate of $X_M$ with the largest eigenvalue, which we denote as $|m_{\text{max}}\rangle$. In this case, the initial meter state is pure, $\rho_M(0) = |m_{\text{max}}\rangle\langle m_{\text{max}}|$. Substituting this into the definition of the Kraus operators
+    \color{red}
+    \begin{equation}
+        K_j(t) = \sqrt{\langle m_j | m_{\text{max}}\rangle\langle m_{\text{max}} | m_j \rangle} \, U_R^{[j]}(t) = \delta_{j, \text{max}} \, U_R^{[\text{max}]}(t).
+    \end{equation}
+    Since only one Kraus operator is non-zero, the sum over $j$ collapses to a single term
+    \begin{equation}
+        \rho_S(t) = K_{\text{max}}(t) \rho_S(0) K_{\text{max}}^\dagger(t) = U_R^{[\text{max}]}(t) \rho_S(0) U_R^{[\text{max}]\dagger}(t).
+    \end{equation}
+    \color{black}
+    \qquad This describes purely unitary evolution under the rescaled Hamiltonian $H_{\text{eff}}(t) = (1 + x_0 m_{\text{max}})H_S(t)$. There is no decoherence or dephasing because the system does not become entangled with the meter. The best performance of the protocol is achieved in a regime where no actual dephasing occurs, but rather an energy rescaling. \color{red} The dephasing effect essentially arises from averaging over multiple branches with different rescaling factors, selecting only the optimal branch removes the averaging and thus the dephasing, leaving only the beneficial energy shift.\color{black}
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Landau Zener Example}
+    
+    \qquad The coupling to the meter is shown To generate coherence suppression in the instantaneous energy eigenbasis. To quantify the magnitude and evolution of this dephasing action, the Landau-Zener model is used. The system Hamiltonian takes the form
+    \begin{equation} \label{LandauZenerEquation}
+        H_S(t) = \frac{vt}{2}\sigma_z + \frac{g}{2}\sigma_x,
+    \end{equation}
+    where the meter couples through the interaction $H_{\rm int} = H_S(t) \otimes \sigma_z$ and we set $H_M = 0$ for simplicity. The joint system is prepared in the product state $|+\rangle \otimes |+\rangle$, with both the system qubit and meter in equal superpositions of their respective basis states. The evolution proceeds via linear interpolation across the interval $t \in [-10/v, +10/v]$ with parameters $v = g = 1$. After tracing out the meter degrees of freedom, we track the off-diagonal density-matrix element $|\rho_{01}(t)|$ throughout the evolution.
+    
+    \qquad Comparing the dephased evolution against the coherent case ($H_{\rm int} = 0$). Over the full evolution there is a net suppression of coherence amplitude relative to the meter-free scenario, confirming the dephasing of the meter-induced dynamics as show by the density-matrix analysis.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing1a.png}
+        \hspace{0.02\textwidth}%
+        \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing1b.png}
+        \caption{\textbf{Left} Coherence magnitude as a function of time, comparing evolution with the QND-like meter coupling (blue line) and the unmodified coherent evolution (orange line). Both systems are initialized in a symmetric superposition of the instantaneous ground and first excited states. The periodic collapse and revival of coherence demonstrates the dephasing mechanism introduced by the meter coupling. \textbf{Right} Energy spectrum of the bare Landau-Zener model without the meter (solid red), with the QND-like coupling (dot-dashed blue), and with counterdiabatic driving (dashed black) \cite{BerryCounterdiabatic2009,LandauZenerCDAbah2019}. The energy rescaling induced by the meter interaction is clearly visible. Parameters: $T = 5$, $x_0 = 2$, $g = 1$.}
+        \label{fig:landau_zener_results}
+    \end{figure}
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Quantifying the Speedup}
+    \qquad Ensuring adiabticity locally to understand the speedup achieved, we parameterize the Hamiltonian evolution as $H_{tot}(s(t))$, where $s(t)$ represents a schedule function designed to maintain local adiabaticity.\cite{LocalAdiabticQuantumSearch} Specifically, the protocol remains adiabatic with an error bounded by $\epsilon^2$ if the evolution rate satisfies
+
+    \begin{equation}
+        \left|\frac{ds}{dt}\right| \frac{|M|}{g^2(s)} \leq \epsilon.
+    \end{equation}
+
+    Here, $g(s)$ denotes the energy gap between the instantaneous ground state and the lowest excited state to which it is coupled, and $M$ is the relevant matrix element of the time derivative of the Hamiltonian, $\dot{H}_{tot}(s(t)) = \dot{H}_S(s(t)) \otimes (1+X_M)$.
+
+    \qquad Considering the case where the meter Hamiltonian $H_M$ commutes with the observable $X_M$ (trivially satisfied when $H_M=0$). If the meter is initialized in an eigenstate $|m_i\rangle$ of $X_M$ (and thus $H_M$), adiabatic evolution preserves the product form of the state, $|\psi_0(t)\rangle \otimes |m_i\rangle$, up to a phase. Because $\dot{H}_{tot}$ is diagonal in the meter basis, it cannot couple states with different meter components. The matrix element $M$ connects $|\psi_0(t)\rangle \otimes |m_i\rangle$ only to system excited states attached to the \textit{same} meter state $|m_i\rangle$
+    \begin{align}
+        M &= [\langle\psi_0(t)| \otimes \langle m_i|] \dot{H}_{tot}(s(t)) [|\psi_1(t)\rangle \otimes |m_i\rangle] \nonumber \\
+          &= \langle\psi_0(t)| \dot{H}_S(s(t)) |\psi_1(t)\rangle \langle m_i| (1+X_M) |m_i\rangle \nonumber \\
+          &= (1+m_i) \langle\psi_0(s)| \dot{H}_S(s) |\psi_1(s)\rangle.
+    \end{align}
+    where we have used $X_M|m_i\rangle = m_i|m_i\rangle$. The energy gap $g(s)$ in this subspace is similarly rescaled to $(1+m_i)(E_1(s) - E_0(s))$. Substituting this into the adiabatic condition, the factor $(1+m_i)$ in the numerator $M$ is canceled by one of the factors in the denominator $g^2(s)$, leaving a net suppression of the adiabaticity parameter $|M|/g^2(s)$ by a factor of $(1+m_i)$.
+
+    \qquad Therefore the required annealing time to maintain a fixed error $\epsilon$ is reduced by exactly $(1+m_i)$ compared to the meter-free evolution. Therefore, assuming $[X_M, H_M] = 0$, a fully adiabatic schedule can be executed with a speedup factor bounded by $1 + m_{max}$, where $m_{max}$ corresponds to the largest eigenvalue of the meter operator. For the non commuting case $[X_M, H_M] \neq 0$, 
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Numerical Validation}
+
+    \qquad To assess the robustness of the derived speedup limit beyond the strict adiabatic approximation, we perform numerical simulations on two test cases: (i) a single qubit subject to the Landau-Zener Hamiltonian (Eq. \ref{LandauZenerEquation}), and (ii) a three-qubit array ($N=3$) evolving under a linear annealing schedule to solve a random Ising problem (Eq. \ref{IsingProblemEquation}) with parameters $J_{ij}, h_i$ uniformly $ \in [0, 1]$. In both scenarios, the auxiliary meter is modeled as a qubit with intrinsic dynamics $H_M = \omega \sigma_x$ and interacts with the system via the coupling $H_{int} = x_0 H_S(t) \otimes \sigma_z$.
+
+    \qquad The meter is initialized in the state $|0\rangle$, the +1 eigenstate of $\sigma_z$, to ensure positive energy rescaling. The system begins in its ground state and evolves over a total time $T$. For the Landau-Zener model, the drive is linearized from $t = -10/v$ to $t = +10/v$ (implying $T=20/v$) with the array undergoing linear schedule $f(t) = t/T$. Evaluating performance using the fidelity $F = |\langle \psi_{ground}(T) | \psi(T) \rangle|^2$, which measures the overlap between the final evolved state and the target ground state.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing2a.png}
+        \hspace{0.02\textwidth}
+        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing2b.png}
+        \caption{Fidelity of the QND-like protocol across different annealing times $T$ and interaction strengths $x_0$, with the meter Hamiltonian turned off ($H_M = 0$). The white dashed curves represent contours of constant effective time $T(1+x_0)$. Ideally, fidelity should remain invariant along these curves. The simulation results confirm that regions of constant fidelity align perfectly with these contours, even in low-fidelity regions corresponding to non-adiabatic evolution. System (a) is the single-qubit Landau-Zener model ($g=1$). System (b) is a 3-qubit Ising chain.}
+        \label{fig:fidelity_contour}
+    \end{figure}
+
+    \qquad Fig. \ref{fig:fidelity_contour} presents the fidelity as a function of $T$ and coupling strength $x_0$ for the commuting case ($\omega=0, [X_M, H_M]=0$). We make a small note on a scaling difference with the original paper as we average over 100 iterations for the Ising model. The fidelity remains invariant along contours where the effective duration $T_{eff} = T(1+x_0)$ is constant, indicated by the dashed white lines. This invariance holds for both high-fidelity adiabatic region and the low-fidelity regime where diabatic transitions dominate. Suggestive that speedup scaling law derived from adiabatic perturbation theory remains valid for arbitrary evolution speeds. \textbf{Check in a later section}
+
+    \qquad This is verified for the single-qubit against the analytical Landau-Zener formula for finite-time transitions 
+    \begin{equation}
+        I = 1 - F = \exp\left[ -\frac{\pi (g/2)^2}{v/2} \right].
+    \end{equation}
+    Since energy rescaling in the Landau-Zener model is mathematically equivalent to rescaling the velocity of the drive $v$, it is expected that the infidelity to follow this prediction with the transformed time variable $T \to T(1+x_0)$. Fig. \ref{fig:lz_scaling} plots the infidelity against $T$ for various couplings $x_0$. The collapse of the data points onto the theoretical curves confirms that the linear speedup $1+x_0$ is realized exactly, independent of the driving rate.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing3.png}
+        \caption{Infidelity ($I=1-F$) of the final state versus annealing time $T$ for the Landau-Zener protocol at various coupling strengths $x_0$. The discrete markers represent numerical data from the QND-like protocol, while the dotted lines depict the theoretical Landau-Zener prediction with the time variable rescaled to $T(1+x_0)$. The precise agreement confirms the linear energy rescaling effect.}
+        \label{fig:lz_scaling}
+    \end{figure}
+
+    \qquad The non-commuting meter dynamics ($[X_M, H_M] \neq 0$) are investigated next. It's hypothesized that the speedup factor $1+m_{max}$ derived for the commuting case serves as a strict upper bound. Physically, if the meter is initialized in the optimal eigenstate of $X_M$, any non-commuting term $H_M$ will induce transitions out of this state, effectively averaging down the rescaling factor over time.
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing4a.png}
+        \hspace{0.02\textwidth}
+        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing4b.png}
+        \caption{Impact of non-commuting meter dynamics on protocol performance. The plots show the change in fidelity relative to the ideal case ($\omega=0$) as a function of duration $T$ and transverse field strength $\omega$. Panel (a) shows the Landau-Zener qubit, and panel (b) shows the 3-qubit Ising outcome. The universally negative values indicate that introducing a non-commuting term $[X_M, H_M] \neq 0$ strictly reduces the effectiveness of the speedup.}
+        \label{fig:fidelity_diff}
+    \end{figure}
+
+    \qquad To test this, we simulate the same systems with a fixed coupling $x_0=1$ and vary the strength $\omega$ of the meter's transverse field $H_M = \omega \sigma_x$. We compute the fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ relative to the ideal commuting case. As shown in Fig. \ref{fig:fidelity_diff}, this difference is universally negative across all annealing times $T$ and  $\omega$. This consistent reduction in fidelity supports the conjecture that the presence of non-commuting meter dynamics degrades performance relative to the ideal limit, confirming $1+m_{max}$ as the maximum achievable speedup. We make a small correction for the graphs in the original paper, and assert the results for the Ising model are rotated 90 degrees. However, this does not affect the conclusions drawn. 
+
+    \color{red}
+    \subsection{Mechanism of Fidelity Reduction}
+    \color{black}
+
+    \qquad To understand the physical mechanism behind the fidelity reduction observed in Fig. \ref{fig:fidelity_diff}, we analyse the effective energy rescaling in the presence of the non-commuting term $H_M = \omega \sigma_x$, following the analysis in \cite{DephasingPaper}. In the ideal QND limit ($\omega=0$), the system energy gaps are rescaled by a constant factor $(1+x_0)$, leading to a direct linear speedup. However, when $\omega \neq 0$, the transverse field induces mixing between the meter branches.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.45\textwidth]{NonCommutation/LZRescale.png}
+        \hspace{0.02\textwidth}
+        \includegraphics[width=0.45\textwidth]{NonCommutation/QARescale.png}
+        \caption{Impact of non-commuting meter dynamics on protocol performance. The plots show the effective energy rescaling factor $1+x_0\langle\sigma_z\rangle(t)$ relative to the ideal QND case as a function of duration $T$ and $\omega$. \textbf{Left: } shows the Landau-Zener qubit, and \textbf{Right: } shows the 3-qubit Ising outcome. The universally negative values indicate that introducing a non-commuting term $[X_M, H_M] \neq 0$ strictly reduces the effectiveness of the speedup.}
+        \label{fig:NonCommutationRescaling}
+    \end{figure}
+
+    \qquad Fig. \ref{fig:NonCommutationRescaling} illustrates the effective energy rescaling factor compared to the ideal case. The rescaling is no longer constant but exhibits fast oscillations that are modulated that decays near the avoided crossing. These oscillations are the signature of coherent Rabi cycling of the meter state, driven by the transverse field $\omega$. As the system evolves, the meter attempts to track the instantaneous energy eigenstates, but the non-commuting term $\omega \sigma_x$ induces precession away from the ideal rescaling axis.
+    
+    \qquad Analytical derivation (detailed in Appendix \ref{sec:appendix_non_commuting}) shows that the local speedup is determined by the instantaneous expectation value $\langle \sigma_z \rangle(t)$. The non-commuting dynamics lead to a time-averaged polarization $\overline{\langle \sigma_z \rangle} < 1$, effectively diluting the coupling strength $x_0$. 
+    
+    \qquad The features in Fig. \ref{fig:fidelity_diff} can be directly mapped to the analytical form of $\langle\sigma_z\rangle(t)$. The dominant dark gradient as $\omega$ increases corresponds to the algebraic envelope $\overline{\langle\sigma_z\rangle} \propto 1/(E^2 + \omega^2)$, which suppresses the effective coupling as $\omega$ grows large relative to the interaction energy. Furthermore, the ripple-like modulations visible at small $\omega$ and $T$ in Fig. \ref{fig:fidelity_diff}(a) arise from the coherent cosine term $\cos(2 \int \Omega dt)$ in the instantaneous expectation. At shorter annealing times, the rapid Rabi oscillations are not fully averaged out over the critical crossing region, meaning the exact phase of the meter oscillation at the moment of minimal gap significantly impacts the final transition probability.
+
+    \qquad Crucially, near the critical point where the system energy gap is minimal ($E_{gap} \to 0$), the ratio of the interaction energy to the transverse field $\omega$ drops, allowing the transverse term to dominate. This results in a significant suppression of the gap amplification exactly where it is most needed, explaining why the fidelity drops in this regime. This confirms that the QND speedup is robust only when the interaction energy dominates the intrinsic meter dynamics.
+
+    \subsection{Time-to-Solution Analysis}
+
+    \qquad To assess the practical utility of the engineered dephasing protocol, we employ the Time-to-Solution (TTS) metric and investigate a constrained implementation that relaxes the rigorous hardware requirements of the full QND interaction.
+
+    \qquad The Time-to-Solution (TTS) serves as a robust benchmark for quantum annealing, balancing the trade-off between the duration of a single anneal and the probability of reaching the ground state. Given that verifying a candidate solution is typically efficient, a probabilistic algorithm is effective provided it yields the correct result with a finite probability $p_{\text{single}}$. The TTS, denoted $T_p$, quantifies the expected total time required to achieve a solution with a target confidence level $p$ (typically set to 0.95):
+    \begin{equation}
+        T_p = \min_T \frac{T \log(1-p)}{\log(1-p_{\text{single}}(T))}.
+    \end{equation}
+    
+    \qquad Based on the energy rescaling derived in previous sections, the success probability for the QND-like protocol scales as $p_{\text{single}}^{\text{QND}}(T) = p_{\text{single}}^{\text{coh}}((1+m)T)$, where $m$ is the meter eigenvalue. Consequently, the ratio of the TTS for the QND-modified system to the standard coherent system is expected to perform as
+
+    \begin{equation}
+        \frac{T_p^{\text{QND}}}{T_p^{\text{coh}}} = \frac{1}{1+m}.
+    \end{equation}
+
+    \qquad Numerical verification of this scaling is presented in Fig. \ref{fig:constrained_results}(a) for random Ising instances. With a coupling strength of $x_0 = 2.0$, the observed speedup ratio converges to the theoretical prediction of $(1+x_0)^{-1} \approx 0.33$ for system sizes $N > 3$. Minor deviations in smaller systems act as artifacts of finite sampling within the minimization procedure over annealing time $T$.
+
+    \subsection{Constrained QND-like Protocol}
+
+    \qquad The full QND-like protocol requires an interaction Hamiltonian of the form $H_S(t) \otimes X_M$. For a QUBO problem Hamiltonian $H_P$, this necessitates simultaneous coupling to both the problem terms and the transverse driver $H_0$. Specifically, if $X_M = \sigma_z$, this implies engineering three-body terms like $\sigma_x \sigma_z$ (from the transverse field) alongside problem-based coupling. A more experimentally feasible "constrained" protocol restricts the coupling solely to the problem Hamiltonian $H_f$
+
+    \begin{equation}
+        H_{\text{int}}(t) = f(t) H_f \otimes X_M.
+    \end{equation}
+
+    \qquad This approach eliminates the difficult $\sigma_x \sigma_z$ terms, requiring only variable-coupler interactions ($\sigma_z \sigma_z$ and $\sigma_z \sigma_z \sigma_z$). However, omitting the driver term means the interaction no longer commutes with the total Hamiltonian, $[H_{\text{int}}(t), H_S(t)] \neq 0$, thereby introducing relaxation effects alongside the intended energy rescaling.
+
+    \qquad Numerical results for this constrained protocol (Fig. \ref{fig:constrained_results}b,c) reveal a saturation in performance. Unlike the ideal case, where fidelity improves linearly with interaction strength, the constrained protocol's fidelity plateaus near $x_0 \approx 2.0$. This limitation arises because stronger coupling increases the rate of deleterious relaxation transitions, eventually competing with the advantages of the widened energy gap. Thus, while the constrained protocol offers a speedup, it is bounded and cannot be indefinitely enhanced by increasing interaction strength.
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.34\textwidth]{Dephasing/Dephasing5a.png}
+        \hfill
+        \includegraphics[width=0.63\textwidth]{Dephasing/Dephasing5bc.png}
+        \caption{\textbf{Left: } Time-to-Solution (TTS) speedup ratio versus number of qubits $N$ for full and constrained QND protocols ($x_0=2$). The dashed line marks the theoretical limit $1/(1+x_0)$. \textbf{Right: } Average fidelity of the constrained protocol as a function of interaction strength $x_0$, showing the performance plateau due to non-commuting dynamics.}
+        \label{fig:constrained_results}
+    \end{figure}
+
+    %----------------------------------------------------------------------------------
+    \color{red}
+    \section{Locally Adiabatic Evolution}
+    \color{black}
+    \qquad A key limitation of the standard quantum annealing protocol is the use of a linear annealing schedule, $s(t) = t/\tau$, where the evolution parameter varies uniformly from $0$ to $1$. This approach is oblivious to the local spectral properties of the Hamiltonian. The adiabatic theorem dictates that the evolution rate must be minimized where the energy gap $\Delta(s)$ is smallest to prevent diabatic transitions. A linear schedule is therefore constrained by the global minimum gap $\Delta_{\min}$, forcing the evolution to be slow throughout the entire anneal, even in regions where the gap is large and faster evolution would be permissible. We can adjust the evolution rate $ds/dt$ to maintain a constant adiabaticity condition on each infinitesimal time interval, leading to a significant potential speedup\cite{LocalAdiabticQuantumSearch, MoritaNishimori2008}.
+
+    \subsection{Local Adiabatic Condition}
+    \qquad The adiabatic condition requires that the rate of change of the Hamiltonian be small relative to the squared energy gap\cite{AlbashLidar2018}. Quantitatively, this can be expressed as:
+    \begin{equation}
+        \left| \frac{\langle 1(s) | \frac{dH}{dt} | 0(s) \rangle}{\Delta(s)^2} \right| \leq \epsilon,
+    \end{equation}
+    where $\epsilon \ll 1$ is a small dimensionless parameter governing the probability of excitation. Transforming the time derivative using the chain rule $\frac{dH}{dt} = \frac{ds}{dt} \frac{dH}{ds}$, we obtain a condition on the schedule rate $\dot{s}$:
+    \begin{equation}\label{eq:optimal_rate}
+        \frac{ds}{dt} \leq \frac{\epsilon \Delta(s)^2}{|\langle 1(s) | \frac{dH}{ds} | 0(s) \rangle|}.
+    \end{equation}
+    \qquad For the standard linear interpolation $H(s) = (1-s)H_0 + sH_P$, the derivative $dH/ds = H_P - H_0$ is constant. Assuming the matrix element $\mathcal{M}(s) = |\langle 1(s) | H_P - H_0 | 0(s) \rangle|$ varies slowly compared to the rapid changes in the gap $\Delta(s)$ near an avoided crossing, the optimal instantaneous velocity $v(s) = \dot{s}$ scales as the square of the gap
+
+    \begin{equation}
+        \frac{ds}{dt} \propto \epsilon \Delta(s)^2.
+    \end{equation}
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.45\textwidth]{OptimalRamp/LZOptimalRamp.png}
+        \hspace{0.02\textwidth}%
+        \includegraphics[width=0.45\textwidth]{OptimalRamp/QAOptimalRamp.png}
+        \caption{Models with energy levels and optimal local schedule compared to linear schedule. The optimal schedule slows down significantly near the minimum gap region, allowing the system to remain adiabatic through the critical point, while speeding up in regions with larger gaps.\textbf{Left:} Landau Zener Model \textbf{Right:} QA Model with 3 Qubits}
+    \end{figure}
+
+    Importantly, the coupling to the meter does not affect this mapping schedule as it only rescales energy levels but does not change the form of the Hamiltonian derivative $dH/ds$. Therefore, the locally adiabatic schedule derived for the bare system remains optimal in the presence of the meter coupling, preserving the potential speedup benefits. We examine if we can extract benefits from this locally adiabatic approach in the presence of the meter-induced dephasing. We compare the performance difference between the standard linear schedule and the optimal local adiabatic schedule in the presence of the meter coupling. For the Ising example we average over 100 random instances of different couplings, for each instance we compute the optimal local adiabatic schedule via the energy gaps. 
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.4\textwidth]{OptimalRamp/LZOptimalDiff.png}
+        \hspace{0.02\textwidth}%
+        \includegraphics[width=0.4\textwidth]{OptimalRamp/QAOptimalDiff.png}
+        \caption{Fidelity difference between optimal local adiabatic and linear schedules .\textbf{Left:} Landau Zener Model \textbf{Right:} QA Model with 3 Qubits averaged over 100 instances with schedule optmiized for each instance.}
+    \end{figure}
+
+    \qquad Use of the computed optimal local adiabatic schedule yields a significant fidelity improvement over the linear schedule especially for moderate annealing durations with a roughly 8\% increase in fidelity for both models. For the LZ model this occurs along the contours of $T_{eff} = T(1+x_0)$ = 4 or for $T_{eff} = 8$ for the QA model. 
+
+    \subsection{Statistical Foundations}
+    \qquad As before for the QA problem knowing the instantaneous spectral gap \textit{a priori} is equivalent to solving the problem itself, making the exact implementation of the optimal local adiabatic schedule impractical. However, statistical knowledge of the gap distribution across problem instances could inform heuristic schedule designs that approximate the optimal rate without requiring full spectral information. By analyzing ensembles of problem Hamiltonians, one can identify typical gap behaviors and construct schedules that adaptive slow down in regions where small gaps are statistically likely, while speeding up elsewhere. This statistical approach enables practical implementations of locally adiabatic evolution that capture much of the performance benefit without the need for exact gap knowledge.
+
+    \qquad We will approach this problem with two strategies, we will compare averaging the spectral properties over many instances to generate a single heuristic schedule versus generating individual optimal schedules and averaging the schedule performance over many instances.
+
+    \textbf{To be simulated}
+
+    \section{Counterdiabatic Driving}
+
+    \subsection{Local counterdiabatic Driving}
+    \qquad Standard counterdiabatic driving (CD) theoretically allows for arbitrarily fast adiabatic evolution by introducing an auxiliary Hamiltonian, the adiabatic gauge potential (AGP) $\mathcal{A}_\lambda$, which exactly counters the diabatic transitions induced by the time-dependence of the system Hamiltonian. While this guarantees adiabaticity, the exact AGP naturally arises from the commutator structure of the Hamiltonian and typically involves highly non-local many-body interactions (e.g., coupling all spins in a lattice simultaneously). Implementing such terms is generally infeasible on current quantum hardware, which is often restricted to local one- and two-body interactions.
+    
+    \qquad Local counterdiabatic driving addresses this fundamental limitation by seeking an approximation to the exact gauge potential, $\mathcal{A}_\lambda$, using a restricted basis of physically realizable local operators. The approximate potential is defined as a variational ansatz $\mathcal{A}^*_\lambda(\vec{\alpha}) = \sum_k \alpha_k(\lambda) \mathcal{O}_k$, where $\{\mathcal{O}_k\}$ represents a set of accessible local operators (such as single-qubit Pauli terms or nearest-neighbor couplings) and $\alpha_k(\lambda)$ are time-dependent coefficients to be determined. This approach trades imperfect adiabaticity for experimental feasibility, significantly suppressing excitation errors while remaining within the constraints of the hardware control capabilities\cite{COLD2023, SelsPolkovnikov2017}.
+
+    \subsection{COLD}
+    \qquad Counterdiabatic Optimised Local Driving (COLD) is a specific variational framework for determining the optimal coefficients $\alpha_k(\lambda)$ in the local counterdiabatic ansatz\cite{COLD2023}. Rather than attempting to fit the exact eigenstates, which would require intractable diagonalization for large systems, COLD operates directly on the Hamiltonian and its time derivative. The method relies on the fact that the exact AGP satisfies the operator equation $[\partial_\lambda H + i[\mathcal{A}_\lambda, H], \rho] = 0$ for the density matrix $\rho$. 
+
+    \qquad To find the optimal local approximation, COLD uses a variational principle that minimizes the Hilbert-Schmidt norm of the operator $G_\lambda(\vec{\alpha}) = \partial_\lambda H + i[\mathcal{A}^*_\lambda, H]$. This operator $G_\lambda$ quantifies the "diabaticity" or the deviation from adiabatic evolution. The cost function is defined as the action $S_{CD}(\vec{\alpha}) = \text{Tr}[G_\lambda^\dagger(\vec{\alpha}) G_\lambda(\vec{\alpha})]$. Minimising this action with respect to each coefficient $\alpha_k$ ($\partial S_{CD} / \partial \alpha_k = 0$) results in a system of linear algebraic equations. Solving this linear system yields the optimal time-dependent coefficients $\alpha_k(\lambda)$ efficiently, without ever needing to diagonalize the full Hamiltonian. This makes the COLD method scalable and applicable to larger many-body systems where the spectral gap structure is unknown.
+
+    \subsection{CAFFEINE}
+    \qquad Counterdiabatic-influenced Floquet-engineering (CAFFEINE) represents a hybrid advancement that eliminates the need to implement even the local correction terms $\alpha_k \mathcal{O}_k$ as separate control fields\cite{CAFFEINE2025}. Instead, it leverages the principles of Floquet engineering, where high-frequency periodic driving of system parameters can generate effective static Hamiltonian terms . By oscillating the existing terms in the Hamiltonian (e.g., the transverse field or couplings) at a frequency $\omega$ much larger than the system's energy scales, one can engineer an effective Hamiltonian that mimics the structure of the counterdiabatic drive.
+    
+    \qquad In the CAFFEINE protocol, the amplitudes and phases of these high-frequency oscillations operate under the optimal control parameters rather than separate counterdiabatic fields. The method parameterizes the Floquet drive coefficients (denoted as $\beta_k$) and employs numerical quantum optimal control algorithms, such as dual annealing or CRAB, to find the optimal modulation parameters that maximize the fidelity of the final state. This effectively embeds the required adiabatic gauge potential into the high-frequency dynamics of the native Hamiltonian.
+    
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.4\textwidth]{figures/Caffeine.png}
+        \caption{Performance comparison of CAFFEINE against standard optimal control for 2-qubit Bell state preparation, reproducing results from \cite{CAFFEINE2025}. The figure plots the final state infidelity ($1-F$) as a function of the control parameter strength. \textbf{(a)} Shows the landscape for standard "Optimized Annealing" where an auxiliary control $\gamma_1$ is added; the improvement over the unassisted baseline (dashed black) is minimal. \textbf{(b)} Shows the performance of the CAFFEINE protocol, where the control parameter corresponds to the Floquet modulation amplitude $\beta_1$. The deep minimum (red curve) demonstrates that CAFFEINE can achieve fidelities orders of magnitude closer to unity ($1-F \approx 10^{-3}$) compared to standard methods, effectively realizing a counterdiabatic shortcut through purely local modulation.}
+        \label{fig:caffeine_results}
+    \end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    \newpage
+    \printbibliography[heading=subbibliography, title={References}]
+
+
+
+\end{refsection}
+
+\newpage
+%----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+\singlespacing
+\appendix
+
+\begin{refsection}
+    \section{Appendix}
+    \subsection{Derivation of the Adiabatic Condiion} 
+    \qquad To characterize the adiabatic regime it is convenient to introduce a dimensionless time parameter. Define $s = t/\tau \in [0,1]$, so that the state and Hamiltonian are written as $|\psi(s)\rangle$ and $H(s)$ and vary smoothly with $s$. Here $\tau$ denotes the total evolution time, using $s$ emphasizes that the dynamics trace a path through parameter space. Working in parameter space makes geometric aspects of non-adiabatic effects explicit. The Schr\"odinger equation becomes
+    \begin{equation}
+        i\hbar\,\partial_t |\psi(t)\rangle = i\hbar\frac{1}{\tau}\partial_s |\psi(s)\rangle = H(s) |\psi(s)\rangle .
+    \end{equation}
+
+    In parameter space the instantaneous eigenvalue problem reads $H(s) |n(s)\rangle = E_n(s) |n(s)\rangle$,
+    with $\{ |n(s)\rangle\}$ orthonormal and non-degenerate. We expand the state in this basis:
+
+    \begin{equation}\label{eq:ansatz_lambda}
+        |\psi(s)\rangle =  \sum_n c_n(s)\,|n(s)\rangle.
+    \end{equation}
+    where $c_n(s)$ are time dependent coefficients. We substitute this into the Schr\"odinger equation, where $\partial_t=\dot{s}\partial_s$. Projecting onto $\langle m(s)|$ and dividing by $\dot{s}$ gives the parameter-space coefficient equation
+    \begin{align}\label{eq:cm_lambda}
+        i\hbar\dot{s} \sum_n \big(\partial_s c_n |n\rangle + c_n \partial_s |n\rangle\big) &= \sum_n c_n E_n |n\rangle \notag \\
+        i\hbar\partial_s c_m + i\hbar \sum_n c_n \langle m|\partial_s n\rangle &= \frac{1}{\dot{s}} c_m E_m \notag \\
+        i\hbar\partial_s c_m &= \Big(\frac{E_m}{\dot{s}} - i\hbar\langle m|\partial_s m\rangle\Big) c_m - i\hbar\sum_{n\neq m} c_n \langle m|\partial_s n\rangle.
+    \end{align}
+
+    The geometric-phase term $-i\hbar\langle m|\partial_s m\rangle$ again does not cause transitions. To evaluate the off-diagonal couplings, differentiate the instantaneous eigenvalue equation with respect to $s$ and project onto $\langle m|$:
+    \begin{align}\label{eq:mndot_lambda}
+        \langle m|\partial_s H|n\rangle + \langle m|H|\partial_s n\rangle &= \partial_s E_n \langle m|n\rangle + E_n \langle m|\partial_s n\rangle \notag \\
+        \text{For } m\neq n:\qquad \langle m|\partial_s n\rangle &= \frac{\langle m|\partial_s H|n\rangle}{E_n - E_m}.
+    \end{align}
+    Recalling $\langle m|\dot n\rangle=\dot{s}\langle m|\partial_s n\rangle$, the off-diagonal term appearing in the time-based derivation is
+    \begin{equation}
+        \hbar\,|\langle m|\dot n\rangle| = \hbar\dot{s}\frac{|\langle m|\partial_s H|n\rangle|}{|E_n - E_m|}.
+    \end{equation}
+    Comparing the size of this term with the energy-scale term $E_m/\dot{s}$ in \eqref{eq:cm_lambda} yields the parameter-space adiabatic condition
+    \begin{equation}\label{eq:adiabatic_cond_lambda}
+        |\langle m|\partial_s H|n\rangle| \ll \frac{|E_n - E_m|^2}{\hbar\dot{s}}\qquad (m\neq n),
+    \end{equation}
+    which is equivalent to the usual time-domain condition after using $\partial_s H=\dot{s}\partial_t H$. When \eqref{eq:adiabatic_cond_lambda} holds for all relevant pairs and the system starts in a single instantaneous eigenstate $|n(0)\rangle$, the solution for the coefficient reads
+    \begin{equation}
+        c_n(s) = \exp\left(-\tfrac{i}{\hbar\dot{s}}\int_0^{s} E_n(s')\,ds' - \int_0^{s} \langle n(s')|\partial_{s'} n(s')\rangle\,ds'\right),
+    \end{equation}
+    so that the physical dynamical phase accumulated over the evolution is $\tfrac{1}{\hbar}\int_0^t E_n(s')\,ds'$ and the geometric phase is $i\int_0^{s}\langle n|\partial_{s} n\rangle ds$.
+    The condition \eqref{eq:adiabatic_cond_lambda} thus captures the requirement that the path through parameter space must be traversed slowly relative to the squared energy gaps.
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Dephasing Effects Derivation} \label{DephasingEffectsDerivation}
+
+    \qquad A useful definition are Kraus operators which offer a way representing any completely positive, trace-preserving (CPTP) map on a quantum system. A generic update for an open system is expressed as $\rho\mapsto\sum_i K_i\rho K_i^{\dagger}$, where the set $\{K_i\}$ encodes the environmental influence or measurement back-action. These maps must satisfy the completeness condition $\sum_i K_i^{\dagger}K_i=\mathds{1}$. In this specific instance, the two non-zero operators capture the effective dynamics remaining after the meter states are traced out.
+
+    We consider a simple example using a qubit meter and show that the protocol described in the text induces dephasing on the system. Suppose the meter is initialised in
+
+    \begin{equation}
+        |+\rangle = \frac{1}{\sqrt{2}}\big(|0\rangle + |1\rangle\big),
+    \end{equation}
+
+    where $\sigma_z|0\rangle = |0\rangle$ and $\sigma_z|1\rangle = -|1\rangle$. Set $X_M = x_0\sigma_z$, $H_M=0$ and keep $H_S(t)$ general. Here $x_0\in\mathbb{R}$ scales the strength of the QND coupling. The total Hamiltonian is
+
+    \begin{equation}\label{eq:Htot_meter}
+        H(t) = H_S(t)\otimes\mathds{1}_M + x_0 H_S(t)\otimes\sigma_z
+        = (1+x_0)H_S(t)\otimes|0\rangle\langle0| + (1-x_0)H_S(t)\otimes|1\rangle\langle1|.
+    \end{equation}
+
+    The time evolution operator for the joint system can therefore be written below, where $U^{[x]}_{\rm QND}(t)$ is the propagator generated by the rescaled system Hamiltonian $xH_S(t)$and $x=1\pm x_0$.
+
+    \begin{align}\label{eq:U_tot}
+        U(t) = U^{[1+x_0]}_{\rm QND}(t)\otimes|0\rangle\langle0| + U^{[1-x_0]}_{\rm QND}(t)\otimes|1\rangle\langle1| \nonumber \\
+        i\hbar\,\frac{d}{dt}U^{[x]}_{\rm QND}(t) = x H_S(t)\,U^{[x]}_{\rm QND}(t),
+    \end{align}
+
+    Suppose the initial joint state is separable $\rho_S(0)\otimes|+\rangle\langle+|$. Tracing out the meter yields a Kraus decomposition for the system dynamics. Because $|+\rangle$ has support on both meter basis states, the non-zero Kraus operators are
+
+    \begin{subequations}
+    \begin{align}
+        K_{++}(t) &= \frac{1}{\sqrt{2}}\Big(U^{[1+x_0]}_{\rm QND}(t) + U^{[1-x_0]}_{\rm QND}(t)\Big), \\
+        K_{-+}(t) &= \frac{1}{\sqrt{2}}\Big(U^{[1+x_0]}_{\rm QND}(t) - U^{[1-x_0]}_{\rm QND}(t)\Big).
+    \end{align}
+    \end{subequations}
+
+    The system density operator at time $t$ is
+
+    \begin{equation}\label{eq:rho_kraus}
+        \rho_S(t) = K_{++}(t)\,\rho_S(0)\,K_{++}^\dagger(t) + K_{-+}(t)\,\rho_S(0)\,K_{-+}^\dagger(t).
+    \end{equation}
+
+    Expanding and simplifying gives
+
+    \begin{equation}\label{eq:rho_halfsum}
+        \rho_S(t) = \tfrac{1}{2}U^{[1+x_0]}_{\rm QND}(t)\,\rho_S(0)\,U^{[1+x_0]\dagger}_{\rm QND}(t) + \tfrac{1}{2}U^{[1-x_0]}_{\rm QND}(t)\,\rho_S(0)\,U^{[1-x_0]\dagger}_{\rm QND}(t).
+    \end{equation}
+
+    Thus half of the initial ensemble evolves under the Hamiltonian $(1+x_0)H_S(t)$ while the other half evolves under $(1-x_0)H_S(t)$, and the final state is the equal mixture of these two evolutions. Differentiating yields
+
+    \begin{equation}\label{eq:rho_dot_half}
+        \frac{d}{dt}\rho_S(t) = \tfrac{1}{2}\frac{d}{dt}\rho^{[1+x_0]}_S(t) + \tfrac{1}{2}\frac{d}{dt}\rho^{[1-x_0]}_S(t),
+    \end{equation}
+
+    where $\rho^{[1\pm x_0]}_S(t)=U^{[1\pm x_0]}_{\rm QND}(t)\,\rho_S(0)\,U^{[1\pm x_0]\dagger}_{\rm QND}(t)$. Here we demonstrate how to express Eq.~\eqref{eq:rho_dot_half} in the instantaneous eigenbasis of $H_S(t)$. For this, we first consider pure states and start from the Schr\"odinger equation for the amplitudes in the instantaneous eigenbasis of $(1 \pm x_0)H_S(t)$, which is evidently the same eigenbasis as $H_S(t)$. With $|\psi(t)\rangle = \sum_m c_m(t) |m(t)\rangle$, the amplitudes evolve according to
+
+    \begin{align}
+        \frac{d}{dt} c_m^{[1\pm x_0]}(t) =& -i(1 \pm x_0)E_m(t)c_m^{[1\pm x_0]}(t) \nonumber \\
+        &- \langle m(t)| \dot{m}(t)\rangle c_m^{[1\pm x_0]}(t) \nonumber \\
+        &+ \sum_{n \neq m} \frac{\langle m(t)|(1 \pm x_0) \dot{H}_S(t)|n(t)\rangle}{(1 \pm x_0)(E_m(t) - E_n(t))} c_n^{[1\pm x_0]}(t).
+    \end{align}
+
+    Since $(1 \pm x_0)$ cancels in the last term, it only appears in the first (phase) term. We can use this to get a differential equation for the density matrices via
+
+    \begin{align}
+        \frac{d}{dt} ((\rho_S^{[1\pm x_0]}(t))_{mn}) &= \frac{d}{dt} ((c_m^{[1\pm x_0]}(t))^* c_n^{[1\pm x_0]}(t)) \nonumber \\
+        &= c_n^{[1\pm x_0]}(t) \frac{d}{dt} (c_m^{[1\pm x_0]}(t))^* + (c_m^{[1\pm x_0]}(t))^* \frac{d}{dt} c_n^{[1\pm x_0]}(t) \nonumber \\
+        &= i(1 \pm x_0)(E_m(t) - E_n(t))(\rho_S^{[1\pm x_0]}(t))_{mn} - (\langle m(t)| \dot{m}(t)\rangle - \langle n(t)| \dot{n}(t)\rangle)(\rho_S^{[1\pm x_0]}(t))_{mn} \nonumber \\
+        &+ \sum_{i \neq m} \frac{\langle i(t)| \dot{H}_S(t)|m(t)\rangle}{E_m(t) - E_i(t)} (\rho_S^{[1\pm x_0]}(t))_{mi} + \sum_{j \neq n} \frac{\langle n(t)| \dot{H}_S(t)|j(t)\rangle}{E_n(t) - E_j(t)} (\rho_S^{[1\pm x_0]}(t))_{jn}.
+    \end{align}
+    
+    Inserting this result into Eq.~\eqref{eq:rho_dot_half} and simplifying, we obtain
+
+    \begin{align}
+        \frac{d}{dt} ((\rho_S(t))_{mn}) =& i(E_m(t) - E_n(t)) \frac{1}{2} ((\rho_S^{[1+x_0]}(t))_{mn} + (\rho_S^{[1-x_0]}(t))_{mn}) \nonumber \\
+        &- (\langle m(t)| \dot{m}(t)\rangle - \langle n(t)| \dot{n}(t)\rangle) \frac{1}{2} ((\rho_S^{[1+x_0]}(t))_{mn} + (\rho_S^{[1-x_0]}(t))_{mn}) \nonumber \\
+        &+ \sum_{i \neq m} \frac{\langle i(t)| \dot{H}_S(t)|m(t)\rangle}{E_m(t) - E_i(t)} \frac{1}{2} ((\rho_S^{[1+x_0]}(t))_{mi} + (\rho_S^{[1-x_0]}(t))_{mi}) \nonumber \\
+        &+ \sum_{j \neq n} \frac{\langle n(t)| \dot{H}_S(t)|j(t)\rangle}{E_n(t) - E_j(t)} \frac{1}{2} ((\rho_S^{[1+x_0]}(t))_{jn} + (\rho_S^{[1-x_0]}(t))_{jn}) \nonumber \\
+        &+ i\frac{x_0}{2} (E_m(t) - E_n(t)) ((\rho_S^{[1+x_0]}(t))_{mn} - (\rho_S^{[1-x_0]}(t))_{mn}).
+    \end{align}
+
+    The first four lines exactly match the rate of change of a density matrix evolving under $H_S(t)$, with the last line as a correction:
+
+    \begin{equation}
+        \frac{d}{dt} (\rho_S(t))_{mn} = -i ([H_S(t), \rho_S(t)])_{mn} + i\frac{x_0}{2} (E_m(t) - E_n(t)) ((\rho_S^{[1+x_0]}(t))_{mn} - (\rho_S^{[1-x_0]}(t))_{mn}).
+    \end{equation}
+
+    Although this term implies a modification of coherences, practically it results in suppression since pure states are maximally coherent. This result stems from an exact Kraus decomposition, it remains valid outside the adiabatic limits, applicable even during rapid system dynamics or strong interactions.
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Additional Figures: Larger Ising Systems}
+
+    \qquad We have been able to attain results for larger Ising systems up to $N=7$ qubits, which further corroborate the findings presented in the main text. These have been accomplished on standard laptop hardware by optimizing numerical evolution in C and parallelizing over multiple random instances.\cite{qutip5} The results are presented in the following figures, which are variants of Figs. \ref{fig:fidelity_contour} and \ref{fig:fidelity_diff} from the main text.
+
+    \begin{figure}[htbp]
+        \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}}
+        \centering
+        \includegraphics[width=0.32\textwidth]{LargerIsings/2-2b.png}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/3-2b.png}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/4-2b.png}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.32\textwidth]{LargerIsings/5-2b.png}
+    \end{figure}
+
+    \qquad \textbf{Argument based on Results on why they are rotated 90 degrees compared to paper.}
+
+    \begin{figure}[htbp]
+        \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_diff}}
+        \centering
+        \includegraphics[width=0.32\textwidth]{LargerIsings/3-4b.png}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/4-4b.png}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/5-4b.png}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.32\textwidth]{LargerIsings/6-4b.png}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/7-4b.png}
+    \end{figure}
+
+    \begin{figure}[htbp]
+        \centering
+        \caption{\textbf{Possible Graphing for Larger Systems need more Data points}}
+        \includegraphics[width=0.45\textwidth]{LargerIsings/FidelityIncrease.png}
+        \includegraphics[width=0.45\textwidth]{LargerIsings/FidelityIncreaseMesh.png}
+    \end{figure}
+
+    \newpage
+    %----------------------------------------------------------------------------------
+    \color{red}
+    \subsection{Derivation of Meter Non-Commuting Effects} \label{sec:appendix_non_commuting}
+    \color{black}
+    \qquad We formally derive the effective Hamiltonian and resultant dynamics for the non-commuting meter case. Consider the meter Hamiltonian $H_M = \omega \sigma_x$ and coupling $X_M = \sigma_z$. The total Hamiltonian is
+    \begin{equation}
+        H(t) = H_S(t) \otimes (\mathds{1} + x_0 \sigma_z) + \omega \mathds{1} \otimes \sigma_x.
+    \end{equation}
+
+    In the instantaneous eigenbasis of the system Hamiltonian $H_S(t) = \sum_n E_n(t) |n(t)\rangle \langle n(t)|$, the total Hamiltonian decomposes into $2 \times 2$ blocks acting on the meter subspace. For a specific eigenstate $|n(t)\rangle$, the effective meter Hamiltonian is:
+    \begin{equation}
+        H_{\text{eff}}^{(n)}(t) = E_n(t) (1 + x_0 \sigma_z) + \omega \sigma_x = \begin{pmatrix} E_n(t)(1+x_0) & \omega \\ \omega & E_n(t)(1-x_0) \end{pmatrix}.
+    \end{equation}
+
+    Diagonalizing this matrix yields the instantaneous eigenvalues
+
+    \begin{equation}
+        \lambda_{n,\pm}(t) = E_n(t) \pm \sqrt{(E_n(t) x_0)^2 + \omega^2} = E_n(t) \pm \Omega_n(t).
+    \end{equation}
+
+    where $\Omega_n(t) = \sqrt{(E_n(t) x_0)^2 + \omega^2}$ is the generalized Rabi frequency.To determine the impact on the speedup, we calculate the time-dependent expectation value of the coupling operator $\langle \sigma_z \rangle(t)$. For a meter initialized in $|0\rangle$ (eigenstate of $\sigma_z$), the dynamics are described by Rabi oscillations\cite{SakuraiQM}. Defining the parameters $a_n(t) = x_0 E_n(t)$ and $b = \omega$, the probability amplitude oscillates between the basis states. The instantaneous expectation value is given by
+
+    \begin{equation}
+        \langle\sigma_z\rangle_n(t) = \frac{a_n(t)^2}{\Omega_n(t)^2} + \frac{b^2}{\Omega_n(t)^2}\cos\left(2\int^t \Omega_n(t')\,dt'\right).
+    \end{equation}
+    
+    \qquad The first term represents the non-oscillatory dc-component, while the second term captures the coherent oscillations. Averaging over the rapid phase cycles removes the cosine term, yielding the algebraic envelope
+
+    \begin{equation}
+        \overline{\langle\sigma_z\rangle}_n(t) = \frac{(x_0 E_n(t))^2}{(x_0 E_n(t))^2 + \omega^2}.
+    \end{equation}
+    
+    \qquad This expression provides the analytical bound for the performance. In the limit $\omega \to 0$, $\overline{\langle\sigma_z\rangle} \to 1$, recovering the full QND speedup. Conversely, as $\omega$ increases, or as $E_n(t) \to 0$ (at an avoided crossing), the denominator is dominated by $\omega^2$, and the effective coupling strength diminishes. For the Landau-Zener model with minimal energy $E_{\min} = g/2$, the minimum effective rescaling factor is
+
+    \begin{equation}
+        r_{\min}^{\text{eff}} = 1 + x_0 \overline{\langle\sigma_z\rangle}_{\min} = 1 + x_0 \frac{(x_0 g/2)^2}{(x_0 g/2)^2 + \omega^2}.
+    \end{equation}
+
+    This analytical result matches the minima observed in the numerical simulations in the main text, confirming that the loss of speedup is due to the "washing out" of the coupling term by the transverse meter field.
+
+    %----------------------------------------------------------------------------------
+    \color{red}
+    \subsection{Effect of Energy Rescaling on Quantum Phases}
+    \color{black}
+    \qquad The energy rescaling induced by the meter interaction affects the dynamical and geometric phases accumulated during the evolution. For a system evolving in the subspace corresponding to the meter eigenvalue $m_k$. The effective Hamiltonian is $H_{eff}^{[k]}(t) = (1+m_k)H_S(t)$. The instantaneous eigenstates $|n(t)\rangle$ of $H_S(t)$ satisfy $H_S(t)|n(t)\rangle = E_n(t)|n(t)\rangle$. Since $H_{eff}^{[k]}(t)$ is simply proportional to $H_S(t)$, it shares the same eigenstates, with rescaled eigenvalues $E_n^{[k]}(t) = (1+m_k)E_n(t)$. The dynamical phase accumulated by the $n$-th eigenstate over a time $T$ is given by the time integral of the energy
+
+    \begin{equation}
+        \Phi_{dyn}^{[k]}(T) = -\frac{1}{\hbar} \int_0^T E_n^{[k]}(t) \, dt = -\frac{1}{\hbar} (1+m_k) \int_0^T E_n(t) \, dt = (1+m_k) \Phi_{dyn}(T).
+    \end{equation}
+
+    Thus, the dynamical phase is directly amplified by the rescaling factor $(1+m_k)$. This rapid phase accumulation corresponds to the faster unitary rotation speeds discussed in the main text. The geometric phase (Berry phase), however, depends only on the path traversed by the eigenstates in Hilbert space, not on the energy eigenvalues.
+
+    \begin{equation}
+        \gamma_n = \int_0^T i \langle n(t) | \frac{d}{dt} n(t) \rangle \, dt.
+    \end{equation}
+
+    Since the eigenstates $|n(t)\rangle$ of the rescaled Hamiltonian $(1+m_k)H_S(t)$ are identical to those of the original Hamiltonian $H_S(t)$ at every instant $t$, the geometric connection $\langle n(t) | \dot{n}(t) \rangle$ remains unchanged. Consequently, the geometric phase accumulated over the trajectory is invariant under the energy rescaling $\gamma_n^{[k]} = \gamma_n$ This shows the speedup is purely a dynamical effect, accelerating the along the adiabatic path without altering the path's geometry itself.
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Analytical Derivation of Speedup, Optimal Schedule Speed Up for same fidelity}
+    \qquad The total annealing time $\tau$ can be found by integrating the inverse velocity, following the derivation by Roland and Cerf\cite{LocalAdiabticQuantumSearch}
+
+    \begin{equation}
+        \tau = \int_0^1 \frac{dt}{ds} ds = \int_0^1 \frac{1}{\dot{s}} ds.
+    \end{equation}
+
+    Consider a general annealing problem. The behaviour of the gap near this minimum can be approximated \textbf{Use either LZ approximation or based on stat knowledge of gap.}
+
+
+    \printbibliography[heading=subbibliography, title={Appendix References}]
+
+\end{refsection}
+
+%----------------------------------------------------------------------------------
+
+
+\end{document}

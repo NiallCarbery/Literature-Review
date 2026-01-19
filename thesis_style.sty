@@ -1,0 +1,157 @@
+\ProvidesPackage{thesis_style}
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND CONFIGURATION
+%----------------------------------------------------------------------------------------
+
+% Core packages
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{etoolbox} % For \newbool, \setbool
+
+% Geometry and Layout
+\usepackage[
+	top=1.5cm,
+	bottom=1.5cm,
+	left=1.25cm,
+	right=1.25cm
+]{geometry}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+% Fonts
+\usepackage[scale=0.96]{XCharter} % Use the XCharter text font
+\usepackage[xcharter]{newtxmath} % Set the math font
+
+% Graphics and Floats
+\usepackage{graphicx}
+\graphicspath{{figures/}{./}}
+\usepackage{float}
+
+% Lists and Paragraphs
+\usepackage{enumitem}
+\setlist{partopsep=0pt, topsep=0pt}
+\renewcommand{\labelenumi}{\alph{enumi}.}
+\setlength{\parindent}{0pt}
+
+% Math and Science
+\usepackage{amsmath}
+\numberwithin{equation}{section}
+% \usepackage{amssymb} % Loaded by newtxmath
+\usepackage{mhchem}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+
+% Highlighting
+\usepackage{pythonhighlight}
+
+% Bibliography
+\usepackage[style=numeric-comp, backend=biber, sorting=none]{biblatex}
+\DeclareCiteCommand{\supercite}[\mkbibsuperscript]
+  {\usebibmacro{cite:init}%
+   \let\multicitedelim=\supercitedelim
+   \iffieldundef{prenote}
+     {}
+     {\BibliographyWarning{Ignoring prenote argument}}%
+   \iffieldundef{postnote}
+     {}
+     {\BibliographyWarning{Ignoring postnote argument}}%
+  \bibopenbracket}%
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite:comp}}
+  {}
+  {\usebibmacro{cite:dump}\bibclosebracket}
+
+\let\cite=\supercite
+
+% Links (Load last)
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue,
+    pdftitle={Thesis},
+    pdfpagemode=FullScreen,
+}
+
+%----------------------------------------------------------------------------------------
+%	CUSTOM COMMANDS FOR METADATA
+%----------------------------------------------------------------------------------------
+
+\newcommand{\@journalname}{}
+\newcommand{\journalname}[1]{\renewcommand{\@journalname}{#1}}
+
+\newcommand{\@institution}{}
+\newcommand{\institution}[1]{\renewcommand{\@institution}{#1}}
+
+\newcommand{\@footinfo}{}
+\newcommand{\footinfo}[1]{\renewcommand{\@footinfo}{#1}}
+
+\newcommand{\@leadauthor}{}
+\newcommand{\leadauthor}[1]{\renewcommand{\@leadauthor}{#1}}
+
+\newcommand{\@course}{}
+\newcommand{\course}[1]{\renewcommand{\@course}{#1}}
+
+\newcommand{\@theday}{\today}
+\newcommand{\theday}[1]{\renewcommand{\@theday}{#1}}
+
+% Authors and Affiliation (load authblk)
+\usepackage{authblk}
+
+%----------------------------------------------------------------------------------------
+%	HEADER AND FOOTER
+%----------------------------------------------------------------------------------------
+
+\pagestyle{plain} % Simple footer with page number only
+\fancyhf{} % Clear header and footer
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\renewcommand{\maketitle}{
+    \thispagestyle{plain}
+    \begin{center}
+        \vspace*{0.5cm}
+        
+        % University Logo
+        \IfFileExists{figures/uni.png}{
+            \includegraphics[width=0.3\textwidth]{figures/uni.png}
+        }{
+            \IfFileExists{Figures/uni.png}{
+                \includegraphics[width=0.3\textwidth]{Figures/uni.png}
+            }{
+                % \textbf{[figures/uni.png missing]} % Silent fail or placeholder
+            }
+        }
+        
+        \vspace{1cm}
+        
+        {\Huge \bfseries \@title \par}
+        
+        \vspace{1.5cm}
+        
+        {\Large \bfseries \@author \par}
+        
+        \vspace{1cm}
+        
+        {\Large \textbf{\@course} \par}
+        \vspace{0.5cm}
+        {\Large \@institution \par}
+        \vspace{0.5cm}
+        {\Large \@theday \par}
+        
+        \vspace{1cm}
+    \end{center}
+    
+    \clearpage
+}
