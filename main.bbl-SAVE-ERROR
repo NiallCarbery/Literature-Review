@@ -849,7 +849,77 @@
       \verb 10.1103/RevModPhys.90.015002
       \endverb
     \endentry
+    \entry{COLD2023}{article}{}
+      \name{author}{4}{}{%
+        {{hash=44fb0577bd60405a3456a6ea39d3be4f}{%
+           family={Čepaitė},
+           familyi={Č\bibinitperiod},
+           given={Ieva},
+           giveni={I\bibinitperiod}}}%
+        {{hash=8ab550746db8549e7045b50a4798975c}{%
+           family={Polkovnikov},
+           familyi={P\bibinitperiod},
+           given={Anatoli},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b38b88e1e822b087568ddfe7ac34752f}{%
+           family={Daley},
+           familyi={D\bibinitperiod},
+           given={Andrew\bibnamedelima J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=006096d98690afe6259448ece03f4d12}{%
+           family={Duncan},
+           familyi={D\bibinitperiod},
+           given={Callum\bibnamedelima W.},
+           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{fullhash}{e29a99741826fae1288b8a9647a0e16e}
+      \strng{bibnamehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{authorbibnamehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{authornamehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{authorfullhash}{e29a99741826fae1288b8a9647a0e16e}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PRX Quantum}
+      \field{number}{1}
+      \field{title}{Counterdiabatic Optimised Local Driving}
+      \field{volume}{4}
+      \field{year}{2023}
+      \field{pages}{010312}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PRXQuantum.4.010312
+      \endverb
+    \endentry
+    \entry{CAFFEINE2025}{article}{}
+      \name{author}{1}{}{%
+        {{hash=006096d98690afe6259448ece03f4d12}{%
+           family={Duncan},
+           familyi={D\bibinitperiod},
+           given={Callum\bibnamedelima W.},
+           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{006096d98690afe6259448ece03f4d12}
+      \strng{fullhash}{006096d98690afe6259448ece03f4d12}
+      \strng{bibnamehash}{006096d98690afe6259448ece03f4d12}
+      \strng{authorbibnamehash}{006096d98690afe6259448ece03f4d12}
+      \strng{authornamehash}{006096d98690afe6259448ece03f4d12}
+      \strng{authorfullhash}{006096d98690afe6259448ece03f4d12}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint}
+      \field{title}{Counterdiabatic‑influenced Floquet‑engineering: State preparation, annealing and learning the adiabatic gauge potential}
+      \field{year}{2025}
+      \verb{eprint}
+      \verb arXiv:2501.14881
+      \endverb
+    \endentry
   \enddatalist
+  \missing{SelsPolkovnikov2017}
 \endrefsection
 
 \refsection{2}
@@ -974,6 +1044,133 @@
       \verb https://www.sciencedirect.com/science/article/pii/S0370157325002704
       \endverb
     \endentry
+    \entry{SakuraiQM}{book}{}
+      \name{author}{2}{}{%
+        {{hash=f7fe4eaf1ee9c40c20b04441f82e92e6}{%
+           family={Sakurai},
+           familyi={S\bibinitperiod},
+           given={J.\bibnamedelimi J.},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=b87d786f54d3cf33fabdda13f1df174d}{%
+           family={Napolitano},
+           familyi={N\bibinitperiod},
+           given={Jim},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{e581c5d3f07348069c1c428801961418}
+      \strng{fullhash}{e581c5d3f07348069c1c428801961418}
+      \strng{bibnamehash}{e581c5d3f07348069c1c428801961418}
+      \strng{authorbibnamehash}{e581c5d3f07348069c1c428801961418}
+      \strng{authornamehash}{e581c5d3f07348069c1c428801961418}
+      \strng{authorfullhash}{e581c5d3f07348069c1c428801961418}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2nd}
+      \field{title}{Modern Quantum Mechanics}
+      \field{year}{2017}
+    \endentry
+    \entry{breuer2002theory}{book}{}
+      \name{author}{2}{}{%
+        {{hash=44be9d24e3ede84bee3691a7a300e5db}{%
+           family={Breuer},
+           familyi={B\bibinitperiod},
+           given={Heinz-Peter},
+           giveni={H\bibinithyphendelim P\bibinitperiod}}}%
+        {{hash=4b215190f542b12fd214896e21eff64b}{%
+           family={Petruccione},
+           familyi={P\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{fc984943b8bdb1c48eb687b8f74fd49b}
+      \strng{fullhash}{fc984943b8bdb1c48eb687b8f74fd49b}
+      \strng{bibnamehash}{fc984943b8bdb1c48eb687b8f74fd49b}
+      \strng{authorbibnamehash}{fc984943b8bdb1c48eb687b8f74fd49b}
+      \strng{authornamehash}{fc984943b8bdb1c48eb687b8f74fd49b}
+      \strng{authorfullhash}{fc984943b8bdb1c48eb687b8f74fd49b}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The theory of open quantum systems}
+      \field{year}{2002}
+    \endentry
+    \entry{NielsenChuang2010}{book}{}
+      \name{author}{2}{}{%
+        {{hash=afe17482fc813e497188aee3b3783879}{%
+           family={Nielsen},
+           familyi={N\bibinitperiod},
+           given={Michael\bibnamedelima A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=415ddff2f58b25977b1a2dedf18f4501}{%
+           family={Chuang},
+           familyi={C\bibinitperiod},
+           given={Isaac\bibnamedelima L.},
+           giveni={I\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{456599bb4a61c2e997e2a7e1a21b25b4}
+      \strng{fullhash}{456599bb4a61c2e997e2a7e1a21b25b4}
+      \strng{bibnamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
+      \strng{authorbibnamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
+      \strng{authornamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
+      \strng{authorfullhash}{456599bb4a61c2e997e2a7e1a21b25b4}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{10th Anniversary Edition}
+      \field{title}{Quantum Computation and Quantum Information}
+      \field{year}{2010}
+    \endentry
+    \entry{PoyatosReservoirEngineering}{article}{}
+      \name{author}{3}{}{%
+        {{hash=15c2c1120e0ad4dc4c162639a99c2dc2}{%
+           family={Poyatos},
+           familyi={P\bibinitperiod},
+           given={J.\bibnamedelimi F.},
+           giveni={J\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=e95cc0745e2fbc83da963e5d6ab9c104}{%
+           family={Cirac},
+           familyi={C\bibinitperiod},
+           given={J.\bibnamedelimi I.},
+           giveni={J\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=0d147340235c2166e4699ddc95c9fbe5}{%
+           family={Zoller},
+           familyi={Z\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{0447a36217333b5a950372ea3d8a1677}
+      \strng{fullhash}{0447a36217333b5a950372ea3d8a1677}
+      \strng{bibnamehash}{0447a36217333b5a950372ea3d8a1677}
+      \strng{authorbibnamehash}{0447a36217333b5a950372ea3d8a1677}
+      \strng{authornamehash}{0447a36217333b5a950372ea3d8a1677}
+      \strng{authorfullhash}{0447a36217333b5a950372ea3d8a1677}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review Letters}
+      \field{title}{Quantum reservoir engineering with laser cooled trapped ions}
+      \field{volume}{77}
+      \field{year}{1996}
+      \field{pages}{4728\bibrangedash 4731}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1103/PhysRevLett.77.4728
+      \endverb
+    \endentry
     \entry{LocalAdiabticQuantumSearch}{article}{}
       \name{author}{2}{}{%
         {{hash=7a49fa4783119dda2f89dbc76c00b06e}{%
@@ -993,8 +1190,8 @@
       \strng{authorbibnamehash}{79de92fed9c3e85f46a6a67a66b21fa4}
       \strng{authornamehash}{79de92fed9c3e85f46a6a67a66b21fa4}
       \strng{authorfullhash}{79de92fed9c3e85f46a6a67a66b21fa4}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Physical Review A}
