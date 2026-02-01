@@ -7,6 +7,10 @@
 \usepackage{amssymb,amsfonts}
 \usepackage{dsfont}
 
+% Ensure captions can be centered across the full text width
+\usepackage{caption}
+\captionsetup{width=\textwidth,justification=centering}
+
 \addbibresource{References.bib}
 
 %----------------------------------------------------------------------------------------
@@ -48,7 +52,7 @@
     \newpage
     \section*{Abstract}
     
-    \qquad Quantum annealing represents a promising heuristic approach to solving combinatorial optimization problems by encoding solutions as ground states of a problem Hamiltonian. However, the requirement for adiabatic evolution leads to prohibitively long computation times, particularly near avoided crossings where energy gaps become exponentially small. We base this literature review around recent developments in expanding this energy gap in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper}. The methods developed in this paper are examined in detail and extended to larger systems. From there they are compared to other developments in literature on quantum optimal control and shortcuts to adiabaticity (STA).
+    \qquad Quantum annealing represents a promising heuristic approach to solving combinatorial optimization problems by encoding solutions as ground states of a problem Hamiltonian. However, the requirement for adiabatic evolution leads to prohibitively long computation times, particularly near avoided crossings where energy gaps become exponentially small. We base this thesis around recent developments in expanding this energy gap in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper} via adding an external degree of freedom. The methods developed in this paper are examined in detail and extended to larger systems. From there they are compared to other developments in literature on quantum optimal control and shortcuts to adiabaticity (STA).
 
     \pagenumbering{arabic}
     \doublespacing
@@ -230,10 +234,13 @@
 
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing1a.png}
+        \parbox{0.45\textwidth}{\centering (a)}
+        \hspace{0.02\textwidth}
+        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing1a.png}\label{fig:landau_zener_results_a}
         \hspace{0.02\textwidth}%
-        \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing1b.png}
-        \caption{\textbf{Left} Coherence magnitude as a function of time, comparing evolution with the QND-like meter coupling (blue line) and the unmodified coherent evolution (orange line). Both systems are initialized in a symmetric superposition of the instantaneous ground and first excited states. The periodic collapse and revival of coherence demonstrates the dephasing mechanism introduced by the meter coupling. \textbf{Right} Energy spectrum of the bare Landau-Zener model without the meter (solid red), with the QND-like coupling (dot-dashed blue), and with counterdiabatic driving (dashed black) \cite{BerryCounterdiabatic2009,LandauZenerCDAbah2019}. The energy rescaling induced by the meter interaction is clearly visible. Parameters: $T = 5$, $x_0 = 2$, $g = 1$.}
+        \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing1b.png}\label{fig:landau_zener_results_b}
+        \caption{(a) Coherence magnitude as a function of time, comparing evolution with the QND-like meter coupling (blue line) and the unmodified coherent evolution (orange line). Both systems are initialized in a symmetric superposition of the instantaneous ground and first excited states. The periodic collapse and revival of coherence demonstrates the dephasing mechanism introduced by the meter coupling. (b) Energy spectrum of the bare Landau-Zener model without the meter (solid red), with the QND-like coupling (dot-dashed blue), and with counterdiabatic driving (dashed black) \cite{BerryCounterdiabatic2009,LandauZenerCDAbah2019}. The energy rescaling induced by the meter interaction is clearly visible. Parameters: $T = 5$, $x_0 = 2$, $g = 1$.}
         \label{fig:landau_zener_results}
     \end{figure}
 
@@ -268,9 +275,12 @@
 
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing2a.png}
+        \parbox{0.4\textwidth}{\centering (a)}
         \hspace{0.02\textwidth}
-        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing2b.png}
+        \parbox{0.4\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing2a.png}\label{fig:fidelity_contour_a}
+        \hspace{0.02\textwidth}
+        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing2b.png}\label{fig:fidelity_contour_b}
         \caption{Fidelity of the QND-like protocol across different annealing times $T$ and interaction strengths $x_0$, with the meter Hamiltonian turned off ($H_M = 0$). The white dashed curves represent contours of constant effective time $T(1+x_0)$. Ideally, fidelity should remain invariant along these curves. The simulation results confirm that regions of constant fidelity align perfectly with these contours, even in low-fidelity regions corresponding to non-adiabatic evolution. System (a) is the single-qubit Landau-Zener model ($g=1$). System (b) is a 3-qubit Ising chain.}
         \label{fig:fidelity_contour}
     \end{figure}
@@ -295,9 +305,12 @@
 
     \begin{figure}[ht]
         \centering
-        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing4a.png}
+        \parbox{0.4\textwidth}{\centering (a)}
         \hspace{0.02\textwidth}
-        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing4b.png}
+        \parbox{0.4\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing4a.png}\label{fig:fidelity_diff_a}
+        \hspace{0.02\textwidth}
+        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing4b.png}\label{fig:fidelity_diff_b}
         \caption{Impact of non-commuting meter dynamics on protocol performance. The plots show the change in fidelity relative to the ideal case ($\omega=0$) as a function of duration $T$ and transverse field strength $\omega$. Panel (a) shows the Landau-Zener qubit, and panel (b) shows the 3-qubit Ising outcome. The universally negative values indicate that introducing a non-commuting term $[X_M, H_M] \neq 0$ strictly reduces the effectiveness of the speedup.}
         \label{fig:fidelity_diff}
     \end{figure}
@@ -335,10 +348,13 @@
 
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.45\textwidth]{NonCommutation/LZRescale.png}
+        \parbox{0.45\textwidth}{\centering (a)}
         \hspace{0.02\textwidth}
-        \includegraphics[width=0.45\textwidth]{NonCommutation/QARescale.png}
-        \caption{Impact of non-commuting meter dynamics on protocol performance. The plots show the effective energy rescaling factor $1+x_0\langle\sigma_z\rangle(t)$ relative to the ideal QND case as a function of duration $T$ and $\omega$. \textbf{Left: } shows the Landau-Zener qubit, and \textbf{Right: } shows the 3-qubit Ising outcome. The universally negative values indicate that introducing a non-commuting term $[X_M, H_M] \neq 0$ strictly reduces the effectiveness of the speedup.}
+        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.45\textwidth]{NonCommutation/LZRescale.png}\label{fig:NonCommutationRescaling_a}
+        \hspace{0.02\textwidth}
+        \includegraphics[width=0.45\textwidth]{NonCommutation/QARescale.png}\label{fig:NonCommutationRescaling_b}
+        \caption{Impact of non-commuting meter dynamics on protocol performance. The plots show the effective energy rescaling factor $1+x_0\langle\sigma_z\rangle(t)$ relative to the ideal QND case as a function of duration $T$ and $\omega$. (a) shows the Landau-Zener qubit, and (b) shows the 3-qubit Ising outcome. The universally negative values indicate that introducing a non-commuting term $[X_M, H_M] \neq 0$ strictly reduces the effectiveness of the speedup.}
         \label{fig:NonCommutationRescaling}
     \end{figure}
 
@@ -405,10 +421,13 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
 
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.32\textwidth]{NonCommutation/WNonFidDiff.png}
-        \includegraphics[width=0.32\textwidth]{NonCommutation/InterferenceFactor.png}
-        \includegraphics[width=0.32\textwidth]{NonCommutation/WNonCommuting.png}
-        \caption{Analysis of interference effects in the non-commuting meter regime. \textbf{Left:} Fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ showing ripple modulations at small $\omega$. \textbf{Center:} Analytical interference factor $C(T, \omega) = \cos(2x_0\int\Omega_{\text{eff}}\,ds)$ with zero-crossing contours (black dashed). \textbf{Right:} Fidelity map with $C=0$ contours overlaid (white dashed), demonstrating the correspondence between numerical fidelity ripples and analytical predictions.}
+        \parbox{0.32\textwidth}{\centering (a)}
+        \parbox{0.32\textwidth}{\centering (b)}
+        \parbox{0.32\textwidth}{\centering (c)}\\[0.5ex]
+        \includegraphics[width=0.32\textwidth]{NonCommutation/WNonFidDiff.png}\label{fig:interference_analysis_a}
+        \includegraphics[width=0.32\textwidth]{NonCommutation/InterferenceFactor.png}\label{fig:interference_analysis_b}
+        \includegraphics[width=0.32\textwidth]{NonCommutation/WNonCommuting.png}\label{fig:interference_analysis_c}
+        \caption{Analysis of interference effects in the non-commuting meter regime. (a) Fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ showing ripple modulations at small $\omega$. (b) Analytical interference factor $C(T, \omega) = \cos(2x_0\int\Omega_{\text{eff}}\,ds)$ with zero-crossing contours (black dashed). (c) Fidelity map with $C=0$ contours overlaid (white dashed), demonstrating the correspondence between numerical fidelity ripples and analytical predictions.}
         \label{fig:interference_analysis}
     \end{figure}
 
@@ -429,7 +448,7 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
         \frac{T_p^{\text{QND}}}{T_p^{\text{coh}}} = \frac{1}{1+m}.
     \end{equation}
 
-    \qquad Numerical verification of this scaling is presented in Fig. \ref{fig:constrained_results}(a) for random Ising instances. With a coupling strength of $x_0 = 2.0$, the observed speedup ratio converges to the theoretical prediction of $(1+x_0)^{-1} \approx 0.33$ for system sizes $N > 3$. Minor deviations in smaller systems act as artifacts of finite sampling within the minimization procedure over annealing time $T$.
+    \qquad Numerical verification of this scaling is presented in Fig. \ref{fig:constrained_results_a} for random Ising instances. With a coupling strength of $x_0 = 2.0$, the observed speedup ratio converges to the theoretical prediction of $(1+x_0)^{-1} \approx 0.33$ for system sizes $N > 3$. Minor deviations in smaller systems act as artifacts of finite sampling within the minimization procedure over annealing time $T$.
 
     \subsection{Constrained QND-like Protocol}
 
@@ -441,15 +460,20 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
 
     \qquad This approach eliminates the difficult $\sigma_x \sigma_z$ terms, requiring only variable-coupler interactions ($\sigma_z \sigma_z$ and $\sigma_z \sigma_z \sigma_z$). However, omitting the driver term means the interaction no longer commutes with the total Hamiltonian, $[H_{\text{int}}(t), H_S(t)] \neq 0$, thereby introducing relaxation effects alongside the intended energy rescaling.
 
-    \qquad Numerical results for this constrained protocol (Fig. \ref{fig:constrained_results}b,c) reveal a saturation in performance. Unlike the ideal case, where fidelity improves linearly with interaction strength, the constrained protocol's fidelity plateaus near $x_0 \approx 2.0$. This limitation arises because stronger coupling increases the rate of deleterious relaxation transitions, eventually competing with the advantages of the widened energy gap. Thus, while the constrained protocol offers a speedup, it is bounded and cannot be indefinitely enhanced by increasing interaction strength.
+    \qquad Numerical results for this constrained protocol (Fig. \ref{fig:constrained_results_b}) reveal a saturation in performance. Unlike the ideal case, where fidelity improves linearly with interaction strength, the constrained protocol's fidelity plateaus near $x_0 \approx 2.0$. This limitation arises because stronger coupling increases the rate of deleterious relaxation transitions, eventually competing with the advantages of the widened energy gap. Thus, while the constrained protocol offers a speedup, it is bounded and cannot be indefinitely enhanced by increasing interaction strength.
 
     \begin{figure}[htbp]
         \centering
+        \parbox{0.34\textwidth}{\centering (a)}
+        \hfill
+        \parbox{0.63\textwidth}{\centering (b)}\\[0.5ex]
         \includegraphics[width=0.34\textwidth]{Dephasing/Dephasing5a.png}
         \hfill
         \includegraphics[width=0.63\textwidth]{Dephasing/Dephasing5bc.png}
-        \caption{\textbf{Left: } Time-to-Solution (TTS) speedup ratio versus number of qubits $N$ for full and constrained QND protocols ($x_0=2$). The dashed line marks the theoretical limit $1/(1+x_0)$. \textbf{Right: } Average fidelity of the constrained protocol as a function of interaction strength $x_0$, showing the performance plateau due to non-commuting dynamics.}
+        \caption{(a) Time-to-Solution (TTS) speedup ratio versus number of qubits $N$ for full and constrained QND protocols ($x_0=2$). The dashed line marks the theoretical limit $1/(1+x_0)$. (b) Average fidelity of the constrained protocol as a function of interaction strength $x_0$, showing the performance plateau due to non-commuting dynamics.}
         \label{fig:constrained_results}
+        \label{fig:constrained_results_a}
+        \label{fig:constrained_results_b}
     \end{figure}
 
     %----------------------------------------------------------------------------------
@@ -475,30 +499,66 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
 
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.45\textwidth]{OptimalRamp/LZOptimalRamp.png}
+        \parbox{0.45\textwidth}{\centering (a)}
+        \hspace{0.02\textwidth}
+        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.45\textwidth]{OptimalRamp/LZOptimalRamp.png}\label{fig:optimal_ramp_a}
         \hspace{0.02\textwidth}%
-        \includegraphics[width=0.45\textwidth]{OptimalRamp/QAOptimalRamp.png}
-        \caption{Models with energy levels and optimal local schedule compared to linear schedule. The optimal schedule slows down significantly near the minimum gap region, allowing the system to remain adiabatic through the critical point, while speeding up in regions with larger gaps.\textbf{Left:} Landau Zener Model \textbf{Right:} QA Model with 3 Qubits}
+        \includegraphics[width=0.45\textwidth]{OptimalRamp/QAOptimalRamp.png}\label{fig:optimal_ramp_b}
+        \caption{Models with energy levels and optimal local schedule compared to linear schedule. The optimal schedule slows down significantly near the minimum gap region, allowing the system to remain adiabatic through the critical point, while speeding up in regions with larger gaps. (a) Landau Zener Model (b) QA Model with 3 Qubits}
     \end{figure}
 
     Importantly, the coupling to the meter does not affect this mapping schedule as it only rescales energy levels but does not change the form of the Hamiltonian derivative $dH/ds$. Therefore, the locally adiabatic schedule derived for the bare system remains optimal in the presence of the meter coupling, preserving the potential speedup benefits. We examine if we can extract benefits from this locally adiabatic approach in the presence of the meter-induced dephasing. We compare the performance difference between the standard linear schedule and the optimal local adiabatic schedule in the presence of the meter coupling. For the Ising example we average over 100 random instances of different couplings, for each instance we compute the optimal local adiabatic schedule via the energy gaps. 
 
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.4\textwidth]{OptimalRamp/LZOptimalDiff.png}
+        \parbox{0.35\textwidth}{\centering (a)}
+        \hspace{0.02\textwidth}
+        \parbox{0.35\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.35\textwidth]{OptimalRamp/LZOptimalDiff.png}
         \hspace{0.02\textwidth}%
-        \includegraphics[width=0.4\textwidth]{OptimalRamp/QAOptimalDiff.png}
-        \caption{Fidelity difference between optimal local adiabatic and linear schedules .\textbf{Left:} Landau Zener Model \textbf{Right:} QA Model with 3 Qubits averaged over 100 instances with schedule optmiized for each instance.}
+        \includegraphics[width=0.35\textwidth]{OptimalRamp/QAOptimalDiff.png}
+        \caption{Fidelity difference between optimal local adiabatic and linear schedules. (a) Landau Zener Model (b) QA Model with 3 Qubits averaged over 100 instances with schedule optimized for each instance.}
+        \label{fig:optimal_diff}
     \end{figure}
 
     \qquad Use of the computed optimal local adiabatic schedule yields a significant fidelity improvement over the linear schedule especially for moderate annealing durations with a roughly 8\% increase in fidelity for both models. For the LZ model this occurs along the contours of $T_{eff} = T(1+x_0)$ = 4 or for $T_{eff} = 8$ for the QA model. 
 
     \subsection{Statistical Foundations}
-    \qquad As before for the QA problem knowing the instantaneous spectral gap \textit{a priori} is equivalent to solving the problem itself, making the exact implementation of the optimal local adiabatic schedule impractical. However, statistical knowledge of the gap distribution across problem instances could inform heuristic schedule designs that approximate the optimal rate without requiring full spectral information. By analyzing ensembles of problem Hamiltonians, one can identify typical gap behaviors and construct schedules that adaptive slow down in regions where small gaps are statistically likely, while speeding up elsewhere. This statistical approach enables practical implementations of locally adiabatic evolution that capture much of the performance benefit without the need for exact gap knowledge.
+    \qquad As before knowing the instantaneous spectral gap \textit{a priori} is equivalent to solving the QA problem itself, making the exact implementation of the optimal local adiabatic schedule impractical. However, statistical knowledge of the gap distribution across problem instances could inform heuristic schedule designs that approximate the optimal rate without requiring full spectral information. By analyzing ensembles of problem Hamiltonians, one can identify typical gap behaviors and construct schedules that adaptive slow down in regions where small gaps are statistically likely, while speeding up elsewhere. This statistical approach enables practical implementations of locally adiabatic evolution that capture much of the performance benefit without the need for exact gap knowledge.
 
     \qquad We will approach this problem with two strategies, we will compare averaging the spectral properties over many instances to generate a single heuristic schedule versus generating individual optimal schedules and averaging the schedule performance over many instances.
 
-    \textbf{To be simulated}
+    \begin{figure}[htbp]
+        \centering
+        \parbox{0.3\textwidth}{\centering (a)}
+        \parbox{0.3\textwidth}{\centering (b)}
+        \parbox{0.3\textwidth}{\centering (c)}\\[0.5ex]
+        \includegraphics[width=0.3\textwidth]{figures/GapStats/3_GapProfiles.png}\label{fig:gap_profiles_a}
+        \includegraphics[width=0.3\textwidth]{figures/GapStats/4_GapProfiles.png}\label{fig:gap_profiles_b}
+        \includegraphics[width=0.3\textwidth]{figures/GapStats/5_GapProfiles.png}\label{fig:gap_profiles_c}
+        \caption{Characteristic Energy Gaps for (a) 3 qubit, (b) 4 qubit, and (c) 5 qubit random Ising instances with $J_{ij}\in[0,1]$. Average and standard deviation are indicated for 100{,}000 iterations of random samples.}
+        \label{fig:gap_profiles}
+    \end{figure}
+
+    \qquad We first make a crude analysis and apply the average schedule derived from the average gap profile to all instances. We compare this to the performance of the individual optimal schedules averaged over many instances, specifically for Ising instances with different random parameters. We list some statistical properties of the gaps in the Appendix \ref{sec:appendix_gap_statistics}.
+
+    \qquad We first compare the performance of the average schedule to the linear schedule. From there it is critical to examine how much performance is lost to the averaging process by comparing to the individual optimal schedules.
+
+    \begin{figure}[htbp]
+        \centering
+        \parbox{0.3\textwidth}{\centering (a)}
+        \parbox{0.3\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.3\textwidth]{figures/OptimalRamp/3-QAAverageRampVsLinear.png}\label{fig:average_schedule_a}
+        \includegraphics[width=0.3\textwidth]{figures/OptimalRamp/3-QAAverageVsOptimal.png}\label{fig:average_schedule_b}
+        \caption{Averaged optimal local adiabatic schedule performance for 3 qubit random Ising instances. (a) Comparison of average optimal schedule to linear schedule. (b) Comparison of average optimal schedule to individual optimal schedules averaged over many instances.}
+        \label{fig:average_schedule}
+    \end{figure}
+
+    \qquad We maintain a significant performance improvement over the linear schedule even with the crude averaging process. However, we do lose some performance compared to the individual optimal schedules in Fig. \ref{fig:optimal_diff}(b). Specifically in regions of long annealing times and high interaction strength $x_0$ we see a drop in performance. This is likely due to the variance in gap locations across different instances, where the average schedule may slow down in regions that are not critical for certain instances, leading to suboptimal performance. We extend this analysis to larger qubit numbers and different coupling geometries in the Appendix \ref{sec:appendix_gap_statistics}.
+
+
+
 
     \section{Counterdiabatic Driving}
 
@@ -696,42 +756,93 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
     \qquad We have been able to attain results for larger Ising systems up to $N=7$ qubits, which further corroborate the findings presented in the main text. These have been accomplished on standard laptop hardware by optimizing numerical evolution in C and parallelizing over multiple random instances.\cite{qutip5} The results are presented in the following figures, which are variants of Figs. \ref{fig:fidelity_contour} and \ref{fig:fidelity_diff} from the main text.
 
     \begin{figure}[htbp]
-        \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}}
         \centering
-        \includegraphics[width=0.32\textwidth]{LargerIsings/2-2b.png}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/3-2b.png}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/4-2b.png}
+        \parbox{0.32\textwidth}{\centering (a)}
+        \parbox{0.32\textwidth}{\centering (b)}
+        \parbox{0.32\textwidth}{\centering (c)}\\[0.5ex]
+        \includegraphics[width=0.32\textwidth]{LargerIsings/2-2b.png}\label{fig:larger_isings_2b_a}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/3-2b.png}\label{fig:larger_isings_2b_b}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/4-2b.png}\label{fig:larger_isings_2b_c}
+        \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}. (a) 2-qubit, (b) 3-qubit, (c) 4-qubit systems.}
+        \label{fig:larger_isings_2b}
     \end{figure}
 
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.32\textwidth]{LargerIsings/5-2b.png}
+        \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}. 5-qubit system.}
+        \label{fig:larger_isings_5_2b}
     \end{figure}
 
     \qquad \textbf{Argument based on Results on why they are rotated 90 degrees compared to paper.}
 
     \begin{figure}[htbp]
-        \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_diff}}
         \centering
-        \includegraphics[width=0.32\textwidth]{LargerIsings/3-4b.png}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/4-4b.png}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/5-4b.png}
+        \parbox{0.32\textwidth}{\centering (a)}
+        \parbox{0.32\textwidth}{\centering (b)}
+        \parbox{0.32\textwidth}{\centering (c)}\\[0.5ex]
+        \includegraphics[width=0.32\textwidth]{LargerIsings/3-4b.png}\label{fig:larger_isings_4b_a}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/4-4b.png}\label{fig:larger_isings_4b_b}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/5-4b.png}\label{fig:larger_isings_4b_c}
+        \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_diff}. (a) 3-qubit, (b) 4-qubit, (c) 5-qubit systems.}
+        \label{fig:larger_isings_4b}
     \end{figure}
 
     \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.32\textwidth]{LargerIsings/6-4b.png}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/7-4b.png}
+        \parbox{0.32\textwidth}{\centering (a)}
+        \parbox{0.32\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.32\textwidth]{LargerIsings/6-4b.png}\label{fig:larger_isings_6_7_a}
+        \includegraphics[width=0.32\textwidth]{LargerIsings/7-4b.png}\label{fig:larger_isings_6_7_b}
+        \caption{Larger Ising systems continued. (a) 6-qubit, (b) 7-qubit systems.}
+        \label{fig:larger_isings_6_7}
     \end{figure}
 
     \begin{figure}[htbp]
         \centering
-        \caption{\textbf{Possible Graphing for Larger Systems need more Data points}}
-        \includegraphics[width=0.45\textwidth]{LargerIsings/FidelityIncrease.png}
-        \includegraphics[width=0.45\textwidth]{LargerIsings/FidelityIncreaseMesh.png}
+        \parbox{0.45\textwidth}{\centering (a)}
+        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.45\textwidth]{LargerIsings/FidelityIncrease.png}\label{fig:larger_systems_fidelity_a}
+        \includegraphics[width=0.45\textwidth]{LargerIsings/FidelityIncreaseMesh.png}\label{fig:larger_systems_fidelity_b}
+        \caption{\textbf{Possible Graphing for Larger Systems need more Data points}. (a) Fidelity increase, (b) Fidelity increase mesh.}
+        \label{fig:larger_systems_fidelity}
     \end{figure}
 
     \newpage
+
+    %----------------------------------------------------------------------------------
+
+    \subsection{Annealing Gap Profiles for Random Ising Instances}\label{sec:appendix_gap_statistics}
+
+    \begin{table}[htbp]
+        \centering
+        \caption{Summary statistics for energy gaps in random Ising spin chains ($J_{ij}\in[0,1]$) for $N=3,4,5$ qubits, averaged over 100,000 samples.}
+
+        \begin{tabular}{lccc}
+            \hline
+            Metric & $N=3$ & $N=4$ & $N=5$ \\
+            \hline
+            Number of samples & 100,000 & 100,000 & 100,000 \\
+            Global minimum gap & 0.000004 & 0.000003 & 0.000007 \\
+            Mean minimum gap & 0.386832 & 0.330356 & 0.315373 \\
+            Std of minimum gap & 0.247364 & 0.226742 &  0.215391 \\
+            Mean min gap location ($s$) & 0.779116 & 0.811245 & 0.738956 \\
+            Std of min gap location & 0.142281 & 0.153428 & 0.154786 \\
+            Coeff. of variation at min & 0.599441 & 0.646809 & 0.613260 \\
+            10th percentile minimum & 0.080262 & 0.063752 & 0.065522 \\
+            25th percentile minimum & 0.203811 & 0.168526 & 0.175475 \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    \subsection{Average Annealing Schedules for different Instances}\label{sec:appendix_larger_annealings}
+
+
+
+
+
+
+
     %----------------------------------------------------------------------------------
     \color{red}
     \subsection{Derivation of Meter Non-Commuting Effects} \label{sec:appendix_non_commuting}

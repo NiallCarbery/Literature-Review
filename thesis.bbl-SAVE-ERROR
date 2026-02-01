@@ -1044,36 +1044,6 @@
       \verb https://www.sciencedirect.com/science/article/pii/S0370157325002704
       \endverb
     \endentry
-    \entry{SakuraiQM}{book}{}
-      \name{author}{2}{}{%
-        {{hash=f7fe4eaf1ee9c40c20b04441f82e92e6}{%
-           family={Sakurai},
-           familyi={S\bibinitperiod},
-           given={J.\bibnamedelimi J.},
-           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-        {{hash=b87d786f54d3cf33fabdda13f1df174d}{%
-           family={Napolitano},
-           familyi={N\bibinitperiod},
-           given={Jim},
-           giveni={J\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Cambridge University Press}%
-      }
-      \strng{namehash}{e581c5d3f07348069c1c428801961418}
-      \strng{fullhash}{e581c5d3f07348069c1c428801961418}
-      \strng{bibnamehash}{e581c5d3f07348069c1c428801961418}
-      \strng{authorbibnamehash}{e581c5d3f07348069c1c428801961418}
-      \strng{authornamehash}{e581c5d3f07348069c1c428801961418}
-      \strng{authorfullhash}{e581c5d3f07348069c1c428801961418}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{edition}{2nd}
-      \field{title}{Modern Quantum Mechanics}
-      \field{year}{2017}
-    \endentry
     \entry{breuer2002theory}{book}{}
       \name{author}{2}{}{%
         {{hash=44be9d24e3ede84bee3691a7a300e5db}{%
@@ -1096,8 +1066,8 @@
       \strng{authorbibnamehash}{fc984943b8bdb1c48eb687b8f74fd49b}
       \strng{authornamehash}{fc984943b8bdb1c48eb687b8f74fd49b}
       \strng{authorfullhash}{fc984943b8bdb1c48eb687b8f74fd49b}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{The theory of open quantum systems}
@@ -1125,8 +1095,8 @@
       \strng{authorbibnamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
       \strng{authornamehash}{456599bb4a61c2e997e2a7e1a21b25b4}
       \strng{authorfullhash}{456599bb4a61c2e997e2a7e1a21b25b4}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{10th Anniversary Edition}
@@ -1157,8 +1127,8 @@
       \strng{authorbibnamehash}{0447a36217333b5a950372ea3d8a1677}
       \strng{authornamehash}{0447a36217333b5a950372ea3d8a1677}
       \strng{authorfullhash}{0447a36217333b5a950372ea3d8a1677}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Physical Review Letters}
@@ -1190,8 +1160,8 @@
       \strng{authorbibnamehash}{79de92fed9c3e85f46a6a67a66b21fa4}
       \strng{authornamehash}{79de92fed9c3e85f46a6a67a66b21fa4}
       \strng{authorfullhash}{79de92fed9c3e85f46a6a67a66b21fa4}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Physical Review A}
