@@ -555,9 +555,9 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
         \label{fig:average_schedule}
     \end{figure}
 
-    \qquad We maintain a significant performance improvement over the linear schedule even with the crude averaging process. However, we do lose some performance compared to the individual optimal schedules in Fig. \ref{fig:optimal_diff}(b). Specifically in regions of long annealing times and high interaction strength $x_0$ we see a drop in performance. This is likely due to the variance in gap locations across different instances, where the average schedule may slow down in regions that are not critical for certain instances, leading to suboptimal performance. We extend this analysis to larger qubit numbers and different coupling geometries in the Appendix \ref{sec:appendix_gap_statistics}.
+    \qquad We maintain a significant performance improvement over the linear schedule even with the crude averaging process. However, we do lose some performance compared to the individual optimal schedules in Fig. \ref{fig:optimal_diff}(b). Specifically in regions of long annealing times and high interaction strength $x_0$ we see a drop in performance. This is likely due to the variance in gap locations across different instances, where the average schedule may slow down in regions that are not critical for certain instances, leading to suboptimal performance. We extend this analysis to larger qubit numbers and different coupling geometries in the Appendix \ref{sec:appendix_larger_annealings}.
 
-
+    
 
 
     \section{Counterdiabatic Driving}
@@ -835,13 +835,49 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
         \end{tabular}
     \end{table}
 
+    \newpage
     \subsection{Average Annealing Schedules for different Instances}\label{sec:appendix_larger_annealings}
 
+    \qquad Below are average annealing schedules for different random Ising instances with $N=3,4,5$ qubits, each averaged over 100,000 samples. These plots illustrate the typical shapes of the annealing functions used in the simulations. We compare boht those agasint the most optimal schedule for each instance and the linear schedule.
+    \begin{figure}[htbp]
+        \centering
+        \parbox{0.48\textwidth}{\centering (a)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/3-QAAverageRampVsLinear.png}\label{fig:opt_ramp_3_a}}
+        \parbox{0.48\textwidth}{\centering (b)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/3-QAAverageVsOptimal.png}\label{fig:opt_ramp_3_b}}\\[1ex]
+        \parbox{0.48\textwidth}{\centering (c)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/4-QAAverageVsLinear.png}\label{fig:opt_ramp_4_a}}
+        \parbox{0.48\textwidth}{\centering (d)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/4-QAAverageVsOptimal.png}\label{fig:opt_ramp_4_b}}\\[1ex]
+        \parbox{0.48\textwidth}{\centering (e)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/5-QAAverageVsLinear.png}\label{fig:opt_ramp_5_a}}
+        \parbox{0.48\textwidth}{\centering (f)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/5-QAAverageVsOptimal.png}\label{fig:opt_ramp_5_b}}
+        \caption{Average annealing schedules compared to the linear schedule and the instance-optimal schedule for $N=3$--$5$. Images on the left repersent the improvement of the average schedule compared to a linear schedule, while images on the right show the degradation compared to the instance-optimal schedule: (a,b) $N=3$, (c,d) $N=4$, (e,f) $N=5$.}
+        \label{fig:optimal_ramp_average}
+    \end{figure}
 
 
+    \subsection{Impact of different coupling regimes} \label{sec:appendix_different_regimes}
+
+    As part of investigating regimes of meter impact we investigate different regimes of coupling strengths. Throughout this thesis we have remained in the ferromagnetic regime i.e. $J_{ij}\in[0,1]$. Here we present results for both antiferromagnetic couplings $J_{ij}\in[-1,0]$ and mixed couplings $J_{ij}\in[-1,1]$. These coupling strengths are allowed in QUBO formualted annealing problems and thus there effect is included. The results are presented in the following figures, which are variants of Figs. \ref{fig:fidelity_contour} and \ref{fig:fidelity_diff} from the main text 
+
+    \begin{figure}[htbp]
+        \centering
+        \parbox{0.45\textwidth}{\centering (a)}
+        \hspace{0.02\textwidth}
+        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
+        \includegraphics[width=0.4\textwidth]{figures/AntiFerromagnetic/Peak0mesh2b.png}\label{fig:antif_peak0fig}
+        \hspace{0.02\textwidth}%
+        \includegraphics[width=0.4\textwidth]{figures/AntiFerromagnetic/Peak0Fig4b.png}\label{fig:antif_peak0mesh}
+        \\
+        \vspace{1ex}
+        \parbox{0.4\textwidth}{\centering (c)}
+        \hspace{0.02\textwidth}
+        \parbox{0.3\textwidth}{\centering (d)}\\[0.5ex]
+        \includegraphics[width=0.4\textwidth]{figures/AntiFerromagnetic/AntiF-mesh2b.png}\label{fig:antif_fig4b}
+        \hspace{0.02\textwidth}%
+        \includegraphics[width=0.4\textwidth]{figures/AntiFerromagnetic/AntiF-Fig4b.png}\label{fig:antif_mesh2b}
+        \caption{Antiferromagnetic / mixed-coupling regime results. (a-b) Represents the mixed coupling regime $J_{ij}\in[-1,1]$, (c-d) Represents the antiferromagnetic coupling regime $J_{ij}\in[-1,0]$. (a,c) Displayed increase in Fidelity with interaction strength as in Fig \ref{fig:fidelity_contour} (b,d) Fidelity Reduction relative to intrinsic meter dynamics as in Fig \ref{fig:fidelity_diff}.}
+        \label{fig:antiferromagnetic_results}
+    \end{figure}
 
 
-
+    \qquad These regimes display that the ferromagnetic regime repersents the worst case results for meter coupling and non commuting effects. Both the antiferromagnetic and mixed coupling regimes display significantly higher fidelities across the parameter space. Thus we the ferromagnetic regime is the most challenging for meter coupling, and thus the results presented in the main text repersent a lower bound on performance across all coupling regimes.
 
     %----------------------------------------------------------------------------------
     \color{red}
