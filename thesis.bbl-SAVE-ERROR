@@ -849,77 +849,7 @@
       \verb 10.1103/RevModPhys.90.015002
       \endverb
     \endentry
-    \entry{COLD2023}{article}{}
-      \name{author}{4}{}{%
-        {{hash=44fb0577bd60405a3456a6ea39d3be4f}{%
-           family={Čepaitė},
-           familyi={Č\bibinitperiod},
-           given={Ieva},
-           giveni={I\bibinitperiod}}}%
-        {{hash=8ab550746db8549e7045b50a4798975c}{%
-           family={Polkovnikov},
-           familyi={P\bibinitperiod},
-           given={Anatoli},
-           giveni={A\bibinitperiod}}}%
-        {{hash=b38b88e1e822b087568ddfe7ac34752f}{%
-           family={Daley},
-           familyi={D\bibinitperiod},
-           given={Andrew\bibnamedelima J.},
-           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
-        {{hash=006096d98690afe6259448ece03f4d12}{%
-           family={Duncan},
-           familyi={D\bibinitperiod},
-           given={Callum\bibnamedelima W.},
-           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
-      }
-      \strng{namehash}{f5d4d1b871fc8399806e74efe464fe92}
-      \strng{fullhash}{e29a99741826fae1288b8a9647a0e16e}
-      \strng{bibnamehash}{f5d4d1b871fc8399806e74efe464fe92}
-      \strng{authorbibnamehash}{f5d4d1b871fc8399806e74efe464fe92}
-      \strng{authornamehash}{f5d4d1b871fc8399806e74efe464fe92}
-      \strng{authorfullhash}{e29a99741826fae1288b8a9647a0e16e}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{PRX Quantum}
-      \field{number}{1}
-      \field{title}{Counterdiabatic Optimised Local Driving}
-      \field{volume}{4}
-      \field{year}{2023}
-      \field{pages}{010312}
-      \range{pages}{1}
-      \verb{doi}
-      \verb 10.1103/PRXQuantum.4.010312
-      \endverb
-    \endentry
-    \entry{CAFFEINE2025}{article}{}
-      \name{author}{1}{}{%
-        {{hash=006096d98690afe6259448ece03f4d12}{%
-           family={Duncan},
-           familyi={D\bibinitperiod},
-           given={Callum\bibnamedelima W.},
-           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
-      }
-      \strng{namehash}{006096d98690afe6259448ece03f4d12}
-      \strng{fullhash}{006096d98690afe6259448ece03f4d12}
-      \strng{bibnamehash}{006096d98690afe6259448ece03f4d12}
-      \strng{authorbibnamehash}{006096d98690afe6259448ece03f4d12}
-      \strng{authornamehash}{006096d98690afe6259448ece03f4d12}
-      \strng{authorfullhash}{006096d98690afe6259448ece03f4d12}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{arXiv preprint}
-      \field{title}{Counterdiabatic‑influenced Floquet‑engineering: State preparation, annealing and learning the adiabatic gauge potential}
-      \field{year}{2025}
-      \verb{eprint}
-      \verb arXiv:2501.14881
-      \endverb
-    \endentry
   \enddatalist
-  \missing{SelsPolkovnikov2017}
 \endrefsection
 
 \refsection{2}

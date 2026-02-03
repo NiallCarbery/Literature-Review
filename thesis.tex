@@ -9,6 +9,7 @@
 
 % Ensure captions can be centered across the full text width
 \usepackage{caption}
+\usepackage{subcaption}
 \captionsetup{width=\textwidth,justification=centering}
 
 \addbibresource{References.bib}
@@ -46,18 +47,51 @@
     \maketitle 
     
     \newpage
-
-    \tableofcontents
-
-    \newpage
+    \doublespacing
     \section*{Abstract}
     
     \qquad Quantum annealing represents a promising heuristic approach to solving combinatorial optimization problems by encoding solutions as ground states of a problem Hamiltonian. However, the requirement for adiabatic evolution leads to prohibitively long computation times, particularly near avoided crossings where energy gaps become exponentially small. We base this thesis around recent developments in expanding this energy gap in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper} via adding an external degree of freedom. The methods developed in this paper are examined in detail and extended to larger systems. From there they are compared to other developments in literature on quantum optimal control and shortcuts to adiabaticity (STA).
 
+    \section*{Lay Summary}
+
+    \newpage
+    \section*{Acknowledgements}
+    \qquad I would like to thank Dr. Steve Campbell for his guidance and support throughout the project. I will always be grateful for the underpinning he provided through my educational journey, within and outside research. His insights and feedback were invaluable in shaping the direction of this thesis, and direction made the thesis as coherent as possible. I would also like to acknowledge my peers for their times we have spent discussing life and physics, which has been a highlight of my time at UCD. Finally, I would like to thank my family for their unwavering support and encouragement throughout my studies.
+
+    \section*{Acronyms and Abbreviations}
+        While abbreviations are detailed in this thesis a singular reference is provided here for ease of access.
+
+        \begin{table}[h]
+        \begin{tabular}{p{3cm}  p{8cm}}
+
+        \textbf{AGP}\label{acr:AGP} & Adiabatic Gauge Potential \\ [7pt]
+        \textbf{CRAB}\label{acr:CRAB} & Chopped Randomised Basis \\ [7pt]
+        \textbf{FO}\label{acr:FO} & First order \\ [7pt]
+        \textbf{GRAPE}\label{acr:GRAPE} & Gradient Ascent Pulse Engineering \\ [7pt]
+        \textbf{GSA}\label{acr:GSA} & Generalized Simulated Annealing \\ [7pt]
+        \textbf{QOCT}\label{acr:QOCT} & Quantum Optimal Control Theory \\[7pt]
+        \textbf{SO}\label{acr:SO} & Second order \\ [7pt]
+        \textbf{STA}\label{acr:STA} & Shortcuts to Adiabaticity \\[7pt]
+
+    \end{tabular}
+    \end{table}
+
+    \newpage
+    \section*{List of Figures}
+
+
+
+    \newpage
+    \singlespacing
+    \tableofcontents
+
+    \newpage
+
+
     \pagenumbering{arabic}
-    \doublespacing
     
     \newpage
+    \doublespacing
     \section{Introduction}
 
     \qquad Quantum annealing protocols aim to generate optimization solutions to problems, typically combinatorial, by encoding the solution to the problem as the ground state of a Hamiltonian. The system is initialized in the ground state of a simple Hamiltonian $H_0$, and through adiabatic evolution, is transformed to the ground state of a problem Hamiltonian $H_P$ that encodes the optimization landscape. This adiabatic evolution is in principle a slowly varying parameter of a quantum system that is changing sufficiently slowly i.e an electromagnetic field. The time-dependent Hamiltonian takes the form
@@ -195,7 +229,7 @@
 
     \qquad The physical interpretation of this result is that the system's quantum state effectively splits into $\dim(X_M)$ distinct branches. Each branch evolves according to the corresponding meter eigenvalue $m_j$ and the coupling $y_i(t)$, weighted by the initial overlap with the meter state.
 
-    \qquad \color{red} To see the effect on fidelity we consider the adiabatic condition, which requires the rate of Hamiltonian change to be small compared to the squared energy gap. For the specific QND-like coupling $Y_S(t) = x_0 H_S(t)$, the branch Hamiltonian is $H_R^{[j]}(t) = (1 + x_0 m_j) H_S(t)$. Consequently, both the energy gap and the time-derivative of the Hamiltonian are rescaled by the factor $(1 + x_0 m_j)$. The adiabatic parameter for the $j$-th branch scales as
+    \qquad To see the effect on fidelity we consider the adiabatic condition, which requires the rate of Hamiltonian change to be small compared to the squared energy gap. For the specific QND-like coupling $Y_S(t) = x_0 H_S(t)$, the branch Hamiltonian is $H_R^{[j]}(t) = (1 + x_0 m_j) H_S(t)$. Consequently, both the energy gap and the time-derivative of the Hamiltonian are rescaled by the factor $(1 + x_0 m_j)$. The adiabatic parameter for the $j$-th branch scales as
 
     \begin{equation}
         \frac{\hbar |\langle \psi_e | \dot{H}_R^{[j]} | \psi_g \rangle|}{(E_e^{(j)} - E_g^{(j)})^2} 
@@ -204,12 +238,12 @@
     \end{equation}
 
     For branches where $(1 + x_0 m_j) > 1$, the effective adiabatic parameter is reduced. This effectively slows down the dynamics relative to the energy gap, suppressing non-adiabatic transitions and thereby preserving the fidelity of the ground state.
-    \color{black}
+
 
     \qquad The QND-like protocol where $Y_S(t) = H_S(t)$ is a specific instance where $y_i(t) = E_i(t)$. In this scenario, if the meter is prepared in an eigenstate with $m_j > 0$, all energy gaps scale by a factor $(1+m_j)$. This global rescaling suppresses excitation out of the ground state. A tailored interaction $Y_S(t)$ (analogous to counterdiabatic driving) to specifically separate the ground and first excited states requires detailed knowledge of the instantaneous eigenspectrum. As noted in the introduction, knowing the spectrum a priori is equivalent to solving the problem, rendering such methods impractical for quantum annealing speedups. The QND-like approach avoids this by using $H_S(t)$ itself, which we have as we have defined the problem and annealing schedule, ensuring a gap increase without requiring diagonalisation.
 
     \qquad To maximize the gap amplification $(1+x_0 m_j)$, one should initialize the meter in the eigenstate of $X_M$ with the largest eigenvalue, which we denote as $|m_{\text{max}}\rangle$. In this case, the initial meter state is pure, $\rho_M(0) = |m_{\text{max}}\rangle\langle m_{\text{max}}|$. Substituting this into the definition of the Kraus operators
-    \color{red}
+
     \begin{equation}
         K_j(t) = \sqrt{\langle m_j | m_{\text{max}}\rangle\langle m_{\text{max}} | m_j \rangle} \, U_R^{[j]}(t) = \delta_{j, \text{max}} \, U_R^{[\text{max}]}(t).
     \end{equation}
@@ -217,14 +251,13 @@
     \begin{equation}
         \rho_S(t) = K_{\text{max}}(t) \rho_S(0) K_{\text{max}}^\dagger(t) = U_R^{[\text{max}]}(t) \rho_S(0) U_R^{[\text{max}]\dagger}(t).
     \end{equation}
-    \color{black}
-    \qquad This describes purely unitary evolution under the rescaled Hamiltonian $H_{\text{eff}}(t) = (1 + x_0 m_{\text{max}})H_S(t)$. There is no decoherence or dephasing because the system does not become entangled with the meter. The best performance of the protocol is achieved in a regime where no actual dephasing occurs, but rather an energy rescaling. \color{red} The dephasing effect essentially arises from averaging over multiple branches with different rescaling factors, selecting only the optimal branch removes the averaging and thus the dephasing, leaving only the beneficial energy shift.\color{black}
+    \qquad This describes purely unitary evolution under the rescaled Hamiltonian $H_{\text{eff}}(t) = (1 + x_0 m_{\text{max}})H_S(t)$. There is no decoherence or dephasing because the system does not become entangled with the meter. The best performance of the protocol is achieved in a regime where no actual dephasing occurs, but rather an energy rescaling.\color{red} The dephasing effect essentially arises from averaging over multiple branches with different rescaling factors, selecting only the optimal branch removes the averaging and thus the dephasing, leaving only the beneficial energy shift.\color{black}
 
     %----------------------------------------------------------------------------------
 
     \subsection{Landau Zener Example}
     
-    \qquad The coupling to the meter is shown To generate coherence suppression in the instantaneous energy eigenbasis. To quantify the magnitude and evolution of this dephasing action, the Landau-Zener model is used. The system Hamiltonian takes the form
+    \qquad The coupling to the meter is shown to generate coherence suppression in the instantaneous energy eigenbasis. To quantify the magnitude and evolution of this dephasing action, the Landau-Zener model is used. The system Hamiltonian takes the form
     \begin{equation} \label{LandauZenerEquation}
         H_S(t) = \frac{vt}{2}\sigma_z + \frac{g}{2}\sigma_x,
     \end{equation}
@@ -234,19 +267,26 @@
 
     \begin{figure}[htbp]
         \centering
-        \parbox{0.45\textwidth}{\centering (a)}
-        \hspace{0.02\textwidth}
-        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing1a.png}\label{fig:landau_zener_results_a}
-        \hspace{0.02\textwidth}%
-        \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing1b.png}\label{fig:landau_zener_results_b}
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:landau_zener_results_a}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.95\textwidth,trim=0 0 0 0,clip]{Dephasing/Dephasing1a.png}}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:landau_zener_results_b}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.95\textwidth,trim=0 0 0 0,clip]{Dephasing/Dephasing1b.png}}
+        \end{subfigure}
         \caption{(a) Coherence magnitude as a function of time, comparing evolution with the QND-like meter coupling (blue line) and the unmodified coherent evolution (orange line). Both systems are initialized in a symmetric superposition of the instantaneous ground and first excited states. The periodic collapse and revival of coherence demonstrates the dephasing mechanism introduced by the meter coupling. (b) Energy spectrum of the bare Landau-Zener model without the meter (solid red), with the QND-like coupling (dot-dashed blue), and with counterdiabatic driving (dashed black) \cite{BerryCounterdiabatic2009,LandauZenerCDAbah2019}. The energy rescaling induced by the meter interaction is clearly visible. Parameters: $T = 5$, $x_0 = 2$, $g = 1$.}
         \label{fig:landau_zener_results}
     \end{figure}
 
     %----------------------------------------------------------------------------------
 
-    \subsection{Quantifying the Speedup}
+    \subsection{Quantifying the Speedup} \color{red} Is this neccesary given the last section \color{black}
     \qquad Ensuring adiabticity locally to understand the speedup achieved, we parameterize the Hamiltonian evolution as $H_{tot}(s(t))$, where $s(t)$ represents a schedule function designed to maintain local adiabaticity.\cite{LocalAdiabticQuantumSearch} Specifically, the protocol remains adiabatic with an error bounded by $\epsilon^2$ if the evolution rate satisfies
 
     \begin{equation}
@@ -275,17 +315,24 @@
 
     \begin{figure}[htbp]
         \centering
-        \parbox{0.4\textwidth}{\centering (a)}
-        \hspace{0.02\textwidth}
-        \parbox{0.4\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing2a.png}\label{fig:fidelity_contour_a}
-        \hspace{0.02\textwidth}
-        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing2b.png}\label{fig:fidelity_contour_b}
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:fidelity_contour_a}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{Dephasing/Dephasing2a.png}}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:fidelity_contour_b}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{Dephasing/Dephasing2b.png}}
+        \end{subfigure}
         \caption{Fidelity of the QND-like protocol across different annealing times $T$ and interaction strengths $x_0$, with the meter Hamiltonian turned off ($H_M = 0$). The white dashed curves represent contours of constant effective time $T(1+x_0)$. Ideally, fidelity should remain invariant along these curves. The simulation results confirm that regions of constant fidelity align perfectly with these contours, even in low-fidelity regions corresponding to non-adiabatic evolution. System (a) is the single-qubit Landau-Zener model ($g=1$). System (b) is a 3-qubit Ising chain.}
         \label{fig:fidelity_contour}
     \end{figure}
 
-    \qquad Fig. \ref{fig:fidelity_contour} presents the fidelity as a function of $T$ and coupling strength $x_0$ for the commuting case ($\omega=0, [X_M, H_M]=0$). We make a small note on a scaling difference with the original paper as we average over 100 iterations for the Ising model. The fidelity remains invariant along contours where the effective duration $T_{eff} = T(1+x_0)$ is constant, indicated by the dashed white lines. This invariance holds for both high-fidelity adiabatic region and the low-fidelity regime where diabatic transitions dominate. Suggestive that speedup scaling law derived from adiabatic perturbation theory remains valid for arbitrary evolution speeds. \textbf{Check in a later section}
+    \qquad Fig. \ref{fig:fidelity_contour} presents the fidelity as a function of $T$ and coupling strength $x_0$ for the commuting case ($\omega=0, [X_M, H_M]=0$). We average over 100 iterations for the Ising $J_{ij}$ coupling strengths to account for different system effects. The fidelity remains invariant along contours where the effective duration $T_{eff} = T(1+x_0)$ is constant, indicated by the dashed white lines. This invariance holds for both high-fidelity adiabatic region and the low-fidelity regime where diabatic transitions dominate. Suggestive that speedup scaling law derived from adiabatic perturbation theory remains valid for arbitrary evolution speeds. \textbf{Check in a later section}
 
     \qquad This is verified for the single-qubit against the analytical Landau-Zener formula for finite-time transitions 
     \begin{equation}
@@ -303,134 +350,26 @@
 
     \qquad The non-commuting meter dynamics ($[X_M, H_M] \neq 0$) are investigated next. It's hypothesized that the speedup factor $1+m_{max}$ derived for the commuting case serves as a strict upper bound. Physically, if the meter is initialized in the optimal eigenstate of $X_M$, any non-commuting term $H_M$ will induce transitions out of this state, effectively averaging down the rescaling factor over time.
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
         \centering
-        \parbox{0.4\textwidth}{\centering (a)}
-        \hspace{0.02\textwidth}
-        \parbox{0.4\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing4a.png}\label{fig:fidelity_diff_a}
-        \hspace{0.02\textwidth}
-        \includegraphics[width=0.4\textwidth]{Dephasing/Dephasing4b.png}\label{fig:fidelity_diff_b}
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:fidelity_diff_a}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{Dephasing/Dephasing4a.png}}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:fidelity_diff_b}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{Dephasing/Dephasing4b.png}}
+        \end{subfigure}
         \caption{Impact of non-commuting meter dynamics on protocol performance. The plots show the change in fidelity relative to the ideal case ($\omega=0$) as a function of duration $T$ and transverse field strength $\omega$. Panel (a) shows the Landau-Zener qubit, and panel (b) shows the 3-qubit Ising outcome. The universally negative values indicate that introducing a non-commuting term $[X_M, H_M] \neq 0$ strictly reduces the effectiveness of the speedup.}
         \label{fig:fidelity_diff}
     \end{figure}
 
-    \qquad To test this, we simulate the same systems with a fixed coupling $x_0=1$ and vary the strength $\omega$ of the meter's transverse field $H_M = \omega \sigma_x$. We compute the fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ relative to the ideal commuting case. As shown in Fig. \ref{fig:fidelity_diff}, this difference is universally negative across all annealing times $T$ and  $\omega$. This consistent reduction in fidelity supports the conjecture that the presence of non-commuting meter dynamics degrades performance relative to the ideal limit, confirming $1+m_{max}$ as the maximum achievable speedup. We make a small correction for the graphs in the original paper, and assert the results for the Ising model are rotated 90 degrees. However, this does not affect the conclusions drawn. 
-    
-    \color{red}
-    \subsection{Mechanism of Fidelity Reduction}
-    \color{black}
-    
-    \qquad In the commuting case, Fig. \ref{fig:fidelity_contour} demonstrates that fidelity contours follow lines of constant effective time $T_{\text{eff}} = T(1+x_0)$. This scaling property means that an evolution with coupling $x_0$ for time $T$ achieves the same fidelity as an uncoupled evolution ($x_0=0$) for time $T(1+x_0)$. Mathematically, this arises because the evolution operator is:
-    \begin{equation}
-        U(t) = \mathcal{T}\exp\left[-i\int_0^T (1+x_0)H_S(t)dt\right],
-    \end{equation}
-    which can be recast as evolving under $H_S(t)$ for an effective duration $T_{\text{eff}} = T(1+x_0)$, provided the functional form of the Hamiltonian remains unchanged. However, when $[X_M, H_M] \neq 0$, this simple scaling relationship breaks down. The effective rescaling factor becomes time-dependent:
-    \begin{equation}
-        T_{\text{eff}}(t, \omega) = \int_0^t \left[1 + x_0 \langle\sigma_z\rangle(s)\right] ds,
-    \end{equation}
-    where $\langle\sigma_z\rangle(t)$ oscillates according to:
-    \begin{equation}
-        \langle\sigma_z\rangle(t) = \frac{(x_0 E(t))^2}{\Omega(t)^2} + \frac{\omega^2}{\Omega(t)^2}\cos\left(2\int_0^t \Omega(s)ds\right),
-    \end{equation}
-    with $\Omega(t) = \sqrt{(x_0 E(t))^2 + \omega^2}$. 
-    
-    \qquad This means the system no longer evolves along a single rescaled trajectory. Instead, the effective evolution rate fluctuates in time, and different regions of the parameter space (different energy levels) experience different time-averaged rescaling factors. At the minimum gap where $E(t) \to E_{\min}$, the time-averaged effective time becomes:
-    \begin{equation}
-        \overline{T_{\text{eff}}} = T\left[1 + x_0 \frac{(x_0 E_{\min})^2}{(x_0 E_{\min})^2 + \omega^2}\right] < T(1+x_0).
-    \end{equation}
-    
-    \qquad Therefore, the fidelity contours in the non-commuting case do not follow the simple $T(1+x_0)$ lines. The deviation from these contours, shown quantitatively in Fig. \ref{fig:fidelity_diff}, directly reflects the reduction in the effective coupling strength due to meter state precession. The universally negative $\Delta F$ confirms that the system always achieves less speedup than predicted by the ideal $T(1+x_0)$ scaling—the contours are effectively "bent" toward longer times, requiring more actual evolution time $T$ to achieve the same fidelity as the commuting case would predict.
-
-        \subsubsection{Meter Precession and Fidelity Reduction}
-
-    \qquad To understand the physical mechanism behind the fidelity reduction observed in Fig. \ref{fig:fidelity_diff}, we analyse the effective energy rescaling in the presence of the non-commuting term $H_M = \omega \sigma_x$, following the analysis in \cite{DephasingPaper}. In the ideal QND limit ($\omega=0$), the system energy gaps are rescaled by a constant factor $(1+x_0)$, leading to a direct linear speedup. However, when $\omega \neq 0$, the transverse field induces mixing between the meter branches.
-
-    \begin{figure}[htbp]
-        \centering
-        \parbox{0.45\textwidth}{\centering (a)}
-        \hspace{0.02\textwidth}
-        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.45\textwidth]{NonCommutation/LZRescale.png}\label{fig:NonCommutationRescaling_a}
-        \hspace{0.02\textwidth}
-        \includegraphics[width=0.45\textwidth]{NonCommutation/QARescale.png}\label{fig:NonCommutationRescaling_b}
-        \caption{Impact of non-commuting meter dynamics on protocol performance. The plots show the effective energy rescaling factor $1+x_0\langle\sigma_z\rangle(t)$ relative to the ideal QND case as a function of duration $T$ and $\omega$. (a) shows the Landau-Zener qubit, and (b) shows the 3-qubit Ising outcome. The universally negative values indicate that introducing a non-commuting term $[X_M, H_M] \neq 0$ strictly reduces the effectiveness of the speedup.}
-        \label{fig:NonCommutationRescaling}
-    \end{figure}
-
-    \qquad Fig. \ref{fig:NonCommutationRescaling} illustrates the effective energy rescaling factor compared to the ideal case. The rescaling is no longer constant but exhibits fast oscillations that are modulated that decays near the avoided crossing. These oscillations are the signature of coherent Rabi cycling of the meter state, driven by the transverse field $\omega$. As the system evolves, the meter attempts to track the instantaneous energy eigenstates, but the non-commuting term $\omega \sigma_x$ induces precession away from the ideal rescaling axis.
-    
-    \qquad Analytical derivation (detailed in Appendix \ref{sec:appendix_non_commuting}) shows that the local speedup is determined by the instantaneous expectation value $\langle \sigma_z \rangle(t)$. The non-commuting dynamics lead to a time-averaged polarization $\overline{\langle \sigma_z \rangle} < 1$, effectively diluting the coupling strength $x_0$. A useful way to understand the behaviour observed in Fig.\ref{fig:fidelity_diff} is to examine how the engineered system--meter coupling modifies the evolution of the off--diagonal density matrix elements.  Tracing out the meter yields a reduced system evolution of the form
-
-    \begin{equation}
-        \rho_S(t) = \tfrac12 U_{+}(t)\rho_S(0)U_{+}^\dagger(t) + \tfrac12 U_{-}(t)\rho_S(0)U_{-}^\dagger(t),
-    \end{equation}
-    where $U_{\pm}(t)$ correspond to evolution under the rescaled Hamiltonians $(1\pm x_0)H_S(t)$.  In the instantaneous energy eigenbasis of $H_S(t)$, the off--diagonal elements evolve as
-    
-    \begin{equation}\label{eq:rho_offdiag}
-    \rho_{mn}(t) = \rho_{mn}(0)\, e^{-i\Delta\phi_{mn}(t)} \cos\!\big(x_0\Delta\phi_{mn}(t)\big),
-    \end{equation}
-    
-    with $\Delta\phi_{mn}(t)=\int_0^t(E_m(s)-E_n(s))\,ds$.  The cosine factor arises from interference between the two unitary branches and leads to partial suppression of coherences.
-
-    \subsubsection{Derivation of the Interference Factor}
-
-    \qquad The interference factor in Eq.~(\ref{eq:rho_offdiag}) emerges directly from the structure of the Kraus decomposition. When the meter is initialized in a superposition state $|+\rangle = (|0\rangle + |1\rangle)/\sqrt{2}$ (equal superposition of $\sigma_z$ eigenstates with eigenvalues $\pm 1$), the system--meter state evolves as
-    \begin{equation}
-        |\Psi(t)\rangle = \frac{1}{\sqrt{2}}\left( U_{+}(t)|\psi_S(0)\rangle \otimes |0\rangle + U_{-}(t)|\psi_S(0)\rangle \otimes |1\rangle \right),
-    \end{equation}
-    where $U_{\pm}(t) = \mathcal{T}\exp\left(-i\int_0^t (1\pm x_0) H_S(s)\, ds\right)$ are the propagators for the rescaled Hamiltonians. Tracing over the meter degrees of freedom yields
-    \begin{equation}
-        \rho_S(t) = \text{Tr}_M\left[|\Psi(t)\rangle\langle\Psi(t)|\right] = \frac{1}{2}\left( U_{+}\rho_S(0)U_{+}^\dagger + U_{-}\rho_S(0)U_{-}^\dagger \right).
-    \end{equation}
-
-    \qquad In the instantaneous energy eigenbasis $\{|n(t)\rangle\}$ of $H_S(t)$, the propagators act diagonally on adiabatically evolved states, contributing phases $\phi_n^{(\pm)}(t) = (1\pm x_0)\int_0^t E_n(s)\,ds$. For an off-diagonal element $\rho_{mn}$, the two branches contribute
-    \begin{align}
-        \rho_{mn}(t) &= \frac{1}{2}\rho_{mn}(0)\left( e^{-i(\phi_m^{(+)} - \phi_n^{(+)})} + e^{-i(\phi_m^{(-)} - \phi_n^{(-)})} \right) \nonumber \\
-        &= \frac{1}{2}\rho_{mn}(0)\left( e^{-i(1+x_0)\Delta\phi_{mn}} + e^{-i(1-x_0)\Delta\phi_{mn}} \right) \nonumber \\
-        &= \rho_{mn}(0)\, e^{-i\Delta\phi_{mn}} \cos(x_0 \Delta\phi_{mn}),
-    \end{align}
-    where $\Delta\phi_{mn} = \int_0^t (E_m(s) - E_n(s))\,ds$ is the accumulated phase difference between energy levels.
-
-    \subsubsection{Connection to Landau-Zener Gap}
-
-    \qquad For the Landau-Zener model (Eq.~\ref{LandauZenerEquation}), the instantaneous energy gap between ground and excited states is given by
-    \begin{equation}
-        \Delta(t) = E_+(t) - E_-(t) = \sqrt{(vt)^2 + g^2},
-    \end{equation}
-    which defines the instantaneous Rabi frequency $\Omega(t) = \Delta(t)/2 = \frac{1}{2}\sqrt{(vt)^2 + g^2}$. The accumulated phase difference for the two-level system becomes
-    \begin{equation}
-        \Delta\phi_{01}(t) = \int_0^t \Delta(s)\,ds = \int_0^t \sqrt{(vs)^2 + g^2}\,ds.
-    \end{equation}
-    When the meter has its own non-commuting dynamics $H_M = \omega\sigma_x$, the meter--system interaction generates an effective energy scale. The combined system--meter Hamiltonian in the meter subspace induces Rabi oscillations at a modified frequency
-    \begin{equation}
-        \Omega_{\text{eff}}(t) = \sqrt{E(t)^2 + \omega^2},
-    \end{equation}
-    where $E(t) = vt/2$ is the longitudinal energy scale from the Landau-Zener drive. The interference factor then takes the form
-    \begin{equation}\label{eq:interference_factor}
-        C(T, \omega) = \cos\left(2x_0 \int_0^T \Omega_{\text{eff}}(s)\,ds\right) = \cos\left(2x_0 \int_0^T \sqrt{E(s)^2 + \omega^2}\,ds\right).
-    \end{equation}
-    The factor of 2 arises from the full phase accumulated over both branches of the evolution.
-
-    \subsubsection{Numerical Validation and Figure Generation}
-
-    \qquad The theoretical predictions are validated numerically by computing both the ground-state fidelity and the analytical interference factor across a grid of annealing times $T \in [1, 10]$ and meter frequencies $\omega \in [0, 10]$ with coupling $x_0 = 1$. For each $(T, \omega)$ point, the simulation proceeds as follows:
-Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The fidelity map exhibits characteristic ripple patterns at small $\omega$ and short $T$, which align precisely with the zero-crossings of the analytical interference factor $C(T, \omega) = 0$ (white dashed contours). These contours occur when the accumulated phase satisfies $2x_0 \int_0^T \Omega_{\text{eff}}(s)\,ds = (2n+1)\pi/2$ for integer $n$, corresponding to complete destructive interference between the two evolution branches.
-
-    \qquad The physical interpretation is that for small $\omega$, the rapid Rabi oscillations induced by the meter's transverse field are not fully averaged out over the annealing time $T$. The cosine term oscillates between $\pm 1$, alternately enhancing and suppressing the effective dephasing. As $\omega$ increases, the dominant effect becomes the algebraic suppression of the system--meter coupling. The effective mixing angle $\theta(t) = \arctan(\omega/E(t))$ determines the projection of the meter state onto the $\sigma_z$ axis, yielding $\sin\theta(t) = \omega/\sqrt{E(t)^2 + \omega^2}$. This produces an envelope proportional to $1/(\omega^2 + E(t)^2)$ that smoothly suppresses fidelity as $\omega$ increases, visible as the dominant dark gradient in Fig.~\ref{fig:fidelity_diff}.
-
-    \begin{figure}[htbp]
-        \centering
-        \parbox{0.32\textwidth}{\centering (a)}
-        \parbox{0.32\textwidth}{\centering (b)}
-        \parbox{0.32\textwidth}{\centering (c)}\\[0.5ex]
-        \includegraphics[width=0.32\textwidth]{NonCommutation/WNonFidDiff.png}\label{fig:interference_analysis_a}
-        \includegraphics[width=0.32\textwidth]{NonCommutation/InterferenceFactor.png}\label{fig:interference_analysis_b}
-        \includegraphics[width=0.32\textwidth]{NonCommutation/WNonCommuting.png}\label{fig:interference_analysis_c}
-        \caption{Analysis of interference effects in the non-commuting meter regime. (a) Fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ showing ripple modulations at small $\omega$. (b) Analytical interference factor $C(T, \omega) = \cos(2x_0\int\Omega_{\text{eff}}\,ds)$ with zero-crossing contours (black dashed). (c) Fidelity map with $C=0$ contours overlaid (white dashed), demonstrating the correspondence between numerical fidelity ripples and analytical predictions.}
-        \label{fig:interference_analysis}
-    \end{figure}
-
+    \qquad To test this, we simulate the same systems with a fixed coupling $x_0=1$ and vary the strength $\omega$ of the meter's transverse field $H_M = \omega \sigma_x$. We compute the fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ relative to the ideal commuting case. As shown in Fig. \ref{fig:fidelity_diff}, this difference is universally negative across all annealing times $T$ and  $\omega$. This consistent reduction in fidelity supports the conjecture that the presence of non-commuting meter dynamics degrades performance relative to the ideal limit, confirming $1+m_{max}$ as the maximum achievable speedup.
 
     \subsection{Time-to-Solution Analysis}
 
@@ -464,23 +403,27 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
 
     \begin{figure}[htbp]
         \centering
-        \parbox{0.34\textwidth}{\centering (a)}
+        \begin{subfigure}[t]{0.34\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:constrained_results_a}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{Dephasing/Dephasing5a.png}
+        \end{subfigure}%
         \hfill
-        \parbox{0.63\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.34\textwidth]{Dephasing/Dephasing5a.png}
-        \hfill
-        \includegraphics[width=0.63\textwidth]{Dephasing/Dephasing5bc.png}
+        \begin{subfigure}[t]{0.63\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:constrained_results_b}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{Dephasing/Dephasing5bc.png}
+        \end{subfigure}
         \caption{(a) Time-to-Solution (TTS) speedup ratio versus number of qubits $N$ for full and constrained QND protocols ($x_0=2$). The dashed line marks the theoretical limit $1/(1+x_0)$. (b) Average fidelity of the constrained protocol as a function of interaction strength $x_0$, showing the performance plateau due to non-commuting dynamics.}
         \label{fig:constrained_results}
-        \label{fig:constrained_results_a}
-        \label{fig:constrained_results_b}
     \end{figure}
 
     %----------------------------------------------------------------------------------
-    \color{red}
+
     \section{Locally Adiabatic Evolution}
-    \color{black}
-    \qquad A key limitation of the standard quantum annealing protocol is the use of a linear annealing schedule, $s(t) = t/\tau$, where the evolution parameter varies uniformly from $0$ to $1$. This approach is oblivious to the local spectral properties of the Hamiltonian. The adiabatic theorem dictates that the evolution rate must be minimized where the energy gap $\Delta(s)$ is smallest to prevent diabatic transitions. A linear schedule is therefore constrained by the global minimum gap $\Delta_{\min}$, forcing the evolution to be slow throughout the entire anneal, even in regions where the gap is large and faster evolution would be permissible. We can adjust the evolution rate $ds/dt$ to maintain a constant adiabaticity condition on each infinitesimal time interval, leading to a significant potential speedup\cite{LocalAdiabticQuantumSearch, MoritaNishimori2008}.
+    \qquad  A linear annealing schedule, $s(t) = t/\tau$, where the evolution parameter varies uniformly from $0$ to $1$. This approach is oblivious to the local spectral properties of the Hamiltonian. The adiabatic theorem dictates that the evolution rate must be minimized where the energy gap $\Delta(s)$ is smallest to prevent diabatic transitions. A linear schedule is therefore constrained by the global minimum gap $\Delta_{\min}$, forcing the evolution to be slow throughout the entire anneal, even in regions where the gap is large and faster evolution would be permissible. We can adjust the evolution rate $ds/dt$ to maintain a constant adiabaticity condition on each infinitesimal time interval, leading to a significant potential speedup\cite{LocalAdiabticQuantumSearch, MoritaNishimori2008}.
 
     \subsection{Local Adiabatic Condition}
     \qquad The adiabatic condition requires that the rate of change of the Hamiltonian be small relative to the squared energy gap\cite{AlbashLidar2018}. Quantitatively, this can be expressed as:
@@ -497,28 +440,42 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
         \frac{ds}{dt} \propto \epsilon \Delta(s)^2.
     \end{equation}
 
-    \begin{figure}[htbp]
+    \begin{figure}[H]
         \centering
-        \parbox{0.45\textwidth}{\centering (a)}
-        \hspace{0.02\textwidth}
-        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.45\textwidth]{OptimalRamp/LZOptimalRamp.png}\label{fig:optimal_ramp_a}
-        \hspace{0.02\textwidth}%
-        \includegraphics[width=0.45\textwidth]{OptimalRamp/QAOptimalRamp.png}\label{fig:optimal_ramp_b}
-        \caption{Models with energy levels and optimal local schedule compared to linear schedule. The optimal schedule slows down significantly near the minimum gap region, allowing the system to remain adiabatic through the critical point, while speeding up in regions with larger gaps. (a) Landau Zener Model (b) QA Model with 3 Qubits}
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:optimal_ramp_a}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.85\textwidth,trim=0 0 0 0,clip]{OptimalRamp/LZOptimalRamp.png}}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:optimal_ramp_b}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.85\textwidth,trim=0 0 0 0,clip]{OptimalRamp/QAOptimalRamp.png}}
+        \end{subfigure}
+        \caption{Lowest two energy levels of a system with annealing schedule proportional to the gap with a linear schedule included for reference. The optimal schedule slows down significantly near the minimum gap region, allowing the system to remain adiabatic through the critical point, while speeding up in regions with larger gaps. (a) Landau Zener model (b) QA Ising model with 3 Qubits}
     \end{figure}
 
-    Importantly, the coupling to the meter does not affect this mapping schedule as it only rescales energy levels but does not change the form of the Hamiltonian derivative $dH/ds$. Therefore, the locally adiabatic schedule derived for the bare system remains optimal in the presence of the meter coupling, preserving the potential speedup benefits. We examine if we can extract benefits from this locally adiabatic approach in the presence of the meter-induced dephasing. We compare the performance difference between the standard linear schedule and the optimal local adiabatic schedule in the presence of the meter coupling. For the Ising example we average over 100 random instances of different couplings, for each instance we compute the optimal local adiabatic schedule via the energy gaps. 
+    \qquad Importantly, the coupling to the meter does not affect this mapping schedule as it only rescales energy levels but does not change the form of the Hamiltonian derivative $dH/ds$. Therefore, the locally adiabatic schedule derived for the bare system remains optimal in the presence of the meter coupling, preserving the potential speedup benefits. We examine if we can extract benefits from this locally adiabatic approach in the presence of the meter-induced dephasing. We compare the performance difference between the standard linear schedule and the optimal local adiabatic schedule in the presence of the meter coupling. For the Ising example we average over 100 random instances of different couplings, for each instance we compute the optimal local adiabatic schedule via the energy gaps. 
 
-    \begin{figure}[htbp]
+    \begin{figure}[H]
         \centering
-        \parbox{0.35\textwidth}{\centering (a)}
-        \hspace{0.02\textwidth}
-        \parbox{0.35\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.35\textwidth]{OptimalRamp/LZOptimalDiff.png}
-        \hspace{0.02\textwidth}%
-        \includegraphics[width=0.35\textwidth]{OptimalRamp/QAOptimalDiff.png}
-        \caption{Fidelity difference between optimal local adiabatic and linear schedules. (a) Landau Zener Model (b) QA Model with 3 Qubits averaged over 100 instances with schedule optimized for each instance.}
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:optimal_diff_a}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/LZOptimalDiff.png}}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:optimal_diff_b}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/QAOptimalDiff.png}}
+        \end{subfigure}
+        \caption{Fidelity difference between optimal local adiabatic and linear schedules. (a) Landau Zener Model (b) QA Ising Model with 3 Qubits averaged over 100 instances with schedule optimized for each instance.}
         \label{fig:optimal_diff}
     \end{figure}
 
@@ -529,74 +486,54 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
 
     \qquad We will approach this problem with two strategies, we will compare averaging the spectral properties over many instances to generate a single heuristic schedule versus generating individual optimal schedules and averaging the schedule performance over many instances.
 
-    \begin{figure}[htbp]
+    \begin{figure}[H]
         \centering
-        \parbox{0.3\textwidth}{\centering (a)}
-        \parbox{0.3\textwidth}{\centering (b)}
-        \parbox{0.3\textwidth}{\centering (c)}\\[0.5ex]
-        \includegraphics[width=0.3\textwidth]{figures/GapStats/3_GapProfiles.png}\label{fig:gap_profiles_a}
-        \includegraphics[width=0.3\textwidth]{figures/GapStats/4_GapProfiles.png}\label{fig:gap_profiles_b}
-        \includegraphics[width=0.3\textwidth]{figures/GapStats/5_GapProfiles.png}\label{fig:gap_profiles_c}
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/GapStats/3_GapProfiles.png}
+            \caption{}
+            \label{fig:gap_profiles_a}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/GapStats/4_GapProfiles.png}
+            \caption{}
+            \label{fig:gap_profiles_b}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figures/GapStats/5_GapProfiles.png}
+            \caption{}
+            \label{fig:gap_profiles_c}
+        \end{subfigure}
         \caption{Characteristic Energy Gaps for (a) 3 qubit, (b) 4 qubit, and (c) 5 qubit random Ising instances with $J_{ij}\in[0,1]$. Average and standard deviation are indicated for 100{,}000 iterations of random samples.}
         \label{fig:gap_profiles}
     \end{figure}
 
-    \qquad We first make a crude analysis and apply the average schedule derived from the average gap profile to all instances. We compare this to the performance of the individual optimal schedules averaged over many instances, specifically for Ising instances with different random parameters. We list some statistical properties of the gaps in the Appendix \ref{sec:appendix_gap_statistics}.
-
-    \qquad We first compare the performance of the average schedule to the linear schedule. From there it is critical to examine how much performance is lost to the averaging process by comparing to the individual optimal schedules.
+    \qquad We first make a crude analysis and apply the average schedule derived from the average gap profile to all instances. We compare this to the performance of the individual optimal schedules averaged over many instances, specifically for Ising instances with different random parameters. We list some statistical properties of the gaps in the Appendix \ref{sec:appendix_gap_statistics}. We first compare the performance of the average schedule to the linear schedule. From there it is critical to examine how much performance is lost to the averaging process by comparing to the individual optimal schedules.
 
     \begin{figure}[htbp]
         \centering
-        \parbox{0.3\textwidth}{\centering (a)}
-        \parbox{0.3\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.3\textwidth]{figures/OptimalRamp/3-QAAverageRampVsLinear.png}\label{fig:average_schedule_a}
-        \includegraphics[width=0.3\textwidth]{figures/OptimalRamp/3-QAAverageVsOptimal.png}\label{fig:average_schedule_b}
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:average_schedule_a}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.75\textwidth]{figures/OptimalRamp/3-QAAverageRampVsLinear.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:average_schedule_b}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.75\textwidth]{figures/OptimalRamp/3-QAAverageVsOptimal.png}
+        \end{subfigure}
         \caption{Averaged optimal local adiabatic schedule performance for 3 qubit random Ising instances. (a) Comparison of average optimal schedule to linear schedule. (b) Comparison of average optimal schedule to individual optimal schedules averaged over many instances.}
         \label{fig:average_schedule}
     \end{figure}
 
     \qquad We maintain a significant performance improvement over the linear schedule even with the crude averaging process. However, we do lose some performance compared to the individual optimal schedules in Fig. \ref{fig:optimal_diff}(b). Specifically in regions of long annealing times and high interaction strength $x_0$ we see a drop in performance. This is likely due to the variance in gap locations across different instances, where the average schedule may slow down in regions that are not critical for certain instances, leading to suboptimal performance. We extend this analysis to larger qubit numbers and different coupling geometries in the Appendix \ref{sec:appendix_larger_annealings}.
-
-    
-
-
-    \section{Counterdiabatic Driving}
-
-    \subsection{Local counterdiabatic Driving}
-    \qquad Standard counterdiabatic driving (CD) theoretically allows for arbitrarily fast adiabatic evolution by introducing an auxiliary Hamiltonian, the adiabatic gauge potential (AGP) $\mathcal{A}_\lambda$, which exactly counters the diabatic transitions induced by the time-dependence of the system Hamiltonian. While this guarantees adiabaticity, the exact AGP naturally arises from the commutator structure of the Hamiltonian and typically involves highly non-local many-body interactions (e.g., coupling all spins in a lattice simultaneously). Implementing such terms is generally infeasible on current quantum hardware, which is often restricted to local one- and two-body interactions.
-    
-    \qquad Local counterdiabatic driving addresses this fundamental limitation by seeking an approximation to the exact gauge potential, $\mathcal{A}_\lambda$, using a restricted basis of physically realizable local operators. The approximate potential is defined as a variational ansatz $\mathcal{A}^*_\lambda(\vec{\alpha}) = \sum_k \alpha_k(\lambda) \mathcal{O}_k$, where $\{\mathcal{O}_k\}$ represents a set of accessible local operators (such as single-qubit Pauli terms or nearest-neighbor couplings) and $\alpha_k(\lambda)$ are time-dependent coefficients to be determined. This approach trades imperfect adiabaticity for experimental feasibility, significantly suppressing excitation errors while remaining within the constraints of the hardware control capabilities\cite{COLD2023, SelsPolkovnikov2017}.
-
-    \subsection{COLD}
-    \qquad Counterdiabatic Optimised Local Driving (COLD) is a specific variational framework for determining the optimal coefficients $\alpha_k(\lambda)$ in the local counterdiabatic ansatz\cite{COLD2023}. Rather than attempting to fit the exact eigenstates, which would require intractable diagonalization for large systems, COLD operates directly on the Hamiltonian and its time derivative. The method relies on the fact that the exact AGP satisfies the operator equation $[\partial_\lambda H + i[\mathcal{A}_\lambda, H], \rho] = 0$ for the density matrix $\rho$. 
-
-    \qquad To find the optimal local approximation, COLD uses a variational principle that minimizes the Hilbert-Schmidt norm of the operator $G_\lambda(\vec{\alpha}) = \partial_\lambda H + i[\mathcal{A}^*_\lambda, H]$. This operator $G_\lambda$ quantifies the "diabaticity" or the deviation from adiabatic evolution. The cost function is defined as the action $S_{CD}(\vec{\alpha}) = \text{Tr}[G_\lambda^\dagger(\vec{\alpha}) G_\lambda(\vec{\alpha})]$. Minimising this action with respect to each coefficient $\alpha_k$ ($\partial S_{CD} / \partial \alpha_k = 0$) results in a system of linear algebraic equations. Solving this linear system yields the optimal time-dependent coefficients $\alpha_k(\lambda)$ efficiently, without ever needing to diagonalize the full Hamiltonian. This makes the COLD method scalable and applicable to larger many-body systems where the spectral gap structure is unknown.
-
-    \subsection{CAFFEINE}
-    \qquad Counterdiabatic-influenced Floquet-engineering (CAFFEINE) represents a hybrid advancement that eliminates the need to implement even the local correction terms $\alpha_k \mathcal{O}_k$ as separate control fields\cite{CAFFEINE2025}. Instead, it leverages the principles of Floquet engineering, where high-frequency periodic driving of system parameters can generate effective static Hamiltonian terms . By oscillating the existing terms in the Hamiltonian (e.g., the transverse field or couplings) at a frequency $\omega$ much larger than the system's energy scales, one can engineer an effective Hamiltonian that mimics the structure of the counterdiabatic drive.
-    
-    \qquad In the CAFFEINE protocol, the amplitudes and phases of these high-frequency oscillations operate under the optimal control parameters rather than separate counterdiabatic fields. The method parameterizes the Floquet drive coefficients (denoted as $\beta_k$) and employs numerical quantum optimal control algorithms, such as dual annealing or CRAB, to find the optimal modulation parameters that maximize the fidelity of the final state. This effectively embeds the required adiabatic gauge potential into the high-frequency dynamics of the native Hamiltonian.
-    
-    \begin{figure}[htbp]
-        \centering
-        \includegraphics[width=0.4\textwidth]{figures/Caffeine.png}
-        \caption{Performance comparison of CAFFEINE against standard optimal control for 2-qubit Bell state preparation, reproducing results from \cite{CAFFEINE2025}. The figure plots the final state infidelity ($1-F$) as a function of the control parameter strength. \textbf{(a)} Shows the landscape for standard "Optimized Annealing" where an auxiliary control $\gamma_1$ is added; the improvement over the unassisted baseline (dashed black) is minimal. \textbf{(b)} Shows the performance of the CAFFEINE protocol, where the control parameter corresponds to the Floquet modulation amplitude $\beta_1$. The deep minimum (red curve) demonstrates that CAFFEINE can achieve fidelities orders of magnitude closer to unity ($1-F \approx 10^{-3}$) compared to standard methods, effectively realizing a counterdiabatic shortcut through purely local modulation.}
-        \label{fig:caffeine_results}
-    \end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 
 
     \newpage
@@ -755,55 +692,99 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
 
     \qquad We have been able to attain results for larger Ising systems up to $N=7$ qubits, which further corroborate the findings presented in the main text. These have been accomplished on standard laptop hardware by optimizing numerical evolution in C and parallelizing over multiple random instances.\cite{qutip5} The results are presented in the following figures, which are variants of Figs. \ref{fig:fidelity_contour} and \ref{fig:fidelity_diff} from the main text.
 
-    \begin{figure}[htbp]
+    \begin{figure}[H]
         \centering
-        \parbox{0.32\textwidth}{\centering (a)}
-        \parbox{0.32\textwidth}{\centering (b)}
-        \parbox{0.32\textwidth}{\centering (c)}\\[0.5ex]
-        \includegraphics[width=0.32\textwidth]{LargerIsings/2-2b.png}\label{fig:larger_isings_2b_a}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/3-2b.png}\label{fig:larger_isings_2b_b}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/4-2b.png}\label{fig:larger_isings_2b_c}
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_2b_a}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{LargerIsings/2-2b.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_2b_b}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{LargerIsings/3-2b.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_2b_c}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{LargerIsings/4-2b.png}
+        \end{subfigure}
         \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}. (a) 2-qubit, (b) 3-qubit, (c) 4-qubit systems.}
         \label{fig:larger_isings_2b}
     \end{figure}
 
-    \begin{figure}[htbp]
+    \begin{figure}[H]
         \centering
         \includegraphics[width=0.32\textwidth]{LargerIsings/5-2b.png}
         \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}. 5-qubit system.}
         \label{fig:larger_isings_5_2b}
     \end{figure}
 
-    \qquad \textbf{Argument based on Results on why they are rotated 90 degrees compared to paper.}
-
-    \begin{figure}[htbp]
+    \begin{figure}[H]
         \centering
-        \parbox{0.32\textwidth}{\centering (a)}
-        \parbox{0.32\textwidth}{\centering (b)}
-        \parbox{0.32\textwidth}{\centering (c)}\\[0.5ex]
-        \includegraphics[width=0.32\textwidth]{LargerIsings/3-4b.png}\label{fig:larger_isings_4b_a}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/4-4b.png}\label{fig:larger_isings_4b_b}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/5-4b.png}\label{fig:larger_isings_4b_c}
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_4b_a}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{LargerIsings/3-4b.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_4b_b}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{LargerIsings/4-4b.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_4b_c}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{LargerIsings/5-4b.png}
+        \end{subfigure}
         \caption{Larger Ising systems variant of Fig. \ref{fig:fidelity_diff}. (a) 3-qubit, (b) 4-qubit, (c) 5-qubit systems.}
         \label{fig:larger_isings_4b}
     \end{figure}
 
     \begin{figure}[htbp]
         \centering
-        \parbox{0.32\textwidth}{\centering (a)}
-        \parbox{0.32\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.32\textwidth]{LargerIsings/6-4b.png}\label{fig:larger_isings_6_7_a}
-        \includegraphics[width=0.32\textwidth]{LargerIsings/7-4b.png}\label{fig:larger_isings_6_7_b}
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_6_7_a}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.95\textwidth]{LargerIsings/6-4b.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_6_7_b}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.95\textwidth]{LargerIsings/7-4b.png}
+        \end{subfigure}
         \caption{Larger Ising systems continued. (a) 6-qubit, (b) 7-qubit systems.}
         \label{fig:larger_isings_6_7}
     \end{figure}
 
     \begin{figure}[htbp]
         \centering
-        \parbox{0.45\textwidth}{\centering (a)}
-        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.45\textwidth]{LargerIsings/FidelityIncrease.png}\label{fig:larger_systems_fidelity_a}
-        \includegraphics[width=0.45\textwidth]{LargerIsings/FidelityIncreaseMesh.png}\label{fig:larger_systems_fidelity_b}
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_systems_fidelity_a}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.95\textwidth]{LargerIsings/FidelityIncrease.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_systems_fidelity_b}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.95\textwidth]{LargerIsings/FidelityIncreaseMesh.png}
+        \end{subfigure}
         \caption{\textbf{Possible Graphing for Larger Systems need more Data points}. (a) Fidelity increase, (b) Fidelity increase mesh.}
         \label{fig:larger_systems_fidelity}
     \end{figure}
@@ -834,57 +815,111 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
             \hline
         \end{tabular}
     \end{table}
-
     \newpage
     \subsection{Average Annealing Schedules for different Instances}\label{sec:appendix_larger_annealings}
 
-    \qquad Below are average annealing schedules for different random Ising instances with $N=3,4,5$ qubits, each averaged over 100,000 samples. These plots illustrate the typical shapes of the annealing functions used in the simulations. We compare boht those agasint the most optimal schedule for each instance and the linear schedule.
+    \qquad Below we extend the average optimal schedules for different random Ising instances with $N=3,4,5$ qubits, each averaged over 100,000 samples. The plots highlight the performance of the average optimal schedule compared to both the linear schedule and the individual optimal schedules.
     \begin{figure}[htbp]
         \centering
-        \parbox{0.48\textwidth}{\centering (a)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/3-QAAverageRampVsLinear.png}\label{fig:opt_ramp_3_a}}
-        \parbox{0.48\textwidth}{\centering (b)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/3-QAAverageVsOptimal.png}\label{fig:opt_ramp_3_b}}\\[1ex]
-        \parbox{0.48\textwidth}{\centering (c)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/4-QAAverageVsLinear.png}\label{fig:opt_ramp_4_a}}
-        \parbox{0.48\textwidth}{\centering (d)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/4-QAAverageVsOptimal.png}\label{fig:opt_ramp_4_b}}\\[1ex]
-        \parbox{0.48\textwidth}{\centering (e)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/5-QAAverageVsLinear.png}\label{fig:opt_ramp_5_a}}
-        \parbox{0.48\textwidth}{\centering (f)\\[0.5ex]\includegraphics[width=0.4\textwidth]{OptimalRamp/5-QAAverageVsOptimal.png}\label{fig:opt_ramp_5_b}}
-        \caption{Average annealing schedules compared to the linear schedule and the instance-optimal schedule for $N=3$--$5$. Images on the left repersent the improvement of the average schedule compared to a linear schedule, while images on the right show the degradation compared to the instance-optimal schedule: (a,b) $N=3$, (c,d) $N=4$, (e,f) $N=5$.}
+        % Row 1
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:opt_ramp_3_a}
+            \vspace{-1.5ex}% move image up (so caption appears slightly higher)
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/3-QAAverageRampVsLinear.png}}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:opt_ramp_3_b}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/3-QAAverageVsOptimal.png}}
+        \end{subfigure}
+
+        \vspace{1ex}
+
+        % Row 2
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:opt_ramp_4_a}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/4-QAAverageVsLinear.png}}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:opt_ramp_4_b}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/4-QAAverageVsOptimal.png}}
+        \end{subfigure}
+
+        \vspace{1ex}
+
+        % Row 3
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:opt_ramp_5_a}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/5-QAAverageVsLinear.png}}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:opt_ramp_5_b}
+            \vspace{-1.5ex}
+            \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/5-QAAverageVsOptimal.png}}
+        \end{subfigure}
+
+        \caption{Average annealing schedules compared to the linear schedule and the instance-optimal schedule for $N=3$--$5$. Images on the left represent the improvement of the average schedule compared to a linear schedule, while images on the right show the degradation compared to the instance-optimal schedule: (a,b) $N=3$, (c,d) $N=4$, (e,f) $N=5$.}
         \label{fig:optimal_ramp_average}
     \end{figure}
 
 
     \subsection{Impact of different coupling regimes} \label{sec:appendix_different_regimes}
 
-    As part of investigating regimes of meter impact we investigate different regimes of coupling strengths. Throughout this thesis we have remained in the ferromagnetic regime i.e. $J_{ij}\in[0,1]$. Here we present results for both antiferromagnetic couplings $J_{ij}\in[-1,0]$ and mixed couplings $J_{ij}\in[-1,1]$. These coupling strengths are allowed in QUBO formualted annealing problems and thus there effect is included. The results are presented in the following figures, which are variants of Figs. \ref{fig:fidelity_contour} and \ref{fig:fidelity_diff} from the main text 
+    \qquad As part of investigating regimes of meter impact we investigate different regimes of coupling strengths. Throughout this thesis we have remained in the ferromagnetic regime i.e. $J_{ij}\in[0,1]$. Here we present results for both antiferromagnetic couplings $J_{ij}\in[-1,0]$ and mixed couplings $J_{ij}\in[-1,1]$. These coupling strengths are allowed in QUBO formulated annealing problems and thus there effect is included. The results are presented in the following figures, which are variants of Figs. \ref{fig:fidelity_contour} and \ref{fig:fidelity_diff} from the main text 
 
     \begin{figure}[htbp]
         \centering
-        \parbox{0.45\textwidth}{\centering (a)}
-        \hspace{0.02\textwidth}
-        \parbox{0.45\textwidth}{\centering (b)}\\[0.5ex]
-        \includegraphics[width=0.4\textwidth]{figures/AntiFerromagnetic/Peak0mesh2b.png}\label{fig:antif_peak0fig}
-        \hspace{0.02\textwidth}%
-        \includegraphics[width=0.4\textwidth]{figures/AntiFerromagnetic/Peak0Fig4b.png}\label{fig:antif_peak0mesh}
-        \\
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:antiferromagnetic_a}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.75\textwidth]{figures/AntiFerromagnetic/Peak0mesh2b.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:antiferromagnetic_b}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.75\textwidth]{figures/AntiFerromagnetic/Peak0Fig4b.png}
+        \end{subfigure}
+
         \vspace{1ex}
-        \parbox{0.4\textwidth}{\centering (c)}
-        \hspace{0.02\textwidth}
-        \parbox{0.3\textwidth}{\centering (d)}\\[0.5ex]
-        \includegraphics[width=0.4\textwidth]{figures/AntiFerromagnetic/AntiF-mesh2b.png}\label{fig:antif_fig4b}
-        \hspace{0.02\textwidth}%
-        \includegraphics[width=0.4\textwidth]{figures/AntiFerromagnetic/AntiF-Fig4b.png}\label{fig:antif_mesh2b}
-        \caption{Antiferromagnetic / mixed-coupling regime results. (a-b) Represents the mixed coupling regime $J_{ij}\in[-1,1]$, (c-d) Represents the antiferromagnetic coupling regime $J_{ij}\in[-1,0]$. (a,c) Displayed increase in Fidelity with interaction strength as in Fig \ref{fig:fidelity_contour} (b,d) Fidelity Reduction relative to intrinsic meter dynamics as in Fig \ref{fig:fidelity_diff}.}
+
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:antiferromagnetic_c}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.75\textwidth]{figures/AntiFerromagnetic/AntiF-mesh2b.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:antiferromagnetic_d}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.75\textwidth]{figures/AntiFerromagnetic/AntiF-Fig4b.png}
+        \end{subfigure}
+        \caption{Antiferromagnetic / mixed-coupling regime results. (a-b) Represents the mixed coupling regime $J_{ij}\in[-1,1]$, (c-d) Represents the antiferromagnetic coupling regime $J_{ij}\in[-1,0]$. (a,c) display increase in fidelity with interaction strength as in Fig.~\ref{fig:fidelity_contour}; (b,d) show fidelity reduction relative to intrinsic meter dynamics as in Fig.~\ref{fig:fidelity_diff}.}
         \label{fig:antiferromagnetic_results}
     \end{figure}
 
 
-    \qquad These regimes display that the ferromagnetic regime repersents the worst case results for meter coupling and non commuting effects. Both the antiferromagnetic and mixed coupling regimes display significantly higher fidelities across the parameter space. Thus we the ferromagnetic regime is the most challenging for meter coupling, and thus the results presented in the main text repersent a lower bound on performance across all coupling regimes.
+    \qquad These regimes display that the ferromagnetic regime represents the worst case results for meter coupling and non commuting effects. Both the antiferromagnetic and mixed coupling regimes display significantly higher fidelities across the parameter space. Thus, we the ferromagnetic regime is the most challenging for meter coupling, and thus the results presented in the main text are suggestive of an average lower bound on performance across all coupling regimes.
 
     %----------------------------------------------------------------------------------
-    \color{red}
+
     \subsection{Derivation of Meter Non-Commuting Effects} \label{sec:appendix_non_commuting}
-    \color{black}
-    
-    \subsubsection{Beyond the Two Unitary Branches: Full Quantum Dynamics}
     
     \qquad In the commuting case $[X_M, H_M] = 0$, the meter remains in an eigenstate of $X_M$ throughout evolution, leading to a clean decomposition into two unitary branches with rescaled Hamiltonians $(1 \pm x_0)H_S(t)$. However, when $[X_M, H_M] \neq 0$, this picture breaks down fundamentally. The meter state evolves dynamically, entangling with the system in a time-dependent manner that cannot be captured by a simple two-branch description.
     
@@ -1079,6 +1114,143 @@ Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The 
     \end{equation}
 
     Consider a general annealing problem. The behaviour of the gap near this minimum can be approximated \textbf{Use either LZ approximation or based on stat knowledge of gap.}
+
+     \color{red}
+    \subsection{Mechanism of Fidelity Reduction}
+    \color{black}
+    
+    \qquad In the commuting case, Fig. \ref{fig:fidelity_contour} demonstrates that fidelity contours follow lines of constant effective time $T_{\text{eff}} = T(1+x_0)$. This scaling property means that an evolution with coupling $x_0$ for time $T$ achieves the same fidelity as an uncoupled evolution ($x_0=0$) for time $T(1+x_0)$. Mathematically, this arises because the evolution operator is:
+    \begin{equation}
+        U(t) = \mathcal{T}\exp\left[-i\int_0^T (1+x_0)H_S(t)dt\right],
+    \end{equation}
+    which can be recast as evolving under $H_S(t)$ for an effective duration $T_{\text{eff}} = T(1+x_0)$, provided the functional form of the Hamiltonian remains unchanged. However, when $[X_M, H_M] \neq 0$, this simple scaling relationship breaks down. The effective rescaling factor becomes time-dependent:
+    \begin{equation}
+        T_{\text{eff}}(t, \omega) = \int_0^t \left[1 + x_0 \langle\sigma_z\rangle(s)\right] ds,
+    \end{equation}
+    where $\langle\sigma_z\rangle(t)$ oscillates according to:
+    \begin{equation}
+        \langle\sigma_z\rangle(t) = \frac{(x_0 E(t))^2}{\Omega(t)^2} + \frac{\omega^2}{\Omega(t)^2}\cos\left(2\int_0^t \Omega(s)ds\right),
+    \end{equation}
+    with $\Omega(t) = \sqrt{(x_0 E(t))^2 + \omega^2}$. 
+    
+    \qquad This means the system no longer evolves along a single rescaled trajectory. Instead, the effective evolution rate fluctuates in time, and different regions of the parameter space (different energy levels) experience different time-averaged rescaling factors. At the minimum gap where $E(t) \to E_{\min}$, the time-averaged effective time becomes:
+    \begin{equation}
+        \overline{T_{\text{eff}}} = T\left[1 + x_0 \frac{(x_0 E_{\min})^2}{(x_0 E_{\min})^2 + \omega^2}\right] < T(1+x_0).
+    \end{equation}
+    
+    \qquad Therefore, the fidelity contours in the non-commuting case do not follow the simple $T(1+x_0)$ lines. The deviation from these contours, shown quantitatively in Fig. \ref{fig:fidelity_diff}, directly reflects the reduction in the effective coupling strength due to meter state precession. The universally negative $\Delta F$ confirms that the system always achieves less speedup than predicted by the ideal $T(1+x_0)$ scaling—the contours are effectively "bent" toward longer times, requiring more actual evolution time $T$ to achieve the same fidelity as the commuting case would predict.
+
+        \subsubsection{Meter Precession and Fidelity Reduction}
+
+    \qquad To understand the physical mechanism behind the fidelity reduction observed in Fig. \ref{fig:fidelity_diff}, we analyse the effective energy rescaling in the presence of the non-commuting term $H_M = \omega \sigma_x$, following the analysis in \cite{DephasingPaper}. In the ideal QND limit ($\omega=0$), the system energy gaps are rescaled by a constant factor $(1+x_0)$, leading to a direct linear speedup. However, when $\omega \neq 0$, the transverse field induces mixing between the meter branches.
+
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:NonCommutationRescaling_a}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.95\textwidth]{NonCommutation/LZRescale.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.48\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:NonCommutationRescaling_b}
+            \vspace{-1.2ex}
+            \includegraphics[width=0.95\textwidth]{NonCommutation/QARescale.png}
+        \end{subfigure}
+        \caption{Impact of non-commuting meter dynamics on protocol performance. The plots show the effective energy rescaling factor $1+x_0\langle\sigma_z\rangle(t)$ relative to the ideal QND case as a function of duration $T$ and $\omega$. (a) shows the Landau-Zener qubit, and (b) shows the 3-qubit Ising outcome. The universally negative values indicate that introducing a non-commuting term $[X_M, H_M] \neq 0$ strictly reduces the effectiveness of the speedup.}
+        \label{fig:NonCommutationRescaling}
+    \end{figure}
+
+    \qquad Fig. \ref{fig:NonCommutationRescaling} illustrates the effective energy rescaling factor compared to the ideal case. The rescaling is no longer constant but exhibits fast oscillations that are modulated that decays near the avoided crossing. These oscillations are the signature of coherent Rabi cycling of the meter state, driven by the transverse field $\omega$. As the system evolves, the meter attempts to track the instantaneous energy eigenstates, but the non-commuting term $\omega \sigma_x$ induces precession away from the ideal rescaling axis.
+    
+    \qquad Analytical derivation (detailed in Appendix \ref{sec:appendix_non_commuting}) shows that the local speedup is determined by the instantaneous expectation value $\langle \sigma_z \rangle(t)$. The non-commuting dynamics lead to a time-averaged polarization $\overline{\langle \sigma_z \rangle} < 1$, effectively diluting the coupling strength $x_0$. A useful way to understand the behaviour observed in Fig.\ref{fig:fidelity_diff} is to examine how the engineered system--meter coupling modifies the evolution of the off--diagonal density matrix elements.  Tracing out the meter yields a reduced system evolution of the form
+
+    \begin{equation}
+        \rho_S(t) = \tfrac12 U_{+}(t)\rho_S(0)U_{+}^\dagger(t) + \tfrac12 U_{-}(t)\rho_S(0)U_{-}^\dagger(t),
+    \end{equation}
+    where $U_{\pm}(t)$ correspond to evolution under the rescaled Hamiltonians $(1\pm x_0)H_S(t)$.  In the instantaneous energy eigenbasis of $H_S(t)$, the off--diagonal elements evolve as
+    
+    \begin{equation}\label{eq:rho_offdiag}
+    \rho_{mn}(t) = \rho_{mn}(0)\, e^{-i\Delta\phi_{mn}(t)} \cos\!\big(x_0\Delta\phi_{mn}(t)\big),
+    \end{equation}
+    
+    with $\Delta\phi_{mn}(t)=\int_0^t(E_m(s)-E_n(s))\,ds$.  The cosine factor arises from interference between the two unitary branches and leads to partial suppression of coherences.
+
+    \subsubsection{Derivation of the Interference Factor}
+
+    \qquad The interference factor in Eq.~(\ref{eq:rho_offdiag}) emerges directly from the structure of the Kraus decomposition. When the meter is initialized in a superposition state $|+\rangle = (|0\rangle + |1\rangle)/\sqrt{2}$ (equal superposition of $\sigma_z$ eigenstates with eigenvalues $\pm 1$), the system--meter state evolves as
+    \begin{equation}
+        |\Psi(t)\rangle = \frac{1}{\sqrt{2}}\left( U_{+}(t)|\psi_S(0)\rangle \otimes |0\rangle + U_{-}(t)|\psi_S(0)\rangle \otimes |1\rangle \right),
+    \end{equation}
+    where $U_{\pm}(t) = \mathcal{T}\exp\left(-i\int_0^t (1\pm x_0) H_S(s)\, ds\right)$ are the propagators for the rescaled Hamiltonians. Tracing over the meter degrees of freedom yields
+    \begin{equation}
+        \rho_S(t) = \text{Tr}_M\left[|\Psi(t)\rangle\langle\Psi(t)|\right] = \frac{1}{2}\left( U_{+}\rho_S(0)U_{+}^\dagger + U_{-}\rho_S(0)U_{-}^\dagger \right).
+    \end{equation}
+
+    \qquad In the instantaneous energy eigenbasis $\{|n(t)\rangle\}$ of $H_S(t)$, the propagators act diagonally on adiabatically evolved states, contributing phases $\phi_n^{(\pm)}(t) = (1\pm x_0)\int_0^t E_n(s)\,ds$. For an off-diagonal element $\rho_{mn}$, the two branches contribute
+    \begin{align}
+        \rho_{mn}(t) &= \frac{1}{2}\rho_{mn}(0)\left( e^{-i(\phi_m^{(+)} - \phi_n^{(+)})} + e^{-i(\phi_m^{(-)} - \phi_n^{(-)})} \right) \nonumber \\
+        &= \frac{1}{2}\rho_{mn}(0)\left( e^{-i(1+x_0)\Delta\phi_{mn}} + e^{-i(1-x_0)\Delta\phi_{mn}} \right) \nonumber \\
+        &= \rho_{mn}(0)\, e^{-i\Delta\phi_{mn}} \cos(x_0 \Delta\phi_{mn}),
+    \end{align}
+    where $\Delta\phi_{mn} = \int_0^t (E_m(s) - E_n(s))\,ds$ is the accumulated phase difference between energy levels.
+
+    \subsubsection{Connection to Landau-Zener Gap}
+
+    \qquad For the Landau-Zener model (Eq.~\ref{LandauZenerEquation}), the instantaneous energy gap between ground and excited states is given by
+    \begin{equation}
+        \Delta(t) = E_+(t) - E_-(t) = \sqrt{(vt)^2 + g^2},
+    \end{equation}
+    which defines the instantaneous Rabi frequency $\Omega(t) = \Delta(t)/2 = \frac{1}{2}\sqrt{(vt)^2 + g^2}$. The accumulated phase difference for the two-level system becomes
+    \begin{equation}
+        \Delta\phi_{01}(t) = \int_0^t \Delta(s)\,ds = \int_0^t \sqrt{(vs)^2 + g^2}\,ds.
+    \end{equation}
+    When the meter has its own non-commuting dynamics $H_M = \omega\sigma_x$, the meter--system interaction generates an effective energy scale. The combined system--meter Hamiltonian in the meter subspace induces Rabi oscillations at a modified frequency
+    \begin{equation}
+        \Omega_{\text{eff}}(t) = \sqrt{E(t)^2 + \omega^2},
+    \end{equation}
+    where $E(t) = vt/2$ is the longitudinal energy scale from the Landau-Zener drive. The interference factor then takes the form
+    \begin{equation}\label{eq:interference_factor}
+        C(T, \omega) = \cos\left(2x_0 \int_0^T \Omega_{\text{eff}}(s)\,ds\right) = \cos\left(2x_0 \int_0^T \sqrt{E(s)^2 + \omega^2}\,ds\right).
+    \end{equation}
+    The factor of 2 arises from the full phase accumulated over both branches of the evolution.
+
+    \subsubsection{Numerical Validation and Figure Generation}
+
+    \qquad The theoretical predictions are validated numerically by computing both the ground-state fidelity and the analytical interference factor across a grid of annealing times $T \in [1, 10]$ and meter frequencies $\omega \in [0, 10]$ with coupling $x_0 = 1$. For each $(T, \omega)$ point, the simulation proceeds as follows:
+
+    Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The fidelity map exhibits characteristic ripple patterns at small $\omega$ and short $T$, which align precisely with the zero-crossings of the analytical interference factor $C(T, \omega) = 0$ (white dashed contours). These contours occur when the accumulated phase satisfies $2x_0 \int_0^T \Omega_{\text{eff}}(s)\,ds = (2n+1)\pi/2$ for integer $n$, corresponding to complete destructive interference between the two evolution branches.
+
+    \qquad The physical interpretation is that for small $\omega$, the rapid Rabi oscillations induced by the meter's transverse field are not fully averaged out over the annealing time $T$. The cosine term oscillates between $\pm 1$, alternately enhancing and suppressing the effective dephasing. As $\omega$ increases, the dominant effect becomes the algebraic suppression of the system--meter coupling. The effective mixing angle $\theta(t) = \arctan(\omega/E(t))$ determines the projection of the meter state onto the $\sigma_z$ axis, yielding $\sin\theta(t) = \omega/\sqrt{E(t)^2 + \omega^2}$. This produces an envelope proportional to $1/(\omega^2 + E(t)^2)$ that smoothly suppresses fidelity as $\omega$ increases, visible as the dominant dark gradient in Fig.~\ref{fig:fidelity_diff}.
+
+    \begin{figure}[htbp]
+        \centering
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:interference_analysis_a}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{NonCommutation/WNonFidDiff.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:interference_analysis_b}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{NonCommutation/InterferenceFactor.png}
+        \end{subfigure}%
+        \hfill
+        \begin{subfigure}[t]{0.32\textwidth}
+            \centering
+            \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:interference_analysis_c}
+            \vspace{-1.2ex}
+            \includegraphics[width=\textwidth]{NonCommutation/WNonCommuting.png}
+        \end{subfigure}
+        \caption{Analysis of interference effects in the non-commuting meter regime. (a) Fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ showing ripple modulations at small $\omega$. (b) Analytical interference factor $C(T, \omega) = \cos(2x_0\int\Omega_{\text{eff}}\,ds)$ with zero-crossing contours (black dashed). (c) Fidelity map with $C=0$ contours overlaid (white dashed), demonstrating the correspondence between numerical fidelity ripples and analytical predictions.}
+        \label{fig:interference_analysis}
+    \end{figure}
+
 
 
     \printbibliography[heading=subbibliography, title={Appendix References}]
