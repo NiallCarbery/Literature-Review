@@ -1106,6 +1106,156 @@
       \verb 10.1103/PhysRevA.65.042308
       \endverb
     \endentry
+    \entry{DephasingPaper}{article}{}
+      \name{author}{6}{}{%
+        {{hash=77cfd7eac121c84e5fab4a70b700519b}{%
+           family={Sveistrys},
+           familyi={S\bibinitperiod},
+           given={Mykolas},
+           giveni={M\bibinitperiod}}}%
+        {{hash=6929667d2df23d7b1496d777cd92ed30}{%
+           family={Langbehn},
+           familyi={L\bibinitperiod},
+           given={Josias},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a6f949c7ee6627698e77113cacb78462}{%
+           family={Menu},
+           familyi={M\bibinitperiod},
+           given={Raphaël},
+           giveni={R\bibinitperiod}}}%
+        {{hash=547c6e275c797af8495fc374f5c2a3f3}{%
+           family={Campbell},
+           familyi={C\bibinitperiod},
+           given={Steve},
+           giveni={S\bibinitperiod}}}%
+        {{hash=4eab7676829d5f3396e8a6a1d7526ebd}{%
+           family={Morigi},
+           familyi={M\bibinitperiod},
+           given={Giovanna},
+           giveni={G\bibinitperiod}}}%
+        {{hash=2e0c7d636de11d05c94dacf813eb5252}{%
+           family={Koch},
+           familyi={K\bibinitperiod},
+           given={Christiane\bibnamedelima P.},
+           giveni={C\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{7dbb7044e148e9b98965429434949d5e}
+      \strng{fullhash}{615a48cf0dbadca8271387a6abd5cf41}
+      \strng{bibnamehash}{7dbb7044e148e9b98965429434949d5e}
+      \strng{authorbibnamehash}{7dbb7044e148e9b98965429434949d5e}
+      \strng{authornamehash}{7dbb7044e148e9b98965429434949d5e}
+      \strng{authorfullhash}{615a48cf0dbadca8271387a6abd5cf41}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{arXiv preprint arXiv:2409.15900}
+      \field{title}{Speeding up quantum annealing with engineered dephasing}
+      \field{year}{2024}
+      \verb{eprint}
+      \verb 2409.15900
+      \endverb
+    \endentry
+    \entry{COLD2023}{article}{}
+      \name{author}{4}{}{%
+        {{hash=44fb0577bd60405a3456a6ea39d3be4f}{%
+           family={Čepaitė},
+           familyi={Č\bibinitperiod},
+           given={Ieva},
+           giveni={I\bibinitperiod}}}%
+        {{hash=8ab550746db8549e7045b50a4798975c}{%
+           family={Polkovnikov},
+           familyi={P\bibinitperiod},
+           given={Anatoli},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b38b88e1e822b087568ddfe7ac34752f}{%
+           family={Daley},
+           familyi={D\bibinitperiod},
+           given={Andrew\bibnamedelima J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=006096d98690afe6259448ece03f4d12}{%
+           family={Duncan},
+           familyi={D\bibinitperiod},
+           given={Callum\bibnamedelima W.},
+           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{fullhash}{e29a99741826fae1288b8a9647a0e16e}
+      \strng{bibnamehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{authorbibnamehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{authornamehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{authorfullhash}{e29a99741826fae1288b8a9647a0e16e}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PRX Quantum}
+      \field{number}{1}
+      \field{title}{Counterdiabatic Optimised Local Driving}
+      \field{volume}{4}
+      \field{year}{2023}
+      \field{pages}{010312}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PRXQuantum.4.010312
+      \endverb
+    \endentry
+    \entry{ResEngSTA}{article}{}
+      \name{author}{4}{}{%
+        {{hash=a6f949c7ee6627698e77113cacb78462}{%
+           family={Menu},
+           familyi={M\bibinitperiod},
+           given={Raphaël},
+           giveni={R\bibinitperiod}}}%
+        {{hash=6929667d2df23d7b1496d777cd92ed30}{%
+           family={Langbehn},
+           familyi={L\bibinitperiod},
+           given={Josias},
+           giveni={J\bibinitperiod}}}%
+        {{hash=2e0c7d636de11d05c94dacf813eb5252}{%
+           family={Koch},
+           familyi={K\bibinitperiod},
+           given={Christiane\bibnamedelima P.},
+           giveni={C\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=4eab7676829d5f3396e8a6a1d7526ebd}{%
+           family={Morigi},
+           familyi={M\bibinitperiod},
+           given={Giovanna},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{8c6654834517addf7f2cf3adb68d3f7d}
+      \strng{fullhash}{6469f153c44946116a40f0de20c6b926}
+      \strng{bibnamehash}{8c6654834517addf7f2cf3adb68d3f7d}
+      \strng{authorbibnamehash}{8c6654834517addf7f2cf3adb68d3f7d}
+      \strng{authornamehash}{8c6654834517addf7f2cf3adb68d3f7d}
+      \strng{authorfullhash}{6469f153c44946116a40f0de20c6b926}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{3}
+      \field{journaltitle}{Phys. Rev. Res.}
+      \field{month}{7}
+      \field{title}{Reservoir-engineering shortcuts to adiabaticity}
+      \field{volume}{4}
+      \field{year}{2022}
+      \field{pages}{033005}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevResearch.4.033005
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevResearch.4.033005
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevResearch.4.033005
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput
