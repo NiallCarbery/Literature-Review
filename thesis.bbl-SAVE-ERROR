@@ -71,6 +71,51 @@
       \verb 2409.15900
       \endverb
     \endentry
+    \entry{AlbashLidar2018}{article}{}
+      \name{author}{2}{}{%
+        {{hash=42184acd633d26d4bfde33efa06abb76}{%
+           family={Albash},
+           familyi={A\bibinitperiod},
+           given={Tameem},
+           giveni={T\bibinitperiod}}}%
+        {{hash=d18b175e8356031db40d3a376b350f5b}{%
+           family={Lidar},
+           familyi={L\bibinitperiod},
+           given={Daniel\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{eef612b545738e85d90651497a95b7cd}
+      \strng{fullhash}{eef612b545738e85d90651497a95b7cd}
+      \strng{bibnamehash}{eef612b545738e85d90651497a95b7cd}
+      \strng{authorbibnamehash}{eef612b545738e85d90651497a95b7cd}
+      \strng{authornamehash}{eef612b545738e85d90651497a95b7cd}
+      \strng{authorfullhash}{eef612b545738e85d90651497a95b7cd}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{1}
+      \field{journaltitle}{Rev. Mod. Phys.}
+      \field{month}{1}
+      \field{title}{Adiabatic quantum computation}
+      \field{volume}{90}
+      \field{year}{2018}
+      \field{pages}{015002}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/RevModPhys.90.015002
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/RevModPhys.90.015002
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/RevModPhys.90.015002
+      \endverb
+    \endentry
     \entry{DWAVEBeyondClassical2025}{article}{}
       \name{author}{63}{}{%
         {{hash=bef28a388f2518d478c483209723cb2f}{%
@@ -395,8 +440,8 @@
       \strng{authorbibnamehash}{2a405b2d322a16daee2f941f1cb6cd42}
       \strng{authornamehash}{2a405b2d322a16daee2f941f1cb6cd42}
       \strng{authorfullhash}{9b9ea5f0bbb74fb161b794bb3bb5265a}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Science}
@@ -414,6 +459,110 @@
       \endverb
       \verb{url}
       \verb https://www.science.org/doi/abs/10.1126/science.ado6285
+      \endverb
+    \endentry
+    \entry{AlbashQASpeedUp2018}{article}{}
+      \name{author}{2}{}{%
+        {{hash=42184acd633d26d4bfde33efa06abb76}{%
+           family={Albash},
+           familyi={A\bibinitperiod},
+           given={Tameem},
+           giveni={T\bibinitperiod}}}%
+        {{hash=d18b175e8356031db40d3a376b350f5b}{%
+           family={Lidar},
+           familyi={L\bibinitperiod},
+           given={Daniel\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{eef612b545738e85d90651497a95b7cd}
+      \strng{fullhash}{eef612b545738e85d90651497a95b7cd}
+      \strng{bibnamehash}{eef612b545738e85d90651497a95b7cd}
+      \strng{authorbibnamehash}{eef612b545738e85d90651497a95b7cd}
+      \strng{authornamehash}{eef612b545738e85d90651497a95b7cd}
+      \strng{authorfullhash}{eef612b545738e85d90651497a95b7cd}
+      \field{extraname}{2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{3}
+      \field{journaltitle}{Phys. Rev. X}
+      \field{month}{7}
+      \field{title}{Demonstration of a Scaling Advantage for a Quantum Annealer over Simulated Annealing}
+      \field{volume}{8}
+      \field{year}{2018}
+      \field{pages}{031016}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevX.8.031016
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevX.8.031016
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevX.8.031016
+      \endverb
+    \endentry
+    \entry{ControlReviewCampbell}{article}{}
+      \name{author}{5}{}{%
+        {{hash=006096d98690afe6259448ece03f4d12}{%
+           family={Duncan},
+           familyi={D\bibinitperiod},
+           given={Callum\bibnamedelima W.},
+           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=53178138e774e559648e57a16eeb31fc}{%
+           family={Poggi},
+           familyi={P\bibinitperiod},
+           given={Pablo\bibnamedelima M.},
+           giveni={P\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=92b0f4441d84e9b7699803e1bf75a4a1}{%
+           family={Bukov},
+           familyi={B\bibinitperiod},
+           given={Marin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=7f920ff4f653b7573463cf70f551a0cb}{%
+           family={Zinner},
+           familyi={Z\bibinitperiod},
+           given={Nikolaj\bibnamedelima Thomas},
+           giveni={N\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=547c6e275c797af8495fc374f5c2a3f3}{%
+           family={Campbell},
+           familyi={C\bibinitperiod},
+           given={Steve},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{f0e4f32ae1baec008fde42134f32770f}
+      \strng{fullhash}{4a8e178d2837aea62d8f6c9f1fcde818}
+      \strng{bibnamehash}{f0e4f32ae1baec008fde42134f32770f}
+      \strng{authorbibnamehash}{f0e4f32ae1baec008fde42134f32770f}
+      \strng{authornamehash}{f0e4f32ae1baec008fde42134f32770f}
+      \strng{authorfullhash}{4a8e178d2837aea62d8f6c9f1fcde818}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{4}
+      \field{journaltitle}{PRX Quantum}
+      \field{month}{10}
+      \field{title}{Taming Quantum Systems: A Tutorial for Using Shortcuts-To-Adiabaticity, Quantum Optimal Control, and Reinforcement Learning}
+      \field{volume}{6}
+      \field{year}{2025}
+      \field{pages}{040201}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/j8c7-v2hd
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/j8c7-v2hd
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/j8c7-v2hd
       \endverb
     \endentry
     \entry{BaltimoreQA}{article}{}
@@ -450,8 +599,8 @@
       \strng{authorbibnamehash}{fabf706d2fb2f08209c4760bd73377ec}
       \strng{authornamehash}{fabf706d2fb2f08209c4760bd73377ec}
       \strng{authorfullhash}{898635c367cbc7797cdb3b3dc6d7edcc}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Scientific Reports}
@@ -505,8 +654,8 @@
       \strng{authorbibnamehash}{09c9844f0b00c8d78355111ab89f97a4}
       \strng{authornamehash}{09c9844f0b00c8d78355111ab89f97a4}
       \strng{authorfullhash}{b1894db0d4d3a3541a7e09b719a1d52b}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Frontiers in ICT}
@@ -538,8 +687,8 @@
       \strng{authorbibnamehash}{1bae1d0e63dfafa0aee2fb81e33080ea}
       \strng{authornamehash}{1bae1d0e63dfafa0aee2fb81e33080ea}
       \strng{authorfullhash}{1bae1d0e63dfafa0aee2fb81e33080ea}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Quantum Machine Intelligence}
@@ -577,8 +726,8 @@
       \strng{authorbibnamehash}{870cc9857b0eca3aafabdd73a2088a27}
       \strng{authornamehash}{870cc9857b0eca3aafabdd73a2088a27}
       \strng{authorfullhash}{870cc9857b0eca3aafabdd73a2088a27}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Annals of Operations Research}
@@ -605,8 +754,8 @@
       \strng{authorbibnamehash}{c24283f2760f25196eeb40788d2733b1}
       \strng{authornamehash}{c24283f2760f25196eeb40788d2733b1}
       \strng{authorfullhash}{c24283f2760f25196eeb40788d2733b1}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Frontiers in Physics}
@@ -636,8 +785,8 @@
       \strng{authorbibnamehash}{fa5ed773eb3f62e4b156ee6e2f9b482c}
       \strng{authornamehash}{fa5ed773eb3f62e4b156ee6e2f9b482c}
       \strng{authorfullhash}{fa5ed773eb3f62e4b156ee6e2f9b482c}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Physical Review Letters}
@@ -668,8 +817,8 @@
       \strng{authorbibnamehash}{1c4ffbcd1b13d6128da27921b5ce5a62}
       \strng{authornamehash}{1c4ffbcd1b13d6128da27921b5ce5a62}
       \strng{authorfullhash}{1c4ffbcd1b13d6128da27921b5ce5a62}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Physics A: Mathematical and Theoretical}
@@ -681,6 +830,196 @@
       \range{pages}{1}
       \verb{doi}
       \verb 10.1088/1751-8113/42/36/365303
+      \endverb
+    \endentry
+    \entry{COLD2023}{article}{}
+      \name{author}{4}{}{%
+        {{hash=44fb0577bd60405a3456a6ea39d3be4f}{%
+           family={Čepaitė},
+           familyi={Č\bibinitperiod},
+           given={Ieva},
+           giveni={I\bibinitperiod}}}%
+        {{hash=8ab550746db8549e7045b50a4798975c}{%
+           family={Polkovnikov},
+           familyi={P\bibinitperiod},
+           given={Anatoli},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b38b88e1e822b087568ddfe7ac34752f}{%
+           family={Daley},
+           familyi={D\bibinitperiod},
+           given={Andrew\bibnamedelima J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=006096d98690afe6259448ece03f4d12}{%
+           family={Duncan},
+           familyi={D\bibinitperiod},
+           given={Callum\bibnamedelima W.},
+           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{fullhash}{e29a99741826fae1288b8a9647a0e16e}
+      \strng{bibnamehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{authorbibnamehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{authornamehash}{f5d4d1b871fc8399806e74efe464fe92}
+      \strng{authorfullhash}{e29a99741826fae1288b8a9647a0e16e}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PRX Quantum}
+      \field{number}{1}
+      \field{title}{Counterdiabatic Optimised Local Driving}
+      \field{volume}{4}
+      \field{year}{2023}
+      \field{pages}{010312}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PRXQuantum.4.010312
+      \endverb
+    \endentry
+    \entry{CAFFEINE2025}{article}{}
+      \name{author}{1}{}{%
+        {{hash=006096d98690afe6259448ece03f4d12}{%
+           family={Duncan},
+           familyi={D\bibinitperiod},
+           given={Callum\bibnamedelima W.},
+           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{006096d98690afe6259448ece03f4d12}
+      \strng{fullhash}{006096d98690afe6259448ece03f4d12}
+      \strng{bibnamehash}{006096d98690afe6259448ece03f4d12}
+      \strng{authorbibnamehash}{006096d98690afe6259448ece03f4d12}
+      \strng{authornamehash}{006096d98690afe6259448ece03f4d12}
+      \strng{authorfullhash}{006096d98690afe6259448ece03f4d12}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint}
+      \field{title}{Counterdiabatic‑influenced Floquet‑engineering: State preparation, annealing and learning the adiabatic gauge potential}
+      \field{year}{2025}
+      \verb{eprint}
+      \verb arXiv:2501.14881
+      \endverb
+    \endentry
+    \entry{ResEngSTA}{article}{}
+      \name{author}{4}{}{%
+        {{hash=a6f949c7ee6627698e77113cacb78462}{%
+           family={Menu},
+           familyi={M\bibinitperiod},
+           given={Raphaël},
+           giveni={R\bibinitperiod}}}%
+        {{hash=6929667d2df23d7b1496d777cd92ed30}{%
+           family={Langbehn},
+           familyi={L\bibinitperiod},
+           given={Josias},
+           giveni={J\bibinitperiod}}}%
+        {{hash=2e0c7d636de11d05c94dacf813eb5252}{%
+           family={Koch},
+           familyi={K\bibinitperiod},
+           given={Christiane\bibnamedelima P.},
+           giveni={C\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=4eab7676829d5f3396e8a6a1d7526ebd}{%
+           family={Morigi},
+           familyi={M\bibinitperiod},
+           given={Giovanna},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{8c6654834517addf7f2cf3adb68d3f7d}
+      \strng{fullhash}{6469f153c44946116a40f0de20c6b926}
+      \strng{bibnamehash}{8c6654834517addf7f2cf3adb68d3f7d}
+      \strng{authorbibnamehash}{8c6654834517addf7f2cf3adb68d3f7d}
+      \strng{authornamehash}{8c6654834517addf7f2cf3adb68d3f7d}
+      \strng{authorfullhash}{6469f153c44946116a40f0de20c6b926}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issue}{3}
+      \field{journaltitle}{Phys. Rev. Res.}
+      \field{month}{7}
+      \field{title}{Reservoir-engineering shortcuts to adiabaticity}
+      \field{volume}{4}
+      \field{year}{2022}
+      \field{pages}{033005}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevResearch.4.033005
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevResearch.4.033005
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevResearch.4.033005
+      \endverb
+    \endentry
+    \entry{CoolingLangbehn2025}{misc}{}
+      \name{author}{8}{}{%
+        {{hash=6929667d2df23d7b1496d777cd92ed30}{%
+           family={Langbehn},
+           familyi={L\bibinitperiod},
+           given={Josias},
+           giveni={J\bibinitperiod}}}%
+        {{hash=f597d91af6f1b26cf598fd4bb0a95803}{%
+           family={Mouloudakis},
+           familyi={M\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+        {{hash=758566d076a91d1f05733265a32f1360}{%
+           family={King},
+           familyi={K\bibinitperiod},
+           given={Emma},
+           giveni={E\bibinitperiod}}}%
+        {{hash=a6f949c7ee6627698e77113cacb78462}{%
+           family={Menu},
+           familyi={M\bibinitperiod},
+           given={Raphaël},
+           giveni={R\bibinitperiod}}}%
+        {{hash=269a6c2a3d811e838290e9877294b055}{%
+           family={Gornyi},
+           familyi={G\bibinitperiod},
+           given={Igor},
+           giveni={I\bibinitperiod}}}%
+        {{hash=4eab7676829d5f3396e8a6a1d7526ebd}{%
+           family={Morigi},
+           familyi={M\bibinitperiod},
+           given={Giovanna},
+           giveni={G\bibinitperiod}}}%
+        {{hash=a2113b8496d121daf611aacabe40a82a}{%
+           family={Gefen},
+           familyi={G\bibinitperiod},
+           given={Yuval},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=2e0c7d636de11d05c94dacf813eb5252}{%
+           family={Koch},
+           familyi={K\bibinitperiod},
+           given={Christiane\bibnamedelima P.},
+           giveni={C\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{6e8e2d9ee0c18138abcfdbcf21a8adf6}
+      \strng{fullhash}{88aa5b13e635ec33b310e51e6e722265}
+      \strng{bibnamehash}{6e8e2d9ee0c18138abcfdbcf21a8adf6}
+      \strng{authorbibnamehash}{6e8e2d9ee0c18138abcfdbcf21a8adf6}
+      \strng{authornamehash}{6e8e2d9ee0c18138abcfdbcf21a8adf6}
+      \strng{authorfullhash}{88aa5b13e635ec33b310e51e6e722265}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{quant-ph}
+      \field{eprinttype}{arXiv}
+      \field{title}{Universal cooling of quantum systems via randomized measurements}
+      \field{year}{2025}
+      \verb{eprint}
+      \verb 2506.11964
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2506.11964
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2506.11964
       \endverb
     \endentry
     \entry{LandauZenerCDAbah2019}{article}{}
@@ -725,8 +1064,8 @@
       \strng{authorbibnamehash}{5c7117204e23ede6cab722469d551e7a}
       \strng{authornamehash}{5c7117204e23ede6cab722469d551e7a}
       \strng{authorfullhash}{1a65196ca3dfe82bd79c770e3b7f7bd7}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{New Journal of Physics}
@@ -797,8 +1136,8 @@
       \strng{authorbibnamehash}{80bb1a0cc31c59dcb579b8be51e613ee}
       \strng{authornamehash}{80bb1a0cc31c59dcb579b8be51e613ee}
       \strng{authorfullhash}{80bb1a0cc31c59dcb579b8be51e613ee}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Mathematical Physics}
@@ -810,43 +1149,6 @@
       \range{pages}{1}
       \verb{doi}
       \verb 10.1063/1.2995837
-      \endverb
-    \endentry
-    \entry{AlbashLidar2018}{article}{}
-      \name{author}{2}{}{%
-        {{hash=42184acd633d26d4bfde33efa06abb76}{%
-           family={Albash},
-           familyi={A\bibinitperiod},
-           given={Tameem},
-           giveni={T\bibinitperiod}}}%
-        {{hash=d18b175e8356031db40d3a376b350f5b}{%
-           family={Lidar},
-           familyi={L\bibinitperiod},
-           given={Daniel\bibnamedelima A},
-           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {APS}%
-      }
-      \strng{namehash}{eef612b545738e85d90651497a95b7cd}
-      \strng{fullhash}{eef612b545738e85d90651497a95b7cd}
-      \strng{bibnamehash}{eef612b545738e85d90651497a95b7cd}
-      \strng{authorbibnamehash}{eef612b545738e85d90651497a95b7cd}
-      \strng{authornamehash}{eef612b545738e85d90651497a95b7cd}
-      \strng{authorfullhash}{eef612b545738e85d90651497a95b7cd}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Reviews of Modern Physics}
-      \field{number}{1}
-      \field{title}{Adiabatic quantum computation}
-      \field{volume}{90}
-      \field{year}{2018}
-      \field{pages}{015002}
-      \range{pages}{1}
-      \verb{doi}
-      \verb 10.1103/RevModPhys.90.015002
       \endverb
     \endentry
   \enddatalist
