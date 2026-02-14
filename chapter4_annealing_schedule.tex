@@ -13,11 +13,11 @@ where $\epsilon \ll 1$ is a small dimensionless parameter governing the probabil
     \frac{ds}{dt} \leq \frac{\epsilon \Delta(s)^2}{|\langle 1(s) | \frac{dH}{ds} | 0(s) \rangle|}.
 \end{equation}
 \qquad For the standard linear interpolation $H(s) = (1-s)H_0 + sH_P$, the derivative $dH/ds = H_P - H_0$ is constant. Assuming the matrix element $\mathcal{M}(s) = |\langle 1(s) | H_P - H_0 | 0(s) \rangle|$ varies slowly compared to the rapid changes in the gap $\Delta(s)$ near an avoided crossing, the optimal instantaneous velocity $v(s) = \dot{s}$ scales as the square of the gap
-
+%%
 \begin{equation}
     \frac{ds}{dt} \propto \epsilon \Delta(s)^2.
 \end{equation}
-
+%%
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.48\textwidth}
@@ -33,7 +33,7 @@ where $\epsilon \ll 1$ is a small dimensionless parameter governing the probabil
         \vspace{-1.5ex}
         \raisebox{0ex}{\includegraphics[width=0.85\textwidth,trim=0 0 0 0,clip]{OptimalRamp/QAOptimalRamp.png}}
     \end{subfigure}
-    \caption[Optimal annealing schedule versus linear schedule]{Lowest two energy levels of a system with annealing schedule proportional to the gap with a linear schedule included for reference. The optimal schedule slows down significantly near the minimum gap region, allowing the system to remain adiabatic through the critical point, while speeding up in regions with larger gaps. (a) Landau Zener model (b) QA Ising model with 3 Qubits}
+    \caption[Optimal annealing schedule versus linear schedule]{The lowest two energy levels of a system with annealing schedule proportional to the gap with a linear schedule included for reference. The optimal schedule slows down significantly near the minimum gap region, allowing the system to remain adiabatic through the critical point, while speeding up in regions with larger gaps. (a) Landau Zener model (b) QA Ising model with 3 Qubits}
     \label{fig:optimal_ramp}
 \end{figure}
 
@@ -61,7 +61,7 @@ where $\epsilon \ll 1$ is a small dimensionless parameter governing the probabil
 \qquad Use of the computed optimal local adiabatic schedule yields a significant fidelity improvement over the linear schedule especially for moderate annealing durations with a roughly 8\% increase in fidelity for both models. For the LZ model this occurs along the contours of $T_{eff} = T(1+x_0)$ = 4 or for $T_{eff} = 8$ for the QA model. 
 
 \section{Statistical Foundations}
-\qquad As before knowing the instantaneous spectral gap \textit{a priori} is equivalent to solving the QA problem itself, making the exact implementation of the optimal local adiabatic schedule impractical. However, statistical knowledge of the gap distribution across problem instances could inform heuristic schedule designs that approximate the optimal rate without requiring full spectral information. By analyzing ensembles of problem Hamiltonians, one can identify typical gap behaviors and construct schedules that adaptive slow down in regions where small gaps are statistically likely, while speeding up elsewhere. This statistical approach enables practical implementations of locally adiabatic evolution that capture much of the performance benefit without the need for exact gap knowledge.
+\qquad As before knowing the instantaneous spectral gap \textit{a priori} is equivalent to solving the QA problem itself, making the exact implementation of the optimal local adiabatic schedule impractical. However, statistical knowledge of the gap distribution across problem instances could inform heuristic schedule designs that approximate the optimal rate without requiring full spectral information. By analysing ensembles of problem Hamiltonians, one can identify typical gap behaviours and construct schedules that adaptive slow down in regions where small gaps are statistically likely, while speeding up elsewhere. This statistical approach enables practical implementations of locally adiabatic evolution that capture much of the performance benefit without the need for exact gap knowledge.
 
 \qquad We will approach this problem with two strategies, we will compare averaging the spectral properties over many instances to generate a single heuristic schedule versus generating individual optimal schedules and averaging the schedule performance over many instances.
 

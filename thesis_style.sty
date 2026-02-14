@@ -28,11 +28,21 @@
 
 % Title formatting
 \usepackage{titlesec}
-\titleformat{\chapter}[display]{}{}{0pt}{\normalfont\Large\underline\bfseries}
-\titlespacing*{\chapter}{0pt}{1pt}{5pt}
-\titlespacing*{\section}{0pt}{1pt}{2pt}
-\titlespacing*{\subsection}{0pt}{1pt}{2pt}
-\titlespacing*{\subsubsection}{0pt}{1pt}{2pt}
+% Chapter: slightly smaller display title with reduced vertical separation
+\titleformat{\chapter}[display]{}{}{0pt}{\normalfont\Large\bfseries}
+\titlespacing*{\chapter}{0pt}{-50pt}{2pt}
+
+% Section: a bit smaller than before, modest spacing
+\titleformat{\section}[hang]{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+% Subsection: smaller and tighter
+\titleformat{\subsection}[hang]{\normalfont\normalsize\bfseries}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{6pt}{3pt}
+
+% Subsubsection: smallest heading level, compact spacing
+\titleformat{\subsubsection}[hang]{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{4pt}{2pt}
 
 % Fonts
 \usepackage[scale=0.96]{XCharter} % Use the XCharter text font
