@@ -1,0 +1,44 @@
+% Chapter 5: Modifying the meter coupling
+\chapter{Modifying the meter coupling}\label{Ch3:ModifyingConnection}
+
+\section{Meter to Single Qubit Coupling}
+
+\qquad A natural question arises when considering hardware implementations: in realistic quantum devices, a measurement apparatus cannot be coupled to all qubits simultaneously. Instead, the meter is physically localized and couples directly to a single target qubit through a transduction mechanism (cavity, resonator, or similar). This section explores whether the beneficial dephasing mechanism persists under this hardware-realistic constraint.
+
+\qquad In the original QND-like protocol derived in Section \ref{Ch2:SpeedingUpQuantumAnnealing}, the meter interaction couples to the instantaneous energy of the entire system:
+
+\begin{equation}
+    H_{\mathrm{int}}(t) = x_0 H_S(t) \otimes X_M,
+\end{equation}
+
+where $H_S(t)$ is the full $N$-qubit system Hamiltonian and $X_M$ is a meter observable. The power of this approach lies in its coupling to the energy eigenspaces of the full system, inducing dephasing precisely in the basis where energy transitions occur. In the largerst specific built quantum annealers there is limited connectiivty between qubits. Such that the meter couples only to a single or subset target qubit $k$ using a local observable of form;
+
+\begin{equation}
+    H_{\mathrm{int,single}}(t) = \sigma_z^{(k)} \otimes \left(I_M + x_0 \sigma_z^M\right),
+\end{equation}
+
+where $\sigma_z^{(k)}$ is the Pauli-$z$ operator on qubit $k$ and $I_M + x_0 \sigma_z^M$ is the meter operator (analogous to the meter eigenvalue rescaling from Section \ref{Ch2:SpeedingUpQuantumAnnealing}). The total composite Hamiltonian becomes
+
+\begin{equation}
+    H_{\mathrm{composite}}(t) = [H_S(t) \otimes I_M] + [\sigma_z^{(k)} \otimes (I_M + x_0 \sigma_z^M)],
+\end{equation}
+
+where the system Hamiltonian retains all $N$-qubit interactions and the transverse annealing evolution. The meter couples only to qubit $k$, but does not couple to the global energy that lead to the energy rescaling in previous sections.
+
+\qquad The fidelity is substantially degraded across the parameter space, and the expected scaling relationship disappears. This performance degradation is robust across different target qubits. Repeating the analysis with meter coupling to different qubits (qubits 1 and 2) shows qualitatively similar poor fidelities, confirming that the failure is not specific to the choice of target qubit but instead represents a fundamental limitation of local coupling. 
+
+\qquad The lack of In the original protocol with coupling $x_0 H_S(t) \otimes X_M$, the dephasing is induced \textit{in the energy eigenbasis} of the system. Specifically, the factor $H_S(t)$ ensures that the interaction operator commutes with the system Hamiltonian at all times,
+
+\begin{equation}
+    [H_S(t), x_0 H_S(t) \otimes X_M] = 0,
+\end{equation}
+
+meaning the induced dephasing occurs between energy eigenstates. Since avoided crossings (the primary source of diabatic errors) involve transitions between energy eigenstates separated by small gaps, suppressing energy-eigenstate coherence directly addresses the bottleneck.
+
+\qquad For single-qubit coupling via $\sigma_z^{(k)}$, the situation is fundamentally different. The operator $\sigma_z^{(k)}$ does not commute with the full system Hamiltonian:
+
+\begin{equation}
+    [H_S(t), \sigma_z^{(k)} \otimes X_M] \neq 0,
+\end{equation}
+
+because $\sigma_z^{(k)}$ describes the occupation of a single qubit, while the true avoided crossings involve \textit{entangled superpositions} across multiple qubits. The induced dephasing is therefore in the computational basis of qubit $k$, not in the energy eigenbasis of the full system.

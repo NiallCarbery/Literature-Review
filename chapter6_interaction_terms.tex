@@ -1,0 +1,58 @@
+% Chapter 6: Modifying the interaction terms
+\chapter{Modifying the interaction terms}\label{Ch4:ModifyingInteraction}
+
+\section{Constrained QND-like Protocol}
+
+\qquad The full QND-like protocol requires an interaction Hamiltonian of the form $H_S(t) \otimes X_M$. For a QUBO problem Hamiltonian $H_P$, this necessitates simultaneous coupling to both the problem terms and the transverse driver $H_0$. Specifically, if $X_M = \sigma_z$, this implies engineering three-body terms like $\sigma_x \sigma_z$ (from the transverse field) alongside problem-based coupling. A more experimentally feasible "constrained" protocol restricts the coupling solely to the problem Hamiltonian $H_f$
+
+\begin{equation}
+    H_{\text{int}}(t) = f(t) H_f \otimes X_M.
+\end{equation}
+
+\qquad This approach eliminates the difficult $\sigma_x \sigma_z$ terms, requiring only variable-coupler interactions ($\sigma_z \sigma_z$ and $\sigma_z \sigma_z \sigma_z$). However, omitting the driver term means the interaction no longer commutes with the total Hamiltonian, $[H_{\text{int}}(t), H_S(t)] \neq 0$, thereby introducing relaxation effects alongside the intended energy rescaling.
+
+\qquad Numerical results for this constrained protocol (Fig. \ref{fig:constrained_results_b}) reveal a saturation in performance. Unlike the ideal case, where fidelity improves linearly with interaction strength, the constrained protocol's fidelity plateaus near $x_0 \approx 2.0$. This limitation arises because stronger coupling increases the rate of deleterious relaxation transitions, eventually competing with the advantages of the widened energy gap. Thus, while the constrained protocol offers a speedup, it is bounded and cannot be indefinitely enhanced by increasing interaction strength.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{0.34\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:constrained_results_a}
+        \vspace{-1.2ex}
+        \includegraphics[width=\textwidth]{Dephasing/Dephasing5a.png}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[t]{0.63\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:constrained_results_b}
+        \vspace{-1.2ex}
+        \includegraphics[width=\textwidth]{Dephasing/Dephasing5bc.png}
+    \end{subfigure}
+    \caption[TTS speedup and fidelity for constrained QND protocol]{(a) Time-to-Solution (TTS) speedup ratio versus number of qubits $N$ for full and constrained QND protocols ($x_0=2$). The dashed line marks the theoretical limit $1/(1+x_0)$. (b) Average fidelity of the constrained protocol as a function of interaction strength $x_0$, showing the performance plateau due to non-commuting dynamics.}
+    \label{fig:constrained_results}
+\end{figure}
+
+%----------------------------------------------------------
+
+\section{Time-to-Solution Analysis}
+
+\qquad To assess the practical utility of the engineered dephasing protocol, we employ the Time-to-Solution (TTS) metric and investigate a constrained implementation that relaxes the rigorous hardware requirements of the full QND interaction.
+
+\qquad The Time-to-Solution (TTS) serves as a robust benchmark for quantum annealing, balancing the trade-off between the duration of a single anneal and the probability of reaching the ground state. Given that verifying a candidate solution is typically efficient, a probabilistic algorithm is effective provided it yields the correct result with a finite probability $p_{\text{single}}$. The TTS, denoted $T_p$, quantifies the expected total time required to achieve a solution with a target confidence level $p$ (typically set to 0.95)
+
+\begin{equation}
+    T_p = \min_T \frac{T \log(1-p)}{\log(1-p_{\text{single}}(T))}.
+\end{equation}
+
+\qquad Based on the energy rescaling derived in previous sections, the success probability for the QND-like protocol scales as $p_{\text{single}}^{\text{QND}}(T) = p_{\text{single}}^{\text{coh}}((1+m)T)$, where $m$ is the meter eigenvalue. Consequently, the ratio of the TTS for the QND-modified system to the standard coherent system is expected to perform as
+
+\begin{equation}
+    \frac{T_p^{\text{QND}}}{T_p^{\text{coh}}} = \frac{1}{1+m}.
+\end{equation}
+
+\qquad Numerical verification of this scaling is presented in Fig. \ref{fig:constrained_results_a} for random Ising instances. With a coupling strength of $x_0 = 2.0$, the observed speedup ratio converges to the theoretical prediction of $(1+x_0)^{-1} \approx 0.33$ for system sizes $N > 3$. Minor deviations in smaller systems act as artifacts of finite sampling within the minimization procedure over annealing time $T$.
+
+
+
+\newpage
+\printbibliography[heading=subbibliography, title={References}]

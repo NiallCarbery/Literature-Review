@@ -1,33 +1,37 @@
-\documentclass[11pt,a4paper]{article}
-\usepackage{thesis_style}
+\documentclass[11pt]{report}
+
+\setlength\parindent{0pt}
+\usepackage{parskip}
 \usepackage{setspace}
+\doublespacing
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={168mm,254mm},
+ left=22mm,
+ top=24mm,
+ }
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm,bbold}
+\usepackage{graphicx}
+\usepackage{csquotes}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]{}{}{0pt}{\normalfont\Huge\bfseries}
+\titlespacing*{\chapter}{0pt}{-55pt}{25pt}
+\titlespacing*{\section}{0pt}{1pt}{2pt}
+\titlespacing*{\subsection}{0pt}{1pt}{2pt}
+\titlespacing*{\subsubsection}{0pt}{1pt}{2pt}
+
+\usepackage{thesis_style}
 \usepackage{xcolor}
-\usepackage{amsmath}
 \let\Bbbk\relax
-\usepackage{amssymb,amsfonts}
 \usepackage{dsfont}
 \usepackage{caption}
 \usepackage{subcaption}
 \captionsetup{width=\textwidth,justification=centering}
 
 \addbibresource{References.bib}
-
-%--------------------------------------------------------------------------
-%	METADATA AND CONFIGURATION
-%--------------------------------------------------------------------------
-
-\journalname{PHYC40900}
-\title{Literature Review on Speeding Up Quantum Annealing}
-
-\author{Niall Carbery}
-\affil{University College Dublin}
-\affil{22380966}
-
-\institution{School of Physics}
-\footinfo{Speeding Up Quantum Annealing}
-\theday{\today}
-\leadauthor{Niall Carbery}
-\course{Proj. Theoretical Physics}
 
 \setcounter{tocdepth}{2}
 
@@ -40,9 +44,38 @@
     \begin{refsection}
 
     \pagenumbering{roman}
-    \singlespacing
+    
+\begin{titlepage}
+		\vspace*{1.5cm}
+		\begin{center}
+			\begin{figure}[th!]
+				\centering
+		        \includegraphics[width=0.25\linewidth]{figures/ucd.png}
+		        % Note: Add UCD logo image file
+			\end{figure}
+            \begin{Huge}
+				\textbf{Speeding Up Quantum Annealing with Engineered Dephasing}\\
+			\end{Huge}
+            \vspace{1.5cm}
 
-    \maketitle 
+            \begin{Large}
+                \textsc{Niall Carbery} \\
+                22380966\\
+                ~\\
+                \textsc{Supervised By Dr. Steve Campbell}
+            \end{Large}
+            \vspace{1.5cm}
+   
+			\begin{Large}
+				\textsc{UCD School of Physics}\\
+                ~\\
+                \textit{This thesis is submitted to University College Dublin in partial fulfilment of the requirements for the degree of BSc in Theoretical Physics}\\
+                ~\\
+                \today
+			\end{Large}
+			\vfill
+		\end{center}
+\end{titlepage} 
     
     \newpage
     \doublespacing
@@ -72,7 +105,7 @@
 
     \newpage
     \section*{List of Figures}
-    \input{list_of_figures.tex}
+    \listoffigures
 
     \newpage
 

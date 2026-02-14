@@ -11,14 +11,28 @@
 \usepackage{etoolbox} % For \newbool, \setbool
 
 % Geometry and Layout
-\usepackage[
-	top=1.75cm,
-	bottom=1.75cm,
-	left=1.75cm,
-	right=1.75cm
-]{geometry}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=18mm,
+ top=20mm,
+ }
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+
+% Spacing and Formatting
+\setlength\parindent{0pt}
+\usepackage{parskip}
+\usepackage{setspace}
+
+% Title formatting
+\usepackage{titlesec}
+\titleformat{\chapter}[display]{}{}{0pt}{\normalfont\Large\underline\bfseries}
+\titlespacing*{\chapter}{0pt}{1pt}{5pt}
+\titlespacing*{\section}{0pt}{1pt}{2pt}
+\titlespacing*{\subsection}{0pt}{1pt}{2pt}
+\titlespacing*{\subsubsection}{0pt}{1pt}{2pt}
 
 % Fonts
 \usepackage[scale=0.96]{XCharter} % Use the XCharter text font
@@ -37,12 +51,21 @@
 
 % Math and Science
 \usepackage{amsmath}
+% Note: newtxmath loads amsmath, amsfonts, amssymb automatically
+% DO NOT load amsfonts, amssymb, amsthm separately as they conflict with newtxmath
+\usepackage{bbold}
+\usepackage{dsfont}
 \numberwithin{equation}{section}
-% \usepackage{amssymb} % Loaded by newtxmath
-\usepackage{mhchem}
+\usepackage[version=4]{mhchem}
 \usepackage{siunitx}
 \usepackage{booktabs}
 \usepackage{xcolor}
+
+% Graphics and captions
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{width=\textwidth,justification=centering}
+\usepackage{csquotes}
 
 
 % Highlighting
@@ -71,87 +94,10 @@
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
-    linkcolor=blue,
+    linkcolor=purple,
     filecolor=magenta,      
-    urlcolor=blue,
+    urlcolor=purple,
     citecolor=blue,
     pdftitle={Thesis},
     pdfpagemode=FullScreen,
-}
-
-%----------------------------------------------------------------------------------------
-%	CUSTOM COMMANDS FOR METADATA
-%----------------------------------------------------------------------------------------
-
-\newcommand{\@journalname}{}
-\newcommand{\journalname}[1]{\renewcommand{\@journalname}{#1}}
-
-\newcommand{\@institution}{}
-\newcommand{\institution}[1]{\renewcommand{\@institution}{#1}}
-
-\newcommand{\@footinfo}{}
-\newcommand{\footinfo}[1]{\renewcommand{\@footinfo}{#1}}
-
-\newcommand{\@leadauthor}{}
-\newcommand{\leadauthor}[1]{\renewcommand{\@leadauthor}{#1}}
-
-\newcommand{\@course}{}
-\newcommand{\course}[1]{\renewcommand{\@course}{#1}}
-
-\newcommand{\@theday}{\today}
-\newcommand{\theday}[1]{\renewcommand{\@theday}{#1}}
-
-% Authors and Affiliation (load authblk)
-\usepackage{authblk}
-
-%----------------------------------------------------------------------------------------
-%	HEADER AND FOOTER
-%----------------------------------------------------------------------------------------
-
-\pagestyle{plain} % Simple footer with page number only
-\fancyhf{} % Clear header and footer
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
-
-
-%----------------------------------------------------------------------------------------
-%	TITLE PAGE
-%----------------------------------------------------------------------------------------
-
-\renewcommand{\maketitle}{
-    \thispagestyle{plain}
-    \begin{center}
-        \vspace*{0.5cm}
-        
-        % University Logo
-        \IfFileExists{figures/uni.png}{
-            \includegraphics[width=0.3\textwidth]{figures/uni.png}
-        }{
-            \IfFileExists{Figures/uni.png}{
-                \includegraphics[width=0.3\textwidth]{Figures/uni.png}
-            }{
-                % \textbf{[figures/uni.png missing]} % Silent fail or placeholder
-            }
-        }
-        
-        \vspace{1cm}
-        
-        {\Huge \bfseries \@title \par}
-        
-        \vspace{1.5cm}
-        
-        {\Large \bfseries \@author \par}
-        
-        \vspace{1cm}
-        
-        {\Large \textbf{\@course} \par}
-        \vspace{0.5cm}
-        {\Large \@institution \par}
-        \vspace{0.5cm}
-        {\Large \@theday \par}
-        
-        \vspace{1cm}
-    \end{center}
-    
-    \clearpage
 }

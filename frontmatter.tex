@@ -1,0 +1,72 @@
+% Frontmatter for thesis
+\pagenumbering{roman}
+    
+\begin{titlepage}
+	\vspace*{1.5cm}
+	\begin{center}
+		\begin{figure}[th!]
+			\centering
+	        \includegraphics[width=0.3\linewidth]{uni.png}
+		\end{figure}
+        \begin{Huge}
+			\textbf{Speeding Up Quantum Annealing with Engineered Dephasing}\\
+		\end{Huge}
+        \vspace{1.5cm}
+
+        \begin{Large}
+            \textsc{Niall Carbery} \\
+            22380966\\
+            ~\\
+            \textsc{Supervised By Dr. Steve Campbell}
+        \end{Large}
+        \vspace{1.5cm}
+   
+		\begin{Large}
+			\textsc{UCD School of Physics}\\
+            ~\\
+            \textit{This thesis is submitted to University College Dublin in partial fulfilment of the requirements for the degree of BSc in Theoretical Physics}\\
+            ~\\
+            \today
+		\end{Large}
+		\vfill
+	\end{center}
+\end{titlepage} 
+
+\newpage
+\doublespacing
+\section*{Abstract}
+
+\qquad Quantum annealing represents a promising heuristic approach to solving combinatorial optimization problems by encoding solutions as ground states of a problem Hamiltonian. However, the requirement for adiabatic evolution leads to prohibitively long computation times, particularly near avoided crossings where energy gaps become exponentially small. We base this thesis around recent developments in expanding this energy gap in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper} via adding an external degree of freedom. The methods developed in this paper are examined in detail and extended to larger systems. From there they are compared to other developments in literature on quantum optimal control and shortcuts to adiabaticity (STA).
+
+\section*{Lay Summary}
+
+\newpage
+\section*{Acknowledgements}
+\qquad I would like to thank Dr. Steve Campbell for his guidance and support throughout the project. I will always be grateful for the underpinning he provided through my educational journey, within and outside research. His insights and feedback were invaluable in shaping the direction of this thesis, and direction made the thesis as coherent as possible. I would also like to acknowledge my peers for their times we have spent discussing life and physics, which has been a highlight of my time at UCD. Finally, I would like to thank my family for their unwavering support and encouragement throughout my studies.
+
+\section*{Acronyms and Abbreviations}
+    While abbreviations are detailed in this thesis a singular reference is provided here for ease of access.
+
+    \begin{table}[h]
+    \centering
+    \begin{tabular}{p{3cm}  p{8cm}}
+
+    \textbf{AGP}\label{acr:AGP} & Adiabatic Gauge Potential \\ [7pt]
+    \textbf{CRAB}\label{acr:CRAB} & Chopped Randomised Basis \\ [7pt]
+    \textbf{STA}\label{acr:STA} & Shortcuts to Adiabaticity \\[7pt]
+
+    \end{tabular}
+\end{table}
+
+\newpage
+\listoffigures
+
+\newpage
+
+\newpage
+\singlespacing
+\tableofcontents
+
+\newpage
+
+\pagenumbering{arabic}

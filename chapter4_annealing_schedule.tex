@@ -1,0 +1,115 @@
+% Chapter 4: Modifying the Annealing Schedule
+\chapter{Modifying the Annealing Schedule}\label{Ch3:ModifyingSchedule}
+
+\qquad  A linear annealing schedule, $s(t) = t/\tau$, where the evolution parameter varies uniformly from $0$ to $1$. This approach is oblivious to the local spectral properties of the Hamiltonian. The adiabatic theorem dictates that the evolution rate must be minimized where the energy gap $\Delta(s)$ is smallest to prevent diabatic transitions. A linear schedule is therefore constrained by the global minimum gap $\Delta_{\min}$, forcing the evolution to be slow throughout the entire anneal, even in regions where the gap is large and faster evolution would be permissible. We can adjust the evolution rate $ds/dt$ to maintain a constant adiabaticity condition on each infinitesimal time interval, leading to a significant potential speedup\cite{LocalAdiabticQuantumSearch, MoritaNishimori2008}.
+
+\section{Local Adiabatic Condition}
+\qquad The adiabatic condition requires that the rate of change of the Hamiltonian be small relative to the squared energy gap\cite{AlbashLidar2018}. Quantitatively, this can be expressed as:
+\begin{equation}
+    \left| \frac{\langle 1(s) | \frac{dH}{dt} | 0(s) \rangle}{\Delta(s)^2} \right| \leq \epsilon,
+\end{equation}
+where $\epsilon \ll 1$ is a small dimensionless parameter governing the probability of excitation. Transforming the time derivative using the chain rule $\frac{dH}{dt} = \frac{ds}{dt} \frac{dH}{ds}$, we obtain a condition on the schedule rate $\dot{s}$:
+\begin{equation}\label{eq:optimal_rate}
+    \frac{ds}{dt} \leq \frac{\epsilon \Delta(s)^2}{|\langle 1(s) | \frac{dH}{ds} | 0(s) \rangle|}.
+\end{equation}
+\qquad For the standard linear interpolation $H(s) = (1-s)H_0 + sH_P$, the derivative $dH/ds = H_P - H_0$ is constant. Assuming the matrix element $\mathcal{M}(s) = |\langle 1(s) | H_P - H_0 | 0(s) \rangle|$ varies slowly compared to the rapid changes in the gap $\Delta(s)$ near an avoided crossing, the optimal instantaneous velocity $v(s) = \dot{s}$ scales as the square of the gap
+
+\begin{equation}
+    \frac{ds}{dt} \propto \epsilon \Delta(s)^2.
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:optimal_ramp_a}
+        \vspace{-1.5ex}
+        \raisebox{0ex}{\includegraphics[width=0.85\textwidth,trim=0 0 0 0,clip]{OptimalRamp/LZOptimalRamp.png}}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:optimal_ramp_b}
+        \vspace{-1.5ex}
+        \raisebox{0ex}{\includegraphics[width=0.85\textwidth,trim=0 0 0 0,clip]{OptimalRamp/QAOptimalRamp.png}}
+    \end{subfigure}
+    \caption[Optimal annealing schedule versus linear schedule]{Lowest two energy levels of a system with annealing schedule proportional to the gap with a linear schedule included for reference. The optimal schedule slows down significantly near the minimum gap region, allowing the system to remain adiabatic through the critical point, while speeding up in regions with larger gaps. (a) Landau Zener model (b) QA Ising model with 3 Qubits}
+    \label{fig:optimal_ramp}
+\end{figure}
+
+\qquad Importantly, the coupling to the meter does not affect this mapping schedule as it only rescales energy levels but does not change the form of the Hamiltonian derivative $dH/ds$. Therefore, the locally adiabatic schedule derived for the bare system remains optimal in the presence of the meter coupling, preserving the potential speedup benefits. We examine if we can extract benefits from this locally adiabatic approach in the presence of the meter-induced dephasing. We compare the performance difference between the standard linear schedule and the optimal local adiabatic schedule in the presence of the meter coupling. For the Ising example we average over 100 random instances of different couplings, for each instance we compute the optimal local adiabatic schedule via the energy gaps. 
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:optimal_diff_a}
+        \vspace{-1.5ex}
+        \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/LZOptimalDiff.png}}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:optimal_diff_b}
+        \vspace{-1.5ex}
+        \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{OptimalRamp/QAOptimalDiff.png}}
+    \end{subfigure}
+    \caption[Fidelity comparison: optimal versus linear schedules]{Fidelity difference between optimal local adiabatic and linear schedules. (a) Landau Zener Model (b) QA Ising Model with 3 Qubits averaged over 100 instances with schedule optimized for each instance.}
+    \label{fig:optimal_diff}
+\end{figure}
+
+\qquad Use of the computed optimal local adiabatic schedule yields a significant fidelity improvement over the linear schedule especially for moderate annealing durations with a roughly 8\% increase in fidelity for both models. For the LZ model this occurs along the contours of $T_{eff} = T(1+x_0)$ = 4 or for $T_{eff} = 8$ for the QA model. 
+
+\section{Statistical Foundations}
+\qquad As before knowing the instantaneous spectral gap \textit{a priori} is equivalent to solving the QA problem itself, making the exact implementation of the optimal local adiabatic schedule impractical. However, statistical knowledge of the gap distribution across problem instances could inform heuristic schedule designs that approximate the optimal rate without requiring full spectral information. By analyzing ensembles of problem Hamiltonians, one can identify typical gap behaviors and construct schedules that adaptive slow down in regions where small gaps are statistically likely, while speeding up elsewhere. This statistical approach enables practical implementations of locally adiabatic evolution that capture much of the performance benefit without the need for exact gap knowledge.
+
+\qquad We will approach this problem with two strategies, we will compare averaging the spectral properties over many instances to generate a single heuristic schedule versus generating individual optimal schedules and averaging the schedule performance over many instances.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/GapStats/3_GapProfiles.png}
+        \caption{}
+        \label{fig:gap_profiles_a}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/GapStats/4_GapProfiles.png}
+        \caption{}
+        \label{fig:gap_profiles_b}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/GapStats/5_GapProfiles.png}
+        \caption{}
+        \label{fig:gap_profiles_c}
+    \end{subfigure}
+    \caption[Energy gap statistics for N=3,4,5 qubit systems]{Characteristic Energy Gaps for (a) 3 qubit, (b) 4 qubit, and (c) 5 qubit random Ising instances with $J_{ij}\in[0,1]$. Average and standard deviation are indicated for 100{,}000 iterations of random samples.}
+    \label{fig:gap_profiles}
+\end{figure}
+
+\qquad We first make a crude analysis and apply the average schedule derived from the average gap profile to all instances. We compare this to the performance of the individual optimal schedules averaged over many instances, specifically for Ising instances with different random parameters. We list some statistical properties of the gaps in the Appendix \ref{sec:appendix_gap_statistics}. We first compare the performance of the average schedule to the linear schedule. From there it is critical to examine how much performance is lost to the averaging process by comparing to the individual optimal schedules.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:average_schedule_a}
+        \vspace{-1.2ex}
+        \includegraphics[width=0.75\textwidth]{figures/OptimalRamp/3-QAAverageRampVsLinear.png}
+    \end{subfigure}%
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:average_schedule_b}
+        \vspace{-1.2ex}
+        \includegraphics[width=0.75\textwidth]{figures/OptimalRamp/3-QAAverageVsOptimal.png}
+    \end{subfigure}
+    \caption[Averaged optimal schedule performance]{Averaged optimal local adiabatic schedule performance for 3 qubit random Ising instances. (a) Comparison of average optimal schedule to linear schedule. (b) Comparison of average optimal schedule to individual optimal schedules averaged over many instances.}
+    \label{fig:average_schedule}
+\end{figure}
+
+\qquad We maintain a significant performance improvement over the linear schedule even with the crude averaging process. However, we do lose some performance compared to the individual optimal schedules in Fig. \ref{fig:optimal_diff}(b). Specifically in regions of long annealing times and high interaction strength $x_0$ we see a drop in performance. This is likely due to the variance in gap locations across different instances, where the average schedule may slow down in regions that are not critical for certain instances, leading to suboptimal performance. We extend this analysis to larger qubit numbers and different coupling geometries in the Appendix \ref{sec:appendix_larger_annealings}.

@@ -1,0 +1,32 @@
+% Chapter 2: Theoretical Foundations
+\chapter{Theoretical Foundations}\label{Ch1:TheoreticalFoundations}
+
+\section{Quantum Annealing Problems}
+\qquad This analysis focuses on combinatorial optimization problems expressible through the Quadratic Unconstrained Binary Optimization (QUBO) framework. QUBO formulations have proven versatile across practical applications spanning traffic-flow, logistics and finance.\cite{BaltimoreQA,TrafficFlowOptimizationQA, FinancePortfolioQA} This includes NP-hard classed problems including MAXCUT, graph colouring, and vertex cover.\cite{ClassofQuboProblems} At its core, a QUBO problem involves finding the minimum of a quadratic objective function with respect to binary variables $x_i \in \{0,1\}$ (i.e. bits) and a symmetric $N \times N$ matrix $Q$
+
+\begin{equation}
+    f(x) = \sum_{i=1}^{N} \sum_{j=1}^{N} Q_{ij} x_i x_j
+\end{equation} 
+
+\qquad To reformulate QUBO in a quantum mechanical setting, one performs the variable transformation $z_i = 2x_i - 1$ to obtain an equivalent Ising model with Hamiltonian \cite{IsingFormulationsNPQA}. Now rather than operating with bits we operate with qubits, and the problem Hamiltonian is expressed in terms of Pauli-Z operators $\sigma_i^z$ acting on qubit $i$. The resulting Ising Hamiltonian takes the form
+
+\begin{equation}\label{IsingProblemEquation}
+    H_P = \sum_{i} h_i \sigma_i^z + \sum_{i<j} J_{ij} \sigma_i^z \sigma_j^z
+\end{equation}
+
+\qquad Here, $\sigma_i^z$ denote pauli-z operators on qubit $i$, with $h_i$ representing local field strengths and $J_{ij}$ encoding inter-qubit coupling interactions. The solution landscape of the original optimization problem becomes the ground state configuration of this Hamiltonian. 
+
+\section{Quantum Annealing}
+\qquad Since directly accessing the ground state of the problem Hamiltonian $H_P$ is challenging, quantum annealing begins by preparing the system in the ground state of a simple initial Hamiltonian $H_0$, then gradually transitions the system to $H_P$. The initial Hamiltonian is typically chosen to be a transverse field form $H_T = \sum_i \sigma_i^x$, whose ground state comprises an equal superposition across all possible computational basis configurations. The annealing evolution is governed by a time-dependent interpolation
+
+\begin{equation}
+    H(t) = (1-\lambda(t))H_0 + \lambda(t)H_P,
+\end{equation}
+
+where $\lambda(t)$ increases from 0 to 1 during the evolution interval $[0, \tau]$. Beginning in the ground state of $H_0$ at $t=0$, the system remains in the instantaneous eigenstate of $H(t)$ provided the evolution proceeds sufficiently slowly, and finally reaches the ground state of $H_P$ at $t=\tau$.The adiabatic theorem ensures this outcome, however, the constraint that evolution must be "sufficiently slow" represents the fundamental limitation of quantum annealing. This requirement scales inversely with the energy gap \cite{Amin2009ConsistencyAdiabatic}
+
+\begin{equation}
+    \frac{|\langle m(t)|\dot H(t)|n(t)\rangle|}{|E_n(t) - E_m(t)|^2} \ll 1 \qquad (m \neq n),
+\end{equation}
+
+\qquad To avoid prohibitively long annealing times we apply quantum-control techniques. Two useful classes are: shortcuts-to-adiabaticity (STA), which enforce a specific trajectory in Hilbert space (e.g., remain in the instantaneous ground state), and optimal-control methods, which directly search for physically implementable pulse shapes that maximise the final ground-state fidelity when only the end result matters. Common strategies explored in the literature include counterdiabatic (transitionless) driving \cite{BerryCounterdiabatic2009}, variational/approximate CD and local CD schemes \cite{COLD2023}, Floquet and periodic driving protocols \cite{CAFFEINE2025}, reservoir or dissipation engineering and measurement‑based (QND/Zeno) control \cite{ResEngSTA}, active cooling protocols \cite{CoolingLangbehn2025} and more are applicable to these syles of problems.
