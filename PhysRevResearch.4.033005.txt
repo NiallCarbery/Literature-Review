@@ -1,0 +1,850 @@
+                                   PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+
+
+                                      Reservoir-engineering shortcuts to adiabaticity
+
+                      Raphaël Menu ,1 Josias Langbehn ,2 Christiane P. Koch ,2 and Giovanna Morigi                       1
+                               1
+                               Theoretische Physik, Universität des Saarlandes, D-66123 Saarbrücken, Germany
+                     2
+                         Dahlem Center for Complex Quantum Systems and Fachbereich Physik, Freie Universität Berlin,
+                                                  Arnimallee 14, D-14195 Berlin, Germany
+
+                                      (Received 27 July 2021; accepted 16 May 2022; published 5 July 2022)
+
+                 We propose a protocol that achieves fast adiabatic transfer between two orthogonal states of a qubit by
+              coupling with an ancilla. The qubit undergoes Landau-Zener dynamics, whereas the coupling realizes a time-
+              dependent Hamiltonian, which is diagonal in the spin’s instantaneous Landau-Zener eigenstates. The ancilla
+              (or meter), in turn, couples to a thermal bath such that the overall dynamics is incoherent. We analyze the
+              protocol’s fidelity as a function of the strength of the coupling and of the relaxation rate of the meter. When the
+              meter’s decay rate is the largest frequency scale of the dynamics, the spin dynamics is encompassed by a master
+              equation describing dephasing of the spin in the instantaneous eigenbasis. In this regime, the fidelity of adiabatic
+              transfer improves as the bath temperature is increased. Surprisingly, the adiabatic transfer is significantly more
+              efficient in the opposite regime, where the timescale of the ancilla dynamics is comparable to the characteristic
+              spin timescale. Here, for low temperatures the coupling with the ancilla tends to suppress diabatic transitions via
+              effective cooling. The protocol can be efficiently implemented by means of a pulsed, stroboscopic coupling with
+              the ancilla and is robust against moderate fluctuations of the experimental parameters.
+
+              DOI: 10.1103/PhysRevResearch.4.033005
+
+
+
+                         I. INTRODUCTION                                  gineering, which tailors the coupling of a quantum system
+                                                                          with a reservoir for efficient quantum state preparation, and
+   A powerful resource for quantum control is adiabatic
+                                                                          we extend it with the objective of stabilizing the adiabatic
+dynamics because of its robustness against parameter fluc-
+                                                                          quantum trajectory. We consider a paradigmatic model of
+tuations [1,2]. This comes at the cost of the operation time,
+                                                                          quantum adiabatic dynamics, the Landau-Zener Hamiltonian
+which shall be sufficiently long to preserve adiabaticity [3].
+                                                                          of a two-level system, and design the coupling with an
+In closed and finite systems, the lower bound to the time
+                                                                          external bath. In our protocol, the spin couples to an an-
+is set by the smallest frequency gap separating the target
+                                                                          cilla by means of a time-dependent interaction or coupling
+state from the excitations. In realistic settings, detrimental
+                                                                          Hamiltonian that is diagonal in the instantaneous basis of
+effects become increasingly important with time, such that
+                                                                          the Landau-Zener Hamiltonian. Irreversible dynamics is in-
+they effectively determine a finite time window, the optimal
+                                                                          troduced by means of a thermal bath with which the ancilla
+processing time, in which the coherent adiabatic dynamics can
+                                                                          thermalizes. The spin-ancilla coupling has the form of a
+be implemented. This implies a lower bound to the processing
+                                                                          quantum nondemolition (QND) type of Hamiltonian [14–16],
+error [4,5].
+                                                                          where a measurement of the meter (ancilla) state projects
+   A way to overcome this bottleneck is to develop protocols
+                                                                          the qubit onto an energy eigenstate. Differing from a QND
+for implementing relatively fast and efficient adiabatic trans-
+                                                                          measurement, however, the coupling is time dependent and
+formations. Strategies being discussed include the application
+                                                                          the coupling Hamiltonian is diagonal in the instantaneous
+of optimal control theory [6] and the active use of projective
+                                                                          Landau-Zener eigenbasis. We characterize the fidelity of adi-
+measurements [7,8]. The ultimate goal is to arbitrarily reduce
+                                                                          abatic transfer as a function of the coupling strength with
+the error of protocols based on quantum adiabatic dynamics.
+                                                                          the ancilla, of the thermalization rate, and of the temperature
+The formal equivalence of measurement and dissipative dy-
+                                                                          of the external bath, and identify the regimes in which the
+namics suggests the use of reservoir engineering.
+                                                                          coupling with the external bath leads to a significant gain in
+   Here, we discuss a protocol for implementing fast adiabatic
+                                                                          adiabaticity or in adiabatic transfer fidelity with respect to
+transfer by means of quantum reservoir engineering [9–13].
+                                                                          purely Hamiltonian dynamics.
+We start from the basic concept of quantum reservoir en-
+                                                                              The paper is organized as follows. In Sec. II, we shortly
+                                                                          review the properties of the adiabatic transfer probability of
+                                                                          Landau-Zener Hamiltonian dynamics and then introduce our
+                                                                          protocol based on quantum reservoir engineering. In Sec. III,
+Published by the American Physical Society under the terms of the         we determine the fidelity of the adiabatic transfer, taking into
+Creative Commons Attribution 4.0 International license. Further           account the full quantum dynamics of the meter. We then
+distribution of this work must maintain attribution to the author(s)      investigate the role of nonadiabaticity and non-Markovianity
+and the published article’s title, journal citation, and DOI.             (NM) of the spin-ancilla coupling on the fidelity of adiabatic
+
+2643-1564/2022/4(3)/033005(13)                               033005-1                              Published by the American Physical Society
+MENU, LANGBEHN, KOCH, AND MORIGI                                                   PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+transfer. In Sec. IV, we analyze a stroboscopic, pulsed imple-
+mentation of the protocol and simulate possible experimental
+imperfections, showing that the protocol is robust against
+moderate fluctuations of the experimental parameters. We
+conclude in Sec. V and discuss perspectives of this paper. The
+Appendices provide details of the derivation and the bench-
+marking of the quantum adiabatic master equation for a weak
+QND interaction.
+
+            II. LANDAU-ZENER HAMILTONIAN
+                 AND QND MEASUREMENT
+    In this section, we first review salient properties of the
+Landau-Zener dynamics. We then introduce the model at
+the center of our study, where the qubit, undergoing the
+Landau-Zener dynamics, is also coupled to a second quantum
+system, acting as an environment. The coupling Hamiltonian              FIG. 1. Instantaneous eigenenergies of the Landau-Zener
+is time dependent; at each instant of time, it commutes with         Hamiltonian Eq. (1) as a function of time (in units of g/). The blue
+the Landau-Zener Hamiltonian and implements a dynamics               curves correspond to the energies in units of g, which determines to
+which is reminiscent of QND measurements.                            the gap at the anticrossing t = 0. The dashed lines correspond to the
+                                                                     eigenenergies for g = 0.
+                 A. Landau-Zener Hamiltonian
+   The Landau-Zener model [17,18] is an example of exactly           Eq. (1). The probability P quantifies the deviation from adi-
+solvable dynamics and a workhorse of studies on adiabaticity         abaticity and thus provides the error, or the infidelity, of the
+[3,19]. It describes the dynamics of a two-level system with         operation. We define the infidelity T as the limit of P when
+the algebra of a spin 1/2, whose Schrödinger equation is             t1 → −∞ and t2 → +∞. In this limit, it takes the well-
+governed by the time-dependent Hamiltonian                           known form [17,18]
+                               t      g                                         T ≡ lim P(t1 , t2 ) = exp(−π g2 /2) ,               (3)
+                    ĤS (t ) =    σ̂z + σ̂x ,                                          t1 →−∞
+                               2       2                                               t2 →+∞
+                                           
+                               1 t      g                           which shows that the infidelity is controlled by the ratio be-
+                             =                ,               (1)
+                               2 g −t                               tween the energy gap g at the avoided crossing point and
+where the matrix is reported in the eigenbasis of the Pauli          the sweeping rate . One √typically distinguishes two extremal
+matrix σ̂z , | ↑ ≡ (1, 0), | ↓ ≡ (0, 1). Here, the parameter      behaviors: (i) For g        , the gap is sufficiently wide to pe-
+is a positive constant that determines the sweeping rate of          nalize the transition, enabling the system to evolve smoothly
+the Hamiltonian. As for g, it couples the energy levels and          from √|−−∞ = | ↑ to |−+∞ = | ↓. (ii) On the other hand, if
+lifts the degeneracy observed at the crossing point t = 0. For       g       , the system does not have time to adjust to the change
+convenience, we have set h̄ = 1.                                     of parameters and the state gets promoted from the low-energy
+    Hamiltonian Eq. (1) is diagonal in the so-called adiabatic       branch to the high-energy one.
+eigenbasis |±t , which is connected to the σz eigenbasis by            For a finite time window, the transition probability is dom-
+the relations                                                        inated by the term [3]
+                                                                                                                                
+         |+t = + cos(θ (t )/2)| ↑ + sin(θ (t )/2)| ↓ ,                                  2         g6               g6
+                                                                            P(t1 , t2 ) ≃                   +                 , (4)
+                                                                                          16g4 g2 +  2t 2 3      g2 +  2t22
+                                                                                                                               3
+         |−t = − sin(θ (t )/2)| ↑ + cos(θ (t )/2)| ↓,                                                  1
+
+
+with tan θ (t ) = g/t [20].                                         and thus scales algebraically with /g2 . Equation (4) is re-
+                            The corresponding instantaneous         ported to be valid for sufficiently long times t2 , for which
+eigenenergies E± (t ) = ± g2 +  2t 2 /2 are displayed in Fig. 1
+                                                                     the oscillations are damped out, and neglects higher-order
+as a function of t. The lower branch is associated with state
+                                                                     corrections. We note that the latter also include the terms de-
+|−t , corresponding to | ↑ at t1 → −∞ and to | ↓ at t2 →
+                                                                     termining the asymptotic behavior of Eq. (3) for t2 , |t1 | → ∞.
++∞. The opposite holds for the state |+t in the upper branch.
+    The dynamics of the Landau-Zener model is governed by
+a time-dependent Schrödinger equation, which admits an an-           B. Quantum nondemolition measurement in the adiabatic basis
+alytical solution in terms of parabolic cylinder functions [21].        Projective measurements are an essential ingredient of
+A quantity relevant to our study is the probability P(t1 , t2 ) of   quantum mechanics. They are physically implemented by
+a diabatic transfer from state |−t1 to state |+t2 ,                coupling the system of interest to a second physical system,
+               P(t1 , t2 ) = |t1 +|Û (t1 , t2 )|−t2 |2 ,   (2)    acting as a meter for the quantity to measure [22]. As a result,
+                                                                     the effective dynamics of the system is generally incoherent,
+where Û (t1 , t2 ) is the evolution operator solving the            since the measurement destroys quantum superpositions be-
+Schrödinger equation with the time-dependent Hamiltonian             tween eigenstates at different eigenvalues. At the same time,
+
+                                                               033005-2
+RESERVOIR-ENGINEERING SHORTCUTS TO …                                               PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+the incoherent dynamics due to the meter can suppress tran-          follows, we assume that the meter (ancilla) is a damped
+sitions to states outside the target Hilbert space, realizing an     oscillator. We describe the meter’s damping by means of a
+effective quantum Zeno dynamics [23].                                Liouvillian and numerically determine the infidelity of the
+    In this paper, we propose to design the coupling to the me-      adiabatic transfer as a function of the parameters character-
+ter such that it suppresses diabatic transitions by performing       izing the ancilla’s dynamics.
+a measurement in the instantaneous Landau-Zener eigenba-
+sis in the spirit of quantum reservoir engineering [9–13].                 A. Continuous QND coupling to a damped oscillator
+This is done by coupling the spin with an ancilla by means
+of the Hamiltonian ĤSM (t ) defined in the Hilbert space of            Let now HM = ωc â† â be the Hamiltonian of a harmonic
+qubit and ancilla (which we here and below also denote               oscillator, where â† and â create and annihilate, respectively,
+by meter),                                                           a quantum of energy ωc . The operator X̂M of the QND
+                                                                     Hamiltonian, Eq. (6), is taken to be
+            ĤSM (t ) = ĤS (t ) + ĤM + ĤQND (t ) ,         (5)
+                                                                                            X̂M = x0 (â + â† ) ,
+where ĤM is the meter’s Hamiltonian in the absence of the
+coupling and ĤQND (t ) is the qubit-meter coupling. The latter      where x0 is a dimensionless parameter scaling the QND cou-
+is time dependent and takes the form                                 pling. The oscillator, moreover, couples to a thermal bath,
+                                                                     which we assume to be Markovian. The resulting dynamics
+                   ĤQND (t ) = ĤS (t ) ⊗ X̂M ,              (6)    is governed by the Lindblad equation
+                                                                                                                                     
+with ĤS (t ) given in Eq. (1) and X̂M an operator acting on             ∂                                              1
+the Hilbert space of the meter (ancilla). Hamiltonian ĤQND                ρ̂ = −i[ĤSM (t ), ρ̂] + κ (n + 1) âρ̂ â† − {â† â, ρ̂}
+                                                                        ∂t                                              2
+commutes with ĤS at each instant of time. For  = 0 (no time                                               
+dependence), it realizes a QND measurement: there is no en-                                      1
+                                                                                + κn â† ρ̂ â − {ââ† , ρ̂} ,                        (7)
+ergy exchange between meter and qubit and the measurement                                        2
+of the meter (ancilla) allows one to measure the energy of the
+                                                                     where κ is the oscillator’s damping and
+qubit with arbitrary precision [14–16].
+    QND-type dynamics have been realized in several setups.                               n = 1/(exp(βωc ) − 1)
+In most cases, the system and meter are the qubit and har-
+monic oscillator with interchangeable roles. In microwave            is the mean occupancy of the cavity imposed by the bath with
+cavity QED, for instance, the system is a high-finesse mode          inverse temperature β.
+of the cavity, the meter a Rydberg transition of atoms flying            Using Eq. (7), we numerically determine the transfer
+through the cavity [24]. QND is at the basis of spin-squeezing       probability integrating over a finite time interval [−t, t]. Ex-
+protocols using the mode of a resonator as a meter [25].             emplary dynamics of the transition probability as a function
+Most recently, a QND-based protocol has been proposed                of time are depicted in the inset of Fig. 2(b): In general, the
+for determining the spectrum of a spin chain by using the            coupling to the meter tends to damp the typical oscillations of
+common vibrational mode as meter [26]. With respect to               the Landau-Zener dynamics and leads to a faster relaxation to-
+these examples, the peculiarity of Eq. (6) is that ĤQND (t )        ward the asymptotic value. In Fig. 2, the infidelity is analyzed
+is time dependent and specifically diagonal in the adiabatic         as a function of the damping rate κ, of the coupling amplitude
+eigenbasis.                                                          x0 , and of the average occupancy n. We start with the depen-
+    We note that here the analogy with the measurement re-           dence on κ and first note that in the limit κ → ∞ the oscillator
+quires that the ancilla state is instantaneously reset after the     instantaneously relaxes to the thermal state. For large but finite
+interaction [10,12,13,27], such that the correlations between        κ, the oscillator is in a coherent state, namely, a right eigen-
+ancilla and system generated by the interactions are destroyed       state of operator â. Denoting the coherent state by |α, such
+by projecting the ancilla onto the initial state. In our dynamics,   that â|α = α|α, then the amplitude α is determined by the
+this occurs on a finite timescale and is realized by the coupling    Landau-Zener Hamiltonian: This is the limit of a projective
+of the ancilla with a thermal bath, with which the ancilla equi-     measurement, the state of the qubit is inferred by measuring
+librates. We will show that this timescale is indeed relevant        the oscillator amplitude. Figure 2(a) displays the infidelity as
+and that the protocol works most efficiently when retardation        a function of the damping rate κ and for different values of x0 .
+effects are important.                                               For small κ, the infidelity decreases down to a local minimum
+    In the rest of this paper, we discuss the qubit’s effective      that lies below the Landau-Zener prediction. In Sec. III C, we
+dynamics generated by the QND coupling of Hamiltonian                will show that this limit is described by a quantum adiabatic
+ĤQND , Eq. (6), assuming that the meter is a damped harmonic        master equation, where the qubit undergoes dephasing in the
+oscillator.                                                          instantaneous eigenbasis of the Landau-Zener Hamiltonian.
+                                                                         Increasing x0 at fixed κ, on the other hand, is analogous
+                                                                     to increasing the importance of retardation (or memory) ef-
+            III. CASE STUDY: QUBIT COUPLED
+                                                                     fects on the dynamics. In Fig. 2(b), the infidelity is displayed
+                  TO A CAVITY ANCILLA
+                                                                     as a function of x0 : For increasing values of x0 , the infi-
+   We now analyze the dynamics governed by the meter-                delity decreases down to a nonvanishing asymptotic value.
+qubit Hamiltonian with the QND coupling as in Eq. (6). We            This behavior is due to transitions between the instantaneous
+specifically investigate whether and under which conditions          eigenstates. At large x0 (and vanishing temperatures), these
+the QND coupling suppresses diabatic transitions. In what            transitions mainly consist of decay from the upper to the lower
+
+                                                               033005-3
+MENU, LANGBEHN, KOCH, AND MORIGI                                                         PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+
+
+
+   FIG. 2. Infidelity T as a function of (a) the damping rate κ, computed for fixed parameters ωc = g, and β = 10/ωc (n ∼ 4 × 10−5 ), (b) the
+qubit-meter coupling amplitude x0 , for ωc = g, κ = ωc , and β = 10/ωc , and (c) the average occupancy n = 1/(exp(βωc ) − 1) of the boson
+bath, for ωc = g and x0 = 1. In all panels, the adiabaticity parameter is g2 / = 1, i.e., nonadiabatic effects in the bare dynamics of the qubit
+are expected to be sizable. The inset of subplot (b) displays the evolution of the transfer probability P for some values of x0 . All results are
+obtained by numerically solving Eq. (7) for an oscillator of maximum occupancy nmax = 50.
+
+energy branch, thus cooling the qubit into the instantaneous               initial states ρ1,2 (0) that exhibits the maximum increase in
+lower eigenstate and thereby correcting for the unwanted dia-              distinguishability,
+batic transitions. This behavior can substantially change when                                              d
+increasing the temperature (correspondingly, increasing n), as                           σ (t, ρ1,2 (0)) = tr|ρ1 (t ) − ρ2 (t )|,            (8)
+                                                                                                            dt
+visible in Fig. 2(c). Here, the initial monotonous increase of                                            
+the infidelity as a function of the thermal occupation n is due                          N ( ) = max           dt σ (t, ρ1,2 (0)) ,          (9)
+to an increasing number of diabatic transitions from the lower                                      ρ1,2 (0) σ >0
+to the upper branch. Remarkably, this tendency is reverted for                 Figure 3 displays the NM measure N and the correspond-
+large values of κ, where the qubit dynamics is described by                ing infidelity for representative parameter regimes. As one
+a quantum adiabatic master equation (Sec. III C). Here, the                would expect, NM effects are sizable for weak damping as the
+dephasing induced by the coupling with the ancilla tends to                meter is not reset fast enough. Yet, the NM measure exhibits
+preserve adiabaticity and has a rate proportional to the thermal           one or more maxima as a function of the meter-qubit coupling
+occupation n, thus increasing with the temperature. As a re-               x0 . In none of the two cases considered, we can identify a
+sult, in this limit the fidelity improves as the bath temperature          clear correlation between the behavior of the NM measure and
+is increased. We here remark that similar features have been               the infidelity. We conclude that there is no simple relationship
+discussed in Refs. [28,29] for a different implementation of               between memory effects and adiabaticity.
+the spin master equation.                                                      In addition, we also inspect the instantaneous gap between
+                                                                           the two instantaneous eigenstates of the qubit at the crossing
+            B. Memory effects and instantaneous gap
+                                                                           point,
+
+    The analysis of the infidelity of our protocol exhibits a                               R =    E (0)(1 + 2x0 â + â† )t=0 ,
+rich variety of behaviors and regimes. In some cases, we                   which we simply obtain by tracing out the oscillator. The
+observe an improvement of the adiabaticity compared to the                 red lines in Fig. 3 show the parameter values where R is
+Landau-Zener prediction. Particularly striking is that increas-            minimum. This curve has a good overlap with the maximum
+ing qubit-cavity coupling leads to decreasing the infidelity,              of the infidelity on a large parameter interval, suggesting that
+suggesting that memory effects could help the adiabatic trans-             high-fidelity adiabatic transfer can be achieved by designing
+fer. To better understand whether there is a connection, we                an effective gap by means of an external environment.
+analyze NM in the qubit’s dynamics. NM in the evolution of
+a density matrix can be probed by several types of measures
+[30]. In the following, we quantify non-Markovianity in the                        C. QND measurement in the Markovian regime
+qubit by using the measure based on information backflow                      The purpose of this section is to discuss the
+to the system [31], later referred to as NM measure. A non-                equation governing the effective dynamics of the qubit
+anishing NM measure signals NM evolution and the presence                  when the oscillator’s variable can be eliminated from the
+of memory effects in the dynamics of the system.                           qubit’s equation of motion. This occurs in the overdamped
+    The measure N of Ref. [31] quantifies the revival of                   limit, when the meter quickly relaxes to a steady state.
+distinguishability between two states as a function of time.               In this regime, the coupling with the meter induces an
+While for Markovian dynamics the distinguishability of any                 incoherent dynamics of the qubit. The resulting master
+two states follows a monotonous decay, NM dynamics are                     equation describes an effective dephasing in the adiabatic
+characterized by a temporarily increasing distinguishability.              basis, whose net effect is to enforce adiabatic transfer. In this
+The measure N of a dynamical map           determines distin-              case, the infidelity can be analytically determined in some
+guishability via the trace distance and considers the pair of              limits. We recall that the dynamics for master equations with
+
+                                                                   033005-4
+RESERVOIR-ENGINEERING SHORTCUTS TO …                                                      PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+
+                                                                           first nonadiabatic corrections scale like /g2 and are thus of
+                                                                           higher order.
+                                                                               We follow the procedure outlined in Ref. [33] and obtain
+                                                                           the master equation for the qubit density matrix ρ̂S = Tr M [ρ̂],
+                                                                                                  +∞
+                                                                                 ∂t ρ̃S (t ) = −      dτ {H̃S (t )H̃S (t − τ )ρ̃S (t )
+                                                                                                    0
+
+                                                                                              − H̃S (t − τ )ρ̃S (t )H̃S (t )}CX X (τ, 0)
+                                                                                                 +∞
+                                                                                              −        dτ {ρ̃S (t )H̃S (t − τ )H̃S (t )
+                                                                                                   0
+
+                                                                                              − H̃S (t )ρ̃S (t )H̃S (t − τ )}CX X (0, τ ) ,            (10)
+                                                                           where the details of the derivation are provided in
+                                                                           Appendix A. Equation (10) is reported in the interaction pic-
+                                                                           ture, where the operators Ã = H̃S and ρ̃ are related to the
+                                                                           operators in the laboratory frame by
+                                                                                               Ã(t ) = ÛS† (t, 0)Â(t )ÛS (t, 0),                   (11)
+                                                                           and ÛS (t, 0) is the evolution operator of the qubit’s time-
+                                                                           dependent Schrödinger equation,
+                                                                                                              t
+    FIG. 3. (Color online.) NM measure (left panels) and value of                      ÛS (t, 0) = T exp − i     dt  ĤS (t  ) ,  (12)
+the infidelity T (right panels) (a) as a function of the damping rate of                                                      0
+the meter κ/ωc and the QND coupling x0 computed for the adiabatic          with T the symbol for time ordering. The scalar func-
+parameter g2 / = 1 and (b) as a function of the adiabatic parameter       tion CX X (t, t  ) is the autocorrelation function of the
+g2 / and the QND coupling x0 computed at a fixed damping rate             observable X̂M ,
+κ/ωc = 0.1. On all plots, the red line stands for the minimum of the
+effective real gap R , see text for details, while the vertical white        CX X (t, t  ) = X̃M (t )X̃M (t  )
+line represents the intersection between the considered (κ/ωc , x0 )                                                                              
+
+and (g2 /, x0 ) planes. All calculations are performed for β = 10/ωc                     = Tr{eiĤM t X̂M e−ĤM (t−t ) X̂M e−iĤM t ρ̂M } , (13)
+(n ∼ 4 × 10−5 ).                                                           with ρ̂M the density matrix of the meter. Since the meter’s
+                                                                           state is assumed stationary over the timescale of the qubit
+                                                                           evolution, CX X (t, t  ) = CX X (t − t  , 0) = CX X (0, t  − t ).
+QND coupling between system and reservoir have been                           We expand the evolution operator ÛS to first order in the
+discussed, for instance, in Ref. [32]. Differing from those                parameter /g2 to evaluate the integrals in Eq. (10). We ap-
+works, we emphasize that in our case the coupling is time                  proximate Eq. (12) by the expression
+dependent and proportional to the Landau-Zener Hamiltonian.
+   In what follows, we sketch the derivation of the master                      ÛS (t, t  ) = ÛSad (t, t  )[1 + V̂ (t, t  )] + O( 2 /g4 ),       (14)
+equation following the steps of Ref. [33] and for a generic                where ÛSad (t, t  ) is the evolution operator in leading order,
+system acting as a meter. We then analyze the predictions of
+                                                                                                                                            
+the master equation.                                                                       ÛSad (t, t  ) =          |at t  a|e−iμa (t,t ) ,       (15)
+                                                                                                                a=±
+
+                        1. Basic assumptions                               and is thus diagonal in the instantaneous eigenbasis. The
+                                                                           global phase factor μa (t, t  ) is the sum of the dynamic and
+   Our starting point is the von-Neumann equation for meter                geometric components,
+and qubit with Hamiltonian Eq. (5). The meter is assumed                                            t
+to be in a thermal state at inverse temperature β. The con-                                   
+                                                                                      μa (t, t ) =      dτ [Ea (τ ) − iτ a|ȧτ ] . (16)
+struction of the quantum adiabatic master equation requires                                                t
+assumptions on the different energy and timescales. We start                                   
+with the minimal gap g between the two energy branches: To                 Operator V̂ (t, t ) in Eq. (14) is of order /g2 and takes
+ascertain the adiabaticity of the coherent part of the dynamics            the form
+for the LZ system, we shall take the limit where /g2        1.                        V̂ (t, t  ) = −α+− (t, t  )|+t  t  −| − H.c. ,            (17)
+We also require that the meter relaxes at timescales τM over
+which one can consider the Hamiltonian ĤS (t ) to be constant,            with the coefficient α+− (t, t  ) [3],
+resulting in τM2      1. For example, when the meter is an                                                           τ 
+                                                                                         1 t          g
+overdamped oscillator, then τM ∼ 1/κ when κ is the largest                 α+− (t, t ) =        dτ 2              exp i    du g2 +  2 u2 ,
+                                                                                          2 t    g + 2τ 2             t
+rate of Eq. (7), and the second condition corresponds to the
+inequality      κ 2 . Under these conditions, the incoherent              and α−+ (t, t  ) = −α+−
+                                                                                                 ∗
+                                                                                                    (t, t  ). In this procedure, we account
+part of the dynamics is predominantly adiabatic since the                  for nonadiabatic effects during the relaxation time of the meter
+
+                                                                     033005-5
+MENU, LANGBEHN, KOCH, AND MORIGI                                                                   PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+by treating them to first order in the perturbative expansion.
+See Appendix B for further details.
+
+                           2. Master equation
+    The resulting master equation for the qubit density matrix
+in the laboratory frame and for τM → 0 takes the form
+                            ∂t ρ̂ = Lad (t )ρ̂ ,                          (18)
+with generator
+ Lad ρ̂ = −i[ĤS , ρ̂] − γ (t )(P̂− (t )ρ̂ P̂+ (t ) + P̂+ (t )ρ̂ P̂− (t )),
+                                                                          (19)
+with operators P̂± (t ) = |±t t ±| projecting into the instanta-
+neous basis with the time-dependent rate:
+                 γ (t ) = G(0)(E+ (t ) − E− (t ))2 /2 .
+                                                                                        FIG. 4. Influence of the dephasing Lindbladian, Eq. (19), on the
+The scaling factor G(0)/2 is the real part of the Fourier trans-                    evolution of the transition probability P for a finite time evolution and
+form X X (ω = 0) of the meter’s autocorrelation function at                        different values of the ratio γ0 /g between the dephasing rate and the
+zero frequency:                                                                     LZ coupling g. The curves are obtained by integrating numerically
+                      +∞                                                           Eq. (19) for the initial state |−ti over the finite time window [ti , t f ]
+          X X (ω) =       dτ exp (iωτ )CX X (τ, 0) .       (20)                    with t f = −ti = 5g/ and g2 / = 1. In all numerical calculations
+                            0                                                       here and later on,  = 1.
+Note that G(0) is here assumed to be positive, namely, the
+bath correlation functions are of positive type, so γ (t ) > 0.
+The quantum adiabatic master equation, Eq. (19), describes                          At fixed sweeping , the behavior of the infidelity T is then
+an effective dephasing with time-varying rate γ (t ) in the in-                     controlled by a competition between the gap g and the dephas-
+stantaneous eigenbasis of HS (t ). The dephasing rate decreases                     ing rate γ0 . One can especially notice that the first correction
+with the instantaneous gap and is minimum at the anticrossing                       to Eq. (22) exhibits a scaling with  2 that echoes the one
+point t = 0, where γ (0) = G(0)g2 /2. We use thereafter the                         observed for the transition probability for a Landau-Zener
+notation γ0 ≡ γ (0) for quantifying the strength of dephasing.                      model evolved on a finite time window with a linear ramp,
+   We note that, for the specific model of Eq. (7),                                 as in Eq. (4) [3]. In particular, when the dephasing rate γ0
+                                         κ                                          g, then to leading order T ≃ π /(4γ0 g). This indicates an
+               G(0) = x02 (2n + 1)               ,         (21)                     improvement of adiabaticity in the strong dephasing regime
+                                    (κ/2)2 + ωc2
+                                                                                    and is akin to the so-called quantum Zeno effect. Indeed, as
+where the details of the derivation are reported in Appendix C.                     each measurement projects the system onto an eigenstate of
+The dephasing rate monotonously increases with x02 and with                         the measured observable, if the measurement is made at a
+the thermal occupation n. This term results in an imaginary                         fast frequency, the system does not have the time to evolve
+component of the gap between the instantaneous eigenstates,                         away from the state it was projected onto, thus suppressing
+analogously to the dynamics discussed in Ref. [34], whose                           the probability to tunnel toward another state.
+amplitude increases with the temperature. As we will argue                              We now analyze the behavior of the infidelity beyond
+below, large reservoir temperatures result in lower infidelity,                     the regime of validity of Eq. (22) and study the competi-
+and thus larger adiabatic transfer probability. This regime                         tion
+                                                                                    √ between Hamiltonian dynamics and dephasing also for
+corresponds to regions of Fig. 3 where the NM measure is                                ∼ g, γ0 . Figure 4 displays the dynamics of the transition
+the smallest, namely, for κ/ωc > 0.3 and x0 < 0.5.                                  probability P as a function of time for several ratios γ0 /g
+                                                                                    and at fixed . The effects of dephasing are twofold: The
+           3. Adiabatic transfer in the Markovian regime                            oscillations of P are damped down as γ0 increases, leading
+    The master Eq. (19) was analyzed in Refs. [35,36], with                         to a smoother dynamics. The steady-state value is reached
+the noticeable difference that the dephasing rate was taken to                      for transfer times of the order of t f ∼ g/. Furthermore, the
+be constant. In Ref. [35], the asymptotic behavior        T of the                  final value of P decreases as the dephasing rate increases. For
+                                                √
+infidelity was analytically determined when             g, γ0 (see                 sufficiently large ratios γ0 /g, the infidelity P is substantially
+also Refs. [37–40] for related work). In this limit, the infidelity                 reduced with respect to the value reached by the coherent
+can be cast into the form                                                           Landau-Zener dynamics.
+                                                                                    We analyze the relative infidelity δT = T − TLZ resulting
+                  γ0              2          γ02
+     T = 2Q             +O 2 2                          ,      (22)                 from integrating Eq. (19). A negative value of this quantity
+           2g      g          g (γ0 + g2 ) γ02 + g2                                 indicates that the effect of the dephasing favors the adiabatic
+where Q is an analytic function [35]:                                               transfer with respect to the coherent Landau-Zener dynamics.
+                                  √                                                 The relative infidelity is displayed in Fig. 5 as a function
+                    π      x(2 + 1 + x 2 )                                          of the effective dephasing rate, γ0 /g, and of the adiabaticity
+            Q(x) = √             √             .
+                     2 1 + x 2 ( 1 + x 2 + 1)2                                      parameter, g2 /. The transfer time is here half of the one in
+
+                                                                              033005-6
+RESERVOIR-ENGINEERING SHORTCUTS TO …                                                      PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+
+
+
+                                                                              FIG. 6. Evolution of the transition probability P for different
+   FIG. 5. Difference between the infidelity T and the Landau-             sampling times δt. The results are compared with the Landau-Zener
+Zener prediction TLZ , δT = T − TLZ , as a function of g2 / and γ0 /g.    prediction (LZ) and the continuous QND measurement (QND). The
+The curves show the level lines of the infidelity T , the attached         parameters are g2 / = 1, ωc = g, κ = 2ωc , x0 = 10, and n = 0. The
+number reports the corresponding value. The infidelity T is deter-         oscillator states are truncated at maximum occupancy nmax = 75.
+mined by numerically solving Eq. (19) over the time interval [ti , t f ]
+with t f = −ti = 5g/. The transition probability TLZ used to com-
+pute δT is the transfer probability for the coherent dynamics at the       infidelity when instead there is an error in the implementa-
+corresponding parameters. Note that the time interval over which the       tion, corresponding to an uncertainty in the exact time of the
+system is evolved is proportional to g/.                                  Landau-Zener evolution.
+
+Fig. 4. The behavior at γ0 = 0 is the prediction TLZ of the co-                            A. Stroboscopic QND measurement
+herent Landau-Zener dynamics, where the infidelity decreases                   We now analyze the effect of a pulsed dynamics, such that
+as  decreases. By adding dephasing, for any value of  the                the coupling with the meter is switched on at certain instants
+fidelity as a function of γ0 first becomes worse (δT > 0), then            of time during the dynamics. We model the coupling using the
+improves (δT < 0). The difference δT highlights the param-                 Hamiltonian
+eter region where the QND coupling improves the protocol’s
+fidelity at finite times: We observe δT < 0 for relatively large                    
+                                                                                  ĤQND (t ) ≃            δ(t − jδt )x0 (â + â† ) ⊗ ĤS (t ) ,   (23)
+values of , thus for relatively fast drives. In this regime,                                        j
+dephasing suppresses tunneling to the higher energy state,
+as visible from the level lines of the infidelity in Fig. 5. For           where δt is the time interval between two successive pulses.
+instance, an infidelity of 0.05 is found even for g2 / < 1 by             The effect of this discretized measurement is investigated
+tuning the dephasing rate γ0 to values γ0 > 10g.                           numerically, approximating the Dirac distribution δ by a short
+   Via the derivation of an adiabatic master equation, we                  pulse of duration TP = 1/x0 . The outcome of these calcula-
+showed that the adiabaticity of the Landau-Zener dynamics is               tions is displayed in Fig. 6. The transition probability P as
+enforced by dephasing effects in the instantaneous LZ basis of             a function of time exhibits cusps at the corresponding QND
+the qubit. This dephasing mechanism is interpreted in terms of             pulse. Each of these pulses corrects the evolved state of the
+the Zeno effect and leads to a fast convergence of the transition          spin and suppresses the transition probability, with an effi-
+probability P toward its asymptotic value.                                 ciency that increases as 1/δt decreases. Note that few QND
+                                                                           measurements in the anticrossing region tend to increase the
+         IV. EXPERIMENTAL IMPLEMENTATIONS                                  fidelity of the process and suppress the LZ oscillations. Even
+                                                                           for sparse measurements, the infidelity can lie below the value
+    The dynamics discussed so far requires the capability to               predicted for the bare Landau-Zener model.
+continuously tune the coupling between meter and qubit as
+a function of time. The experimental realization of a such a
+measurement protocol would require a continuous and per-                                                 B. Measurement errors
+fect control over the parameters of the system over time,                     We now consider the possibility of errors in the pulsed
+which is a challenging task. In this section, we analyze the               QND measurement. The error is modeled by a random time
+efficiency of the protocol when the coupling with the meter                shift in the qubit-meter coupling Hamiltonian, such that the
+is implemented at certain instants of time. We first analyze               QND Hamiltonian is not synchronized with the time evolution
+the effect of the QND coupling as a function of the repeti-                of the Landau-Zener Hamiltonian,
+tion rate of the measurement during the dynamics, assuming
+                                                                                  
+the capability to perfectly synchronize the measurement                         ĤQND (t ) ≃         δ(t − jδt )x0 (â + â† ) ⊗ ĤS (t + t j ),   (24)
+with the Landau-Zener evolution. We then investigate the                                         j
+
+
+                                                                     033005-7
+MENU, LANGBEHN, KOCH, AND MORIGI                                                          PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+
+
+
+    FIG. 7. Evolution of the transition probability P at g2 / = 1 for (a) different standard deviations τ for a fixed sampling time δt/g = 1 and
+(b) for different sampling times δt at fixed standard deviation τ /g = 0.1. The dashed lines correspond to the results for a perfect stroboscopic
+measurement. All curves are computed with the parameters as in Fig. 6, and averaged over nit = 50 samples of time shifts. The curves also
+include the error bars on the sample-averaged values of P. In some cases, the errors are such that the bars merge with the plot line.
+
+where {t j } is a set of√random√variables uniformly distributed            transitions [43,44] and cast them in terms of interference
+over the interval [− 3τ, + 3τ ] and τ is the standard de-                  processes by the means of an elegant path-integral formula-
+viation of the probability distribution. Figure 7 shows the                tion. Our study shows that the fidelity of the transfer can be
+evolution of the transition probability P for nit = 50 samples.            partially understood in terms of an effective gap induced by
+As visible in Fig. 7(a), for a fixed sampling frequency (here              the time-dependent QND coupling. Future work will focus on
+δ/gt = 1), the introduction of errors leads to only a moderate            analyzing the connection between this gap and the spectral
+increase of the infidelity, highlighting the robustness of the             gap. One intriguing perspective is to be able to design an
+stroboscopic measurement against errors. Figure 7(b) com-                  effective gap for achieving high-fidelity adiabatic transfer by
+pares the evolution of the transition probability for several              means of an external environment.
+sampling frequencies at a fixed standard deviation (τ /g =                   The dynamics studied here is a realization of control of a
+0.1) with the case of a perfect measurement. One can observe               quantum system by means of driven-dissipative dynamics in
+that the deviation from the ideal case is minimal for large                the spirit of Refs. [45,46]. It could be implemented in several
+sampling frequencies and grows with the sampling frequency.                setups, such as a single trapped ion [47], a single trapped
+The asymptotic behavior of the infidelity remains compara-                 atom inside a resonator [15,48], and a superconducting qubit
+ble with the ideal case as long as the standard deviation of               in circuit QED [49]. The QND type of Hamiltonian discussed
+the time shift is well below the sampling time τ        δt. This           here can extend the protocol of Ref. [26] to tune the coupling
+demonstrates the robustness of the protocol against moderate               between meter and qubit as a function of time. Errors in real-
+parameter fluctuations.                                                    izing the stationary QND Hamiltonian have been discussed in
+                                                                           Ref. [26]. In the case here discussed, they are systematically
+                                                                           corrected by cooling generated by retardation effects in the
+              V. CONCLUSION AND OUTLOOK
+                                                                           coupling with the meter. Cooling is, however, detrimental to
+    We have proposed a protocol that can enforce adiabaticity              protocols that aim at realizing adiabatic transfer in excited
+in Landau-Zener dynamics by a QND type of setup. The QND                   states. In this case, one shall work in the regime where the
+coupling we considered is time dependent and commutes with                 coupling with the ancilla realizes an effective dephasing dy-
+the Landau-Zener Hamiltonian at the given time. In the limit               namics in the instantaneous eigenbasis.
+in which the meter instantaneously relaxes to its steady state,               In view of practical applications, we have further shown
+the QND coupling realizes an effective dephasing of the qubit              that the requirement of continuous, time-dependent QND cou-
+in the instantaneous, adiabatic basis, thus suppressing diabatic           pling can be relaxed: Diabatic transitions can be suppressed
+transitions for given transfer times. In this regime, the transfer         by performing a stroboscopic series of instantaneous QND
+fidelity at finite times increases with the temperature of the             measurements during the dynamics. We have also included
+thermal bath, with which the meter equilibrates. This result is            the effect of the fluctuations in implementing the specific form
+consistent with studies on thermally assisted quantum anneal-              of the QND coupling and shown that the protocol is robust
+ing [41,42].                                                               against timing errors.
+    Interesting dynamics are found in the regime where the                    The adiabatic transfer can be further optimized by tailor-
+meter’s relaxation time cannot be neglected over the char-                 ing the temporal variation of the Landau-Zener Hamiltonian
+acteristic timescale of the qubit. By suitably choosing the                [50–52], and combining measurements with optimal con-
+parameters, these dynamics perform an effective error correc-              trol techniques [53]. Suppression of errors at faster tuning
+tion by cooling the qubit to the lower instantaneous eigenstate,           rates can be studied beyond adiabatic perturbation theory
+thus realizing high-fidelity adiabatic transfer in relatively              in the framework of quantum nonadiabatic master equa-
+short times. Previous work on Landau-Zener dynamics in                     tions [54–56]. Future work will extend this protocol for
+the presence of external baths identified the competition of               reservoir engineering fast adiabatic dynamics across gapless
+incoherent processes, which promote or suppress diabatic                   points in many-body quantum systems.
+
+                                                                    033005-8
+RESERVOIR-ENGINEERING SHORTCUTS TO …                                                 PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+                    ACKNOWLEDGMENTS                                  noninteracting case
+                                                                                                      t
+   We thank Jacek Dziarmaga, Rosario Fazio, Ronnie
+Kosloff, and Marek Rems for their helpful insights. This work                 Û (t, t0 ) = T exp − i     dt  (ĤS (t  ) + ĤM )
+                                                                                                                   t0
+was funded by the Deutsche Forschungsgemeinschaft (DFG,
+German Research Foundation)–Project-ID 429529648 – TRR                                     = ÛS (t, t0 ) ⊗ ÛM (t, t0 ),                          (A4)
+306 QuCoLiMa (“Quantum Cooperativity of Light and Mat-
+                                                                     where T is the time-ordering operator.
+ter”), No. TRR 183 Entangled States of Matter, and by the
+                                                                        The Liouville-von Neumann equation in the interaction
+German Ministry of Education and Research (BMBF) via
+                                                                     pictures is then modified, as terms describing the coherent
+the Projects NiQ (Noise in Quantum Algorithms) and Quan-
+                                                                     part of dynamics are eliminated by the application of the free
+tera NAQUAS. Project NAQUAS has received funding from
+                                                                     evolution operator, only leaving terms accounting for the inco-
+the QuantERA ERA-NET Cofund in QuantumTechnologies
+                                                                     herent dynamics. The equation of motion of the density matrix
+implemented within the European Union’s Horizon 2020 Pro-
+                                                                     can then be self-consistently expanded up to an arbitrary order
+gramme.
+                                                                           d
+                                                                              χ̃ (t ) = −i[ṼSM , χ̃ (0)]
+ APPENDIX A: THE BORN-MARKOV APPROXIMATION                                 dt
+                                                                                           t
+    In the following, we will derive the Lindblad equation in                           −     dt  [ṼSM (t ), [ṼSM (t  ), χ̃ (t  )]],          (A5)
+the case of a system coupled to a measurement apparatus                                       0
+
+which performs nondemolition measurement.                            with ṼSM = H̃S ⊗ X̃M being the interaction between the sys-
+    The construction of the nonadiabatic master equation re-         tem and the measurement device. Under the assumption that
+quires some assumptions on the different energy and                  the system is initially decoupled to the meter, tracing out the
+timescales involved in the description of dynamics, starting         meter will result on the vanishing of the first term in the
+with the minimal gap g between the two energy branches. The          previous equation. The equation of motion for the reduced
+gap shall be compared with the rate at which the Hamiltonian         density matrix then reads
+HS evolves, namely, . To ascertain the adiabaticity of the                           t
+coherent part of the dynamics for the LZ system, we shall               ˙ρ̃ (t ) = −     dt  Tr M {[ṼSM (t ), [ṼSM (t  ), χ̃ (t  )]]}. (A6)
+make sure that /g2      1. Under this condition, the incoherent                       0
+part of the dynamics is dominated by adiabatic mechanisms
+since nonadiabatic effects scale like /g2 . The derivation of       To proceed, we will need to make a first assumption on the
+the adiabatic master equation will also require that the meter       form taken by the full density matrix χ̃ .
+relaxes at timescales τM over which one can consider the                Hypothesis 1: Assuming that the coupling between the
+Hamiltonian HS (t ) to be constant, resulting in τM2      1.        system and the meter is sufficiently weak to leave the state
+    Let us consider χ̂, the density matrix representing the          of the meter globally constant over time, we may write the
+two-level system and the measurement apparatus, such that            density matrix as the product state of the system and the meter
+the density matrix of the system is obtained via the par-                              ∂t χ ˜(t ) = ρ̃(t ) ⊗ M̂0 + O(ṼSM ).                       (A7)
+tial trace of the states of the meter ρ̂(t ) = Tr M [χ̂ (t )]. The
+time evolution of the density matrix χ̂ is piloted by the            Under this assumption, tracing out the meter leads to a
+Liouville-von Neumann equation                                       description of the incoherent dynamics in terms of the
+                                                                     time-correlation properties of the meter. Developing the two
+                      d                                              commutators, one obtains the following master equation for
+                         χ̂ = −i[ĤSM , χ̂ ],                (A1)
+                      dt                                             the evolution of the reduced density matrix:
+                                                                                               t
+where HSM is a Hamiltonian of the generic form
+                                                                                ∂t ρ̃(t ) = −     dt  {H̃S (t )H̃S (t  )ρ̃(t  )
+                                                                                                       0
+  ĤSM = ĤS (t ) ⊗ 1̂M + 1̂S ⊗ ĤM + ĤS (t ) ⊗ X̂M . (A2)
+                                                                                                  − H̃S (t  )ρ̃(t  )H̃S (t )}CX X (t, t  ),     (A8)
+Let us notice that we are actually treating an unusual case                                          t
+where the Hamiltonian of the system is time dependent, and                                        −      dt  {ρ̃(t  )H̃S (t  )H̃S (t )          (A9)
+so is the interaction term that couples the system to the meter,                                       0
+
+via nondemolition measurement.                                                                    − H̃S (t )ρ̃(t  )H̃S (t  )}CX X (t  , t ),   (A10)
+    To treat the effects of this coupling on the dynamical prop-
+erties of the system, we will place ourselves in the interaction     where CX X (t, t  ) = X̃M (t )X̃M (t  ) is the autocorrelation
+picture, thus isolating the interaction dynamics from the free       function of the observable XM that couple the meter to the
+dynamics. In the interaction picture, we may define the family       system.
+of freely evolved operators Ã(t ) such that                            To accurately approximate the dynamics of the open sys-
+                                                                     tem S by a Markovian process, one has to assume the
+                 Ã(t ) = Û † (t, t0 )Â(t0 )Û (t, t0 ),   (A3)    timescale separation of the system and the meter or, in other
+                                                                     words, that the dynamics of the meter is much faster than the
+where the free evolution operator U (t, t0 ) is defined              one of the system. Therefore, the information transferred from
+as the solution of the Schrödinger equation in the                   the system to the meter is quickly erased and has no backward
+
+                                                               033005-9
+MENU, LANGBEHN, KOCH, AND MORIGI                                                                                   PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+effect on the dynamics of the system, then resulting in the loss                                 and the correcting term V̂ (t, t  ) takes the form
+of memory that characterizes a Markovian time evolution.
+   Hypothesis 2: Assuming that the dynamics of the meter is
+                                                                                                                   V̂ (t, t  ) = −                αab (t, t  )|at  t  b| .   (B3)
+much faster than the one of the system, the correlations of the
+                                                                                                                                            a=b
+meter are expected to decay sufficiently fast in time so we may
+approximately treat the density matrix as a constant over the
+                                                                                                 Both operators are here expressed in the basis of the in-
+integration time,
+                                                                                                 stantaneous eigenstates of the Hamiltonian ĤS (t ), such that
+                                 ρ̃(t  ) ≃ ρ̃(t ),                                (A11)         ĤS (t )|Ea (t ) = Ea (t )|Ea (t ). The scalar μa (t, t  ) is here the
+                                                                                                 phase accumulated in the time interval [t  , t],
+in the integral term of Eq. (A10) whose upper bound can
+be taken to infinity. After a change of variable (t  = t − τ )                                                                        t
+                                                                                                                            
+and the application of the timescale separation approximation,                                                    μa (t, t ) =               dτ [Ea (τ ) − iτ a|ȧτ ],           (B4)
+the quantum master equation now takes the form given in                                                                                t
+Eq. (10).
+   Usually, assuming the weak coupling of the system and                                         and the coefficients αab (t, t  ) in Eq. (B3) are expressed as
+its environment and timescale separation is sufficient to                                                                        t
+transform this integro-differential equation into a Lindblad                                                                                                          
+                                                                                                              αab (t, t  ) =          dτ e−i(μb (τ,t )−μa (τ,t ) τ a|ḃτ .      (B5)
+equation. However, to perform the integrals, we have to make                                                                     t
+further assumptions.
+                                                                                                    Before applying this approximate expression in the study
+            APPENDIX B: ADIABATIC EVOLUTION                                                      of the quantum master equation, we will use the properties
+                    APPROXIMATION                                                                of the evolution operator to formulate one last approxima-
+                                                                                                 tion. Indeed, the following reasoning, we will be brought to
+   To give the quantum master equation the form of a                                             encounter ÛS (t − τ, 0) = ÛS (t − τ, t )ÛS (t, 0). Yet, since the
+Lindblad equation, we will take advantage of the slow na-                                        meter is assumed to evolve much faster than the system, we
+ture of the dynamics of the system. Indeed, assuming that                                        allow ourselves to assume that the Hamiltonian stays constant
+the evolution of the system is adiabatic, we may provide an                                      over the time necessary for the correlations CX X to decay, we
+approximate expression for the evolution operator US (t, t  ),                                  may then state that
+thus simplifying the calculations.
+   Hypothesis 3: At first order in the adiabatic expansion, the
+evolution operator reads                                                                                             ÛS (t − τ, 0) ≃ eiτ ĤS (t )ÛSad (t, 0).                    (B6)
+
+                 ÛS (t, t  ) = ÛSad (t, t  )[1̂ + V̂ (t, t  )] ,                (B1)           In what follows, we detail how the adiabatic approximation
+where the contribution at leading order reads                                                    modifies the first of the integral terms and then generalize it
+                                                               
+                                                                                                 to all the right-hand side of Eq. (10). The first integral terms
+                      ÛSad =          |at t  a|eiμa (t,t ) ,                     (B2)        then becomes
+                                   a
+                                    +∞
+                                               dτ ÛSad† (t, 0)e−iτ ĤS (t ) ĤS (t )eiτ ĤS (t )ÛSad (t, 0)ρ̃(t )H̃S (t )CX X (τ, 0)
+                                       0
+                                                                                                           +∞
+                                           ≃         eiμab (t,0)
+                                                                   |at (HS (t ))ab t b|ρ̃(t )H̃S (t )          dτ eiτ [Eb (t )−Ea (t )] CX X (τ, 0)
+                                               a,b                                                        0
+                                                                                        +∞
+                                           ≃         Ea (t )|at t a|ρ̃(t )H̃S (t )           dτ CX X (τ )
+                                               a                                         0
+
+                                           ≃         X X (0)Ea (t )Eb (t )|at=0 t=0 a|ρ̃(t )|bt=0 t=0 b|,
+                                               a,b
+
+
+
+
+where μab (t, 0) = μa (t, 0) − μb (t, 0) and the matrix el-                                      where P̂a (t ) = |a(t )a(t )| is the projector at time t onto the
+ement (HS (t ))ab = a(t )|HS |b(t ) = Ea (t )δab . Furthermore,                                eigenstate labeled a.
+we note the spectral function of the autocorrelation X X (ω) =                                     From this point, we can return to the Schrödinger pic-
+  +∞
+ 0   dτ exp (iωτ )CX X (τ, 0). Following the same path for the                                   ture and recast this quantum master equation into the form
+other integral terms, the quantum master equation then takes                                     of a Lindblad equation describing dephasing mechanisms.
+the compact form                                                                                 Using the relationship ρ̃(t ) = ÛS† (t, 0)ρ̂(t )ÛS (t, 0), the left-
+                                                                                                 hand side of Eq. (B7) transforms back into the Liouville-von
+                                                                                                 Neumann part of the Lindblad equation:
+ ∂t ρ̃ =         X X (0)Ea (t )Eb (t )P̂a (t )[ρ̃(t ), P̂b (t )] + H.c., (B7)
+           a,b                                                                                            ÛS (t, 0)∂t ρ̃ÛS† (t, 0) = ∂t ρ̂ + i[ĤS (t ), ρ̂(t )].                (B8)
+
+                                                                                       033005-10
+RESERVOIR-ENGINEERING SHORTCUTS TO …                                                                   PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+The application of the evolution operator to the right-hand
+side of Eq. (B7), on the other hand, results in bringing the
+projectors Pa to time t,
+
+   ∂t ρ̂ = −i[ĤS (t ), ρ̂(t )]
+           +         X X (0)Ea (t )Eb (t )P̂a (t )[ρ(t ), P̂b (t )] + H.c.,
+               a,b
+                                                                         (B9)
+
+where the spectral function X X (0) can be split into two
+different contributions X X (0) = 21 G(0) + iS(0). both defined
+from the full Fourier transform of the autocorrelation function
+                      +∞
+            G(ω) =          dτ eiωτ CX X (τ, 0),         (B10a)
+                            −∞
+                           +∞                        
+                                  dω             1                                      FIG. 8. Asymptotic infidelity T as a function of the dephasing
+               S(ω) =                 G(ω )P            ,            (B10b)         rate γ0 . Fixing the values of g2 / = 1, x0 = 1, ωc = g, and κ, the de-
+                            −∞    2π            ω − ω
+                                                                                     phasing rate at anticrossing γ0 is tuned by changing the temperature,
+   where P is Cauchy principal value.                                                which results in a shift of the vibrational occupancy n.
+   In the case of the Landau-Zener model, the spectrum is
+reduced to only two levels E± (t ), such that E+ (t ) = −E− (t ).                    relation function then lead to the form
+The quantum master equation then takes the form of Eq. (19).
+                                                                                           CX X (t, t  ) = x02 (â(t ) + â† (t ))(â(t  ) + â† (t  ))
+                                                                                                         = x02 (Tr{â† (t )â(t  )R̂0 } + Tr{â(t )â† (t  )R̂0 }) .
+             APPENDIX C: LINDBLAD EQUATION
+                 IN THE ADIABATIC LIMIT                                              Using the completeness relation of the eigenbasis λ ρλ ρ̌λ =
+                                                                                     1, we decompose the two contributions of the correlation
+    We will discuss in the following the Lindblad equation in
+                                                                                     function as
+its adiabatic regime, namely, in the limit when the damp-                                                                                   
+ing rate κ is large, our purpose being to ascertain the fact                                 Tr{â† (t )â(t  )R̂0 } =       Tr{â† e(t−t )L ρλ }Tr{ρ̌λ âR̂0 },
+that dephasing effects then become predominant and that                                                                   λ
+the behavior of the Lindblad equation is consistent with the                         where trace is performed over the basis of the coherent states.
+predictions of the adiabatic master equation for the qubit.                          Due to orthogonal properties of the Laguerre polynomial
+The correlation function associated with the observable X̂ =                         involved in the eigenoperators of the Liouvillian, all the con-
+x0 (â + â† ) can be computed in the case of the damped har-                        tributions in the sum vanish except for the one corresponding
+monic oscillator described by the Lindblad equation:                                 to (k = ±1, n = 0), leading to the simple expression for the
+                                                                                   correlation function:
+                                                    1 †                                                                  
+      ∂t ρ̂ = −i[ωc â â, ρ̂] + κ (n + 1) âρ̂ â − {â â, ρ̂}
+                      †                           †                                                                                                      
+                                                    2                                   CX X (t, t  ) = x02 e−κ (t−t )/2 (n + 1)e−iωc (t−t ) + neiωc (t−t ) .
+                                          
+                                1                                                    As a result, we obtain that the real part of the correlation
+              + κn â† ρ̂ â − {ââ† , ρ̂} .                     (C1)               function at frequency ω = 0 reads
+                                2
+                                                                                                         G(0)                    κ/2
+The derivation of the correlation function relies on the decom-                                               = x02 (2n + 1)              ,                         (C2)
+                                                                                                          2                  (κ/2)2 + ωc2
+position of the density matrix in the right and left eigenvectors
+of the Liouvillian superoperator ρλ and ρ̌λ , respectively, such                     from which can be deduced the value of γ0 , the dephasing
+that Lρλ = λρλ and ρ̌λ L = λρ̌λ , with Tr{ρ̌λ ρλ } = δλ,λ . This                    rate at the anticrossing point. The asymptotic value of the
+decomposition is known for Eq. (C1) [27,57].                                         infidelity T computed via the adiabatic master equation and
+   The correlation function that we defined as CX X (t, t  ) =                      the Lindblad equation is displayed in Fig. 8 and shows a
+X (t )X (t  ) is expressed in terms of averages over the                          consistent behavior of infidelity in both cases: T increases for
+equilibrium state of Eq. (C1), namely, the thermal state R0 =                        weak values of the dephasing rate before reaching a maximum
+exp(−βωc a† a)/Z. The nonvanishing contributions of the cor-                         and decreasing.
+
+
+
+ [1] T. Albash and D. A. Lidar, Adiabatic quantum computation,                        [3] C. De Grandi and A. Polkovnikov, Adiabatic perturbation
+     Rev. Mod. Phys. 90, 015002 (2018).                                                   theory: From Landau-Zener problem to quenching through
+ [2] B. W. Shore, Manipulating Quantum Structures Using                                   a quantum critical point, in Quantum Quenching, Annealing
+     Laser Pulses (Cambridge University Press, Cambridge,                                 and Computation, Lecture Notes in Physics (Springer, Berlin,
+     2011).                                                                               2010), pp. 75–114.
+
+
+                                                                               033005-11
+MENU, LANGBEHN, KOCH, AND MORIGI                                                      PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+ [4] M. Keck, S. Montangero, G. E. Santoro, R. Fazio, and D.            [25] J. Hu, W. Chen, Z. Vendeiro, A. Urvoy, B. Braverman, and V.
+     Rossini, Dissipation in adiabatic quantum computers: Lessons            Vuletić, Vacuum spin squeezing, Phys. Rev. A 96, 050301(R)
+     from an exactly solvable model, New J. Phys. 19, 113029                 (2017).
+     (2017).                                                            [26] D. Yang, A. Grankin, L. M. Sieberer, D. V. Vasilyev, and P.
+ [5] I. Čepaitē, A. Polkovnikov, A. J. Daley, and C. W. Duncan,            Zoller, Quantum non-demolition measurement of a many-body
+     Counterdiabatic optimised local driving, arXiv:2203.01948.              Hamiltonian, Nat. Commun. 11, 775 (2020).
+ [6] H. Yuan, C. P. Koch, P. Salamon, and D. J. Tannor, Controlla-      [27] B.-G. Englert and G. Morigi, Five lectures on dissipative master
+     bility on relaxation-free subspaces: On the relationship between        equations, in Coherent Evolution in Noisy Environments, edited
+     adiabatic population transfer and optimal control, Phys. Rev. A         by A. Buchleitner and K. Horneberger, Lecture Notes in Physics
+     85, 033417 (2012).                                                      (Springer, Berlin, 2003), pp. 55–106.
+ [7] M. Kieferová and N. Wiebe, On the power of coherently con-         [28] L. Arceci, S. Barbarino, R. Fazio, and G. E. Santoro, Dissipative
+     trolled quantum adiabatic evolutions, New J. Phys. 16, 123034           Landau-Zener problem and thermally assisted quantum anneal-
+     (2014).                                                                 ing, Phys. Rev. B 96, 054301 (2017).
+ [8] G. A. Paz-Silva, A. T. Rezakhani, J. M. Dominy, and D. A.          [29] M. Wubs, K. Saito, S. Kohler, P. Hänggi, and Y. Kayanuma,
+     Lidar, Zeno Effect for Quantum Computation and Control,                 Gauging a Quantum Heat Bath with Dissipative Landau-Zener
+     Phys. Rev. Lett. 108, 080501 (2012).                                    Transitions, Phys. Rev. Lett. 97, 200404 (2006).
+ [9] J. F. Poyatos, J. I. Cirac, and P. Zoller, Quantum Reservoir       [30] H.-P. Breuer, E.-M. Laine, J. Piilo, and B. Vacchini, Collo-
+     Engineering with Laser Cooled Trapped Ions, Phys. Rev. Lett.            quium: Non-Markovian dynamics in open quantum systems,
+     77, 4728 (1996).                                                        Rev. Mod. Phys. 88, 021002 (2016).
+[10] S. Pielawa, G. Morigi, D. Vitali, and L. Davidovich, Generation    [31] E.-M. Laine, J. Piilo, and H.-P. Breuer, Measure for the non-
+     of Einstein-Podolsky-Rosen-Entangled Radiation Through an               Markovianity of quantum processes, Phys. Rev. A 81, 062115
+     Atomic Reservoir, Phys. Rev. Lett. 98, 240401 (2007).                   (2010).
+[11] B. Kraus, H. P. Büchler, S. Diehl, A. Kantian, A. Micheli, and     [32] G. Gordon, D. D. Bhaktavatsala Rao, and G. Kurizki, Equilibra-
+     P. Zoller, Preparation of entangled states by quantum Markov            tion by quantum observation, New J. Phys. 12, 053033 (2010).
+     processes, Phys. Rev. A 78, 042307 (2008).                         [33] T. Albash, S. Boixo, D. A. Lidar, and P. Zanardi, Quantum
+[12] G. Morigi, J. Eschner, C. Cormick, Y. Lin, D. Leibfried, and            adiabatic Markovian master equations, New J. Phys. 14, 123016
+     D. J. Wineland, Dissipative Quantum Control of a Spin Chain,            (2012).
+     Phys. Rev. Lett. 115, 200502 (2015).                               [34] B. Militello, Three-state Landau-Zener model in the presence
+[13] S. Roy, J. T. Chalker, I. V. Gornyi, and Y. Gefen, Measurement-         of dissipation, Phys. Rev. A 99, 033415 (2019).
+     induced steering of quantum systems, Phys. Rev. Research 2,        [35] J. E. Avron, M. Fraas, G. M. Graf, and P. Grech, Landau-Zener
+     033347 (2020).                                                          tunneling for dephasing Lindblad evolutions, Commun. Math.
+[14] V. B. Braginsky, Y. I. Vorontsov, and K. S. Thorne, Quantum             Phys. 305, 633 (2011).
+     nondemolition measurements, Science 209, 547 (1980).               [36] A. Novelli, W. Belzig, and A. Nitzan, LandauZener evolution
+[15] S. Haroche and J. M. Raimond, Exploring the Quantum:                    under weak measurement: Manifestation of the Zeno effect
+     Atoms, Cavities, and Photons, Oxford Graduate Texts (Oxford             under diabatic and adiabatic measurement protocols, New J.
+     University Press, Oxford, 2013).                                        Phys. 17, 013001 (2015).
+[16] V. I. Yukalov, Decoherence and equilibration under nondestruc-     [37] J. E. Avron, M. Fraas, G. M. Graf, and P. Grech, Adiabatic
+     tive measurements, Ann. Phys. 327, 253 (2012).                          theorems for generators of contracting evolutions, Commun.
+[17] L. D. Landau and D. Ter-Haar, Collected papers of L.D. Landau           Math. Phys. 314, 163 (2012).
+     (Pergamon Press, Oxford, 1965).                                    [38] M. Fraas, Adiabatic theorem for a class of quantum stochastic
+[18] C. Zener, Non-adiabatic crossing of energy levels, Proc. R. Soc.        equations, arXiv:1407.7127.
+     London A 137, 696 (1932).                                          [39] A. Joye, M. Merkli, and D. Spehner, Adiabatic transitions in a
+[19] J. Dziarmaga, Dynamics of a quantum phase transition and                two-level system coupled to a free boson reservoir, Ann. Henri
+     relaxation to a steady state, Adv. Phys. 59, 1063 (2010).               Poincaré 21, 3157 (2020).
+[20] B. Damski, The Simplest Quantum Model Supporting the               [40] M. Fraas and L. Hänggli, On Landau-Zener transitions for de-
+     Kibble-Zurek Mechanism of Topological Defect Production:                phasing Lindbladian, Ann. Henri Poincaré 18, 2447 (2017).
+     Landau-Zener Transitions from a New Perspective, Phys. Rev.        [41] M. H. S. Amin, P. J. Love, and C. J. S. Truncik, Thermally As-
+     Lett. 95, 035701 (2005).                                                sisted Adiabatic Quantum Computation, Phys. Rev. Lett. 100,
+[21] M. Abramowitz and I. A. Stegun, Handbook of Mathematical                060503 (2008).
+     Functions with Formulas, Graphs, and Mathematical Tables           [42] M. H. S. Amin, C. J. S. Truncik, and D. V. Averin, Role of
+     (Dover, New York, 1964).                                                single-qubit decoherence time in adiabatic quantum computa-
+[22] V. B. Braginsky, F. Y. Khalili, and K. S. Thorne, Quantum               tion, Phys. Rev. A 80, 022303 (2009).
+     Measurement (Cambridge University Press, Cambridge, 1992).         [43] E. Shimshoni and Y. Gefen, Onset of dissipation in Zener
+[23] J. M. Raimond, P. Facchi, B. Peaudecerf, S. Pascazio, C. Sayrin,        dynamics: Relaxation versus dephasing, Ann. Phys. 210, 16
+     I. Dotsenko, S. Gleyzes, M. Brune, and S. Haroche, Quantum              (1991).
+     Zeno dynamics of a field in a cavity, Phys. Rev. A 86, 032120      [44] E. Shimshoni and A. Stern, Dephasing of interference in
+     (2012).                                                                 Landau-Zener transitions, Phys. Rev. B 47, 9523 (1993).
+[24] S. Haroche, Nobel lecture: Controlling photons in a box and        [45] G. Vacanti, R. Fazio, S. Montangero, G. M. Palma, M.
+     exploring the quantum to classical boundary, Rev. Mod. Phys.            Paternostro, and V. Vedral, Transitionless quantum driving in
+     85, 1083 (2013).                                                        open quantum systems, New J. Phys. 16, 053017 (2014).
+
+                                                                  033005-12
+RESERVOIR-ENGINEERING SHORTCUTS TO …                                                PHYSICAL REVIEW RESEARCH 4, 033005 (2022)
+
+[46] S. Alipour, A. Chenu, A. T. Rezakhani, and A. del Campo,          [52] Lin Tian, Universal approach to quantum adiabaticity via an-
+     Shortcuts to adiabaticity in driven open quantum systems: Bal-         cilla cavity, arXiv:1802.02285.
+     anced gain and loss and non-Markovian evolution, Quantum 4,       [53] K. P. Horn, F. Reiter, Y. Lin, D. Leibfried, and C. P.
+     336 (2020).                                                            Koch, Quantum optimal control of the dissipative production
+[47] D. Leibfried, R. Blatt, C. Monroe, and D. Wineland, Quantum            of a maximally entangled state, New J. Phys. 20, 123010
+     dynamics of single trapped ions, Rev. Mod. Phys. 75, 281               (2018).
+     (2003).                                                           [54] R. Dann, A. Levy, and R. Kosloff, Time-dependent Markovian
+[48] A. Reiserer and G. Rempe, Cavity-based quantum networks                quantum master equation, Phys. Rev. A 98, 052129 (2018).
+     with single atoms and optical photons, Rev. Mod. Phys. 87,        [55] R. Dann and R. Kosloff, Inertial theorem: Overcoming the
+     1379 (2015).                                                           quantum adiabatic limit, Phys. Rev. Research 3, 013064
+[49] Y. Atia, Y. Oren, and N. Katz, Robust diabatic grover search by        (2021).
+     Landau-Zener-tückelberg oscillations, Entropy 21, 937 (2019).     [56] L. Dupays, I. L. Egusquiza, A. del Campo, and A. Chenu,
+[50] J. Roland and N. J. Cerf, Quantum search by local adiabatic            Superadiabatic thermalization of a quantum oscillator by engi-
+     evolution, Phys. Rev. A 65, 042308 (2002).                             neered dephasing, Phys. Rev. Research 2, 033178 (2020).
+[51] S. Morita, Faster annealing schedules for quantum annealing,      [57] H.-J. Briegel and B.-G. Englert, Quantum optical master equa-
+     J. Phys. Soc. Jpn. 76, 104001 (2007).                                  tions: The use of damping bases, Phys. Rev. A 47, 3311 (1993).
+
+
+
+
+                                                                 033005-13
+

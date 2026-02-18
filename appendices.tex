@@ -1,118 +1,82 @@
 % Appendices
 \appendix
 
-\chapter{Mathematical Derivations}
-\section{Derivation of the Adiabatic Condition} 
-\qquad To characterize the adiabatic regime it is convenient to introduce a dimensionless time parameter. Define $s = t/\tau \in [0,1]$, so that the state and Hamiltonian are written as $|\psi(s)\rangle$ and $H(s)$ and vary smoothly with $s$. Here $\tau$ denotes the total evolution time, using $s$ emphasizes that the dynamics trace a path through parameter space. Working in parameter space makes geometric aspects of non-adiabatic effects explicit. The Schr\"odinger equation becomes
-\begin{equation}
-    i\hbar\,\partial_t |\psi(t)\rangle = i\hbar\frac{1}{\tau}\partial_s |\psi(s)\rangle = H(s) |\psi(s)\rangle .
-\end{equation}
+\chapter{Appendixes}\label{appendix:appendices}
 
-In parameter space the instantaneous eigenvalue problem reads $H(s) |n(s)\rangle = E_n(s) |n(s)\rangle$,
-with $\{ |n(s)\rangle\}$ orthonormal and non-degenerate. We expand the state in this basis:
-
-\begin{equation}\label{eq:ansatz_lambda}
-    |\psi(s)\rangle =  \sum_n c_n(s)\,|n(s)\rangle.
-\end{equation}
-where $c_n(s)$ are time dependent coefficients. We substitute this into the Schr\"odinger equation, where $\partial_t=\dot{s}\partial_s$. Projecting onto $\langle m(s)|$ and dividing by $\dot{s}$ gives the parameter-space coefficient equation
-\begin{align}\label{eq:cm_lambda}
-    i\hbar\dot{s} \sum_n \big(\partial_s c_n |n\rangle + c_n \partial_s |n\rangle\big) &= \sum_n c_n E_n |n\rangle \notag \\
-    i\hbar\partial_s c_m + i\hbar \sum_n c_n \langle m|\partial_s n\rangle &= \frac{1}{\dot{s}} c_m E_m \notag \\
-    i\hbar\partial_s c_m &= \Big(\frac{E_m}{\dot{s}} - i\hbar\langle m|\partial_s m\rangle\Big) c_m - i\hbar\sum_{n\neq m} c_n \langle m|\partial_s n\rangle.
-\end{align}
-
-The geometric-phase term $-i\hbar\langle m|\partial_s m\rangle$ again does not cause transitions. To evaluate the off-diagonal couplings, differentiate the instantaneous eigenvalue equation with respect to $s$ and project onto $\langle m|$:
-\begin{align}\label{eq:mndot_lambda}
-    \langle m|\partial_s H|n\rangle + \langle m|H|\partial_s n\rangle &= \partial_s E_n \langle m|n\rangle + E_n \langle m|\partial_s n\rangle \notag \\
-    \text{For } m\neq n:\qquad \langle m|\partial_s n\rangle &= \frac{\langle m|\partial_s H|n\rangle}{E_n - E_m}.
-\end{align}
-Recalling $\langle m|\dot n\rangle=\dot{s}\langle m|\partial_s n\rangle$, the off-diagonal term appearing in the time-based derivation is
-\begin{equation}
-    \hbar\,|\langle m|\dot n\rangle| = \hbar\dot{s}\frac{|\langle m|\partial_s H|n\rangle|}{|E_n - E_m|}.
-\end{equation}
-Comparing the size of this term with the energy-scale term $E_m/\dot{s}$ in \eqref{eq:cm_lambda} yields the parameter-space adiabatic condition
-\begin{equation}\label{eq:adiabatic_cond_lambda}
-    |\langle m|\partial_s H|n\rangle| \ll \frac{|E_n - E_m|^2}{\hbar\dot{s}}\qquad (m\neq n),
-\end{equation}
-which is equivalent to the usual time-domain condition after using $\partial_s H=\dot{s}\partial_t H$. When \eqref{eq:adiabatic_cond_lambda} holds for all relevant pairs and the system starts in a single instantaneous eigenstate $|n(0)\rangle$, the solution for the coefficient reads
-\begin{equation}
-    c_n(s) = \exp\left(-\tfrac{i}{\hbar\dot{s}}\int_0^{s} E_n(s')\,ds' - \int_0^{s} \langle n(s')|\partial_{s'} n(s')\rangle\,ds'\right),
-\end{equation}
-so that the physical dynamical phase accumulated over the evolution is $\tfrac{1}{\hbar}\int_0^t E_n(s')\,ds'$ and the geometric phase is $i\int_0^{s}\langle n|\partial_{s} n\rangle ds$.
-The condition \eqref{eq:adiabatic_cond_lambda} thus captures the requirement that the path through parameter space must be traversed slowly relative to the squared energy gaps.
+\qquad We include relevant derivations in full detail, as well as additional numerical results for larger systems and random Ising instances. These results further corroborate the findings presented in the main text, and provide a more comprehensive picture of the protocol's performance across different system sizes and problem instances.
 
 %----------------------------------------------------------------------------------
 
-\subsection{Dephasing Effects Derivation} \label{DephasingEffectsDerivation}
+\section{Dephasing Effects Derivation} \label{DephasingEffectsDerivation}
 
 \qquad A useful definition are Kraus operators which offer a way representing any completely positive, trace-preserving (CPTP) map on a quantum system. A generic update for an open system is expressed as $\rho\mapsto\sum_i K_i\rho K_i^{\dagger}$, where the set $\{K_i\}$ encodes the environmental influence or measurement back-action. These maps must satisfy the completeness condition $\sum_i K_i^{\dagger}K_i=\mathds{1}$. In this specific instance, the two non-zero operators capture the effective dynamics remaining after the meter states are traced out.
 
-We consider a simple example using a qubit meter and show that the protocol described in the text induces dephasing on the system. Suppose the meter is initialised in
-
+\qquad We consider a simple example using a qubit meter and show that the protocol described in the text induces dephasing on the system. Suppose the meter is initialised in
+%%
 \begin{equation}
     |+\rangle = \frac{1}{\sqrt{2}}\big(|0\rangle + |1\rangle\big),
 \end{equation}
-
+%%
 where $\sigma_z|0\rangle = |0\rangle$ and $\sigma_z|1\rangle = -|1\rangle$. Set $X_M = x_0\sigma_z$, $H_M=0$ and keep $H_S(t)$ general. Here $x_0\in\mathbb{R}$ scales the strength of the QND coupling. The total Hamiltonian is
-
+%%
 \begin{equation}\label{eq:Htot_meter}
     H(t) = H_S(t)\otimes\mathds{1}_M + x_0 H_S(t)\otimes\sigma_z
     = (1+x_0)H_S(t)\otimes|0\rangle\langle0| + (1-x_0)H_S(t)\otimes|1\rangle\langle1|.
 \end{equation}
-
+%%
 The time evolution operator for the joint system can therefore be written below, where $U^{[x]}_{\rm QND}(t)$ is the propagator generated by the rescaled system Hamiltonian $xH_S(t)$and $x=1\pm x_0$.
-
+%%
 \begin{align}\label{eq:U_tot}
     U(t) = U^{[1+x_0]}_{\rm QND}(t)\otimes|0\rangle\langle0| + U^{[1-x_0]}_{\rm QND}(t)\otimes|1\rangle\langle1| \nonumber \\
     i\hbar\,\frac{d}{dt}U^{[x]}_{\rm QND}(t) = x H_S(t)\,U^{[x]}_{\rm QND}(t),
 \end{align}
-
+%%
 Suppose the initial joint state is separable $\rho_S(0)\otimes|+\rangle\langle+|$. Tracing out the meter yields a Kraus decomposition for the system dynamics. Because $|+\rangle$ has support on both meter basis states, the non-zero Kraus operators are
-
+%%
 \begin{subequations}
 \begin{align}
     K_{++}(t) &= \frac{1}{\sqrt{2}}\Big(U^{[1+x_0]}_{\rm QND}(t) + U^{[1-x_0]}_{\rm QND}(t)\Big), \\
     K_{-+}(t) &= \frac{1}{\sqrt{2}}\Big(U^{[1+x_0]}_{\rm QND}(t) - U^{[1-x_0]}_{\rm QND}(t)\Big).
 \end{align}
 \end{subequations}
-
+%%
 The system density operator at time $t$ is
-
+%%
 \begin{equation}\label{eq:rho_kraus}
     \rho_S(t) = K_{++}(t)\,\rho_S(0)\,K_{++}^\dagger(t) + K_{-+}(t)\,\rho_S(0)\,K_{-+}^\dagger(t).
 \end{equation}
-
+%%
 Expanding and simplifying gives
-
+%%
 \begin{equation}\label{eq:rho_halfsum}
     \rho_S(t) = \tfrac{1}{2}U^{[1+x_0]}_{\rm QND}(t)\,\rho_S(0)\,U^{[1+x_0]\dagger}_{\rm QND}(t) + \tfrac{1}{2}U^{[1-x_0]}_{\rm QND}(t)\,\rho_S(0)\,U^{[1-x_0]\dagger}_{\rm QND}(t).
 \end{equation}
-
+%%
 Thus half of the initial ensemble evolves under the Hamiltonian $(1+x_0)H_S(t)$ while the other half evolves under $(1-x_0)H_S(t)$, and the final state is the equal mixture of these two evolutions. Differentiating yields
-
+%%
 \begin{equation}\label{eq:rho_dot_half}
     \frac{d}{dt}\rho_S(t) = \tfrac{1}{2}\frac{d}{dt}\rho^{[1+x_0]}_S(t) + \tfrac{1}{2}\frac{d}{dt}\rho^{[1-x_0]}_S(t),
 \end{equation}
-
+%%
 where $\rho^{[1\pm x_0]}_S(t)=U^{[1\pm x_0]}_{\rm QND}(t)\,\rho_S(0)\,U^{[1\pm x_0]\dagger}_{\rm QND}(t)$. Here we demonstrate how to express Eq.~\eqref{eq:rho_dot_half} in the instantaneous eigenbasis of $H_S(t)$. For this, we first consider pure states and start from the Schr\"odinger equation for the amplitudes in the instantaneous eigenbasis of $(1 \pm x_0)H_S(t)$, which is evidently the same eigenbasis as $H_S(t)$. With $|\psi(t)\rangle = \sum_m c_m(t) |m(t)\rangle$, the amplitudes evolve according to
-
+%%
 \begin{align}
     \frac{d}{dt} c_m^{[1\pm x_0]}(t) =& -i(1 \pm x_0)E_m(t)c_m^{[1\pm x_0]}(t) \nonumber \\
     &- \langle m(t)| \dot{m}(t)\rangle c_m^{[1\pm x_0]}(t) \nonumber \\
     &+ \sum_{n \neq m} \frac{\langle m(t)|(1 \pm x_0) \dot{H}_S(t)|n(t)\rangle}{(1 \pm x_0)(E_m(t) - E_n(t))} c_n^{[1\pm x_0]}(t).
 \end{align}
-
+%%
 Since $(1 \pm x_0)$ cancels in the last term, it only appears in the first (phase) term. We can use this to get a differential equation for the density matrices via
-
+%%
 \begin{align}
     \frac{d}{dt} ((\rho_S^{[1\pm x_0]}(t))_{mn}) &= \frac{d}{dt} ((c_m^{[1\pm x_0]}(t))^* c_n^{[1\pm x_0]}(t)) \nonumber \\
     &= c_n^{[1\pm x_0]}(t) \frac{d}{dt} (c_m^{[1\pm x_0]}(t))^* + (c_m^{[1\pm x_0]}(t))^* \frac{d}{dt} c_n^{[1\pm x_0]}(t) \nonumber \\
     &= i(1 \pm x_0)(E_m(t) - E_n(t))(\rho_S^{[1\pm x_0]}(t))_{mn} - (\langle m(t)| \dot{m}(t)\rangle - \langle n(t)| \dot{n}(t)\rangle)(\rho_S^{[1\pm x_0]}(t))_{mn} \nonumber \\
     &+ \sum_{i \neq m} \frac{\langle i(t)| \dot{H}_S(t)|m(t)\rangle}{E_m(t) - E_i(t)} (\rho_S^{[1\pm x_0]}(t))_{mi} + \sum_{j \neq n} \frac{\langle n(t)| \dot{H}_S(t)|j(t)\rangle}{E_n(t) - E_j(t)} (\rho_S^{[1\pm x_0]}(t))_{jn}.
 \end{align}
-
+%%
 Inserting this result into Eq.~\eqref{eq:rho_dot_half} and simplifying, we obtain
-
+%%
 \begin{align}
     \frac{d}{dt} ((\rho_S(t))_{mn}) =& i(E_m(t) - E_n(t)) \frac{1}{2} ((\rho_S^{[1+x_0]}(t))_{mn} + (\rho_S^{[1-x_0]}(t))_{mn}) \nonumber \\
     &- (\langle m(t)| \dot{m}(t)\rangle - \langle n(t)| \dot{n}(t)\rangle) \frac{1}{2} ((\rho_S^{[1+x_0]}(t))_{mn} + (\rho_S^{[1-x_0]}(t))_{mn}) \nonumber \\
@@ -120,20 +84,20 @@ Inserting this result into Eq.~\eqref{eq:rho_dot_half} and simplifying, we obtai
     &+ \sum_{j \neq n} \frac{\langle n(t)| \dot{H}_S(t)|j(t)\rangle}{E_n(t) - E_j(t)} \frac{1}{2} ((\rho_S^{[1+x_0]}(t))_{jn} + (\rho_S^{[1-x_0]}(t))_{jn}) \nonumber \\
     &+ i\frac{x_0}{2} (E_m(t) - E_n(t)) ((\rho_S^{[1+x_0]}(t))_{mn} - (\rho_S^{[1-x_0]}(t))_{mn}).
 \end{align}
-
+%%
 The first four lines exactly match the rate of change of a density matrix evolving under $H_S(t)$, with the last line as a correction:
-
+%%
 \begin{equation}
     \frac{d}{dt} (\rho_S(t))_{mn} = -i ([H_S(t), \rho_S(t)])_{mn} + i\frac{x_0}{2} (E_m(t) - E_n(t)) ((\rho_S^{[1+x_0]}(t))_{mn} - (\rho_S^{[1-x_0]}(t))_{mn}).
 \end{equation}
-
+%%
 Although this term implies a modification of coherences, practically it results in suppression since pure states are maximally coherent. This result stems from an exact Kraus decomposition, it remains valid outside the adiabatic limits, applicable even during rapid system dynamics or strong interactions.
 
 %----------------------------------------------------------------------------------
 
-\subsection{Additional Figures: Larger Ising Systems}
+\section{Additional Figures: Larger Ising Systems}
 
-\qquad We have been able to attain results for larger Ising systems up to $N=7$ qubits, which further corroborate the findings presented in the main text. These have been accomplished on standard laptop hardware by optimizing numerical evolution in C and parallelizing over multiple random instances.\cite{qutip5} The results are presented in the following figures, which are variants of Figs. \ref{fig:fidelity_contour} and \ref{fig:fidelity_diff} from the main text.
+\qquad We have been able to attain results for larger Ising systems up to $N=7$ qubits, which further corroborate the findings presented in the main text. These have been accomplished on standard laptop hardware by optimizing numerical evolution in C and Cython\cite{qutip5} and parallelizing over multiple random instances. The results are presented in the following figures, which are variants of Figs. \ref{fig:fidelity_contour} and \ref{fig:fidelity_diff} from the main text.
 
 \begin{figure}[H]
     \centering
@@ -157,19 +121,24 @@ Although this term implies a modification of coherences, practically it results 
         \vspace{-1.2ex}
         \includegraphics[width=\textwidth]{LargerIsings/4-2b.png}
     \end{subfigure}
-    \caption[Fidelity contours for larger Ising systems (N=2,3,4)]{Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}. (a) 2-qubit, (b) 3-qubit, (c) 4-qubit systems.}
+
+    \vspace{1ex}
+
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_5_2b}
+        \vspace{-1.2ex}
+        \includegraphics[width=\textwidth]{LargerIsings/5-2b.png}
+    \end{subfigure}
+    \caption[Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}]{Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}. (a) 2-qubit, (b) 3-qubit, (c) 4-qubit, (d) 5-qubit systems.}
     \label{fig:larger_isings_2b}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.32\textwidth]{LargerIsings/5-2b.png}
-    \caption[Fidelity contours for 5-qubit system]{Larger Ising systems variant of Fig. \ref{fig:fidelity_contour}. 5-qubit system.}
-    \label{fig:larger_isings_5_2b}
-\end{figure}
+\qquad Invariant fidelity along contours of $T_eff = T(1+x0)$ holds with increasing system size, fidelity decrease with system size as expected as energy gaps become smaller for more complex systems.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
+    % First row: 3 panels (N=3,4,5)
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_4b_a}
@@ -190,28 +159,36 @@ Although this term implies a modification of coherences, practically it results 
         \vspace{-1.2ex}
         \includegraphics[width=\textwidth]{LargerIsings/5-4b.png}
     \end{subfigure}
-    \caption[Fidelity differences for larger systems (N=3,4,5)]{Larger Ising systems variant of Fig. \ref{fig:fidelity_diff}. (a) 3-qubit, (b) 4-qubit, (c) 5-qubit systems.}
-    \label{fig:larger_isings_4b}
-\end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[t]{0.48\textwidth}
+    \vspace{1ex}
+
+    % Second row: 2 panels (N=6,7)
+    \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_6_7_a}
         \vspace{-1.2ex}
         \includegraphics[width=0.95\textwidth]{LargerIsings/6-4b.png}
     \end{subfigure}%
     \hfill
-    \begin{subfigure}[t]{0.48\textwidth}
+    \begin{subfigure}[t]{0.32\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_6_7_b}
         \vspace{-1.2ex}
         \includegraphics[width=0.95\textwidth]{LargerIsings/7-4b.png}
     \end{subfigure}
-    \caption[Results for 6 and 7-qubit systems]{Larger Ising systems continued. (a) 6-qubit, (b) 7-qubit systems.}
-    \label{fig:larger_isings_6_7}
+        \hfill
+    \begin{subfigure}[t]{0.32\textwidth}
+        \centering
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_6_7_b}
+        \vspace{-1.2ex}
+        \includegraphics[width=0.95\textwidth]{LargerIsings/7-4b.png}
+    \end{subfigure}
+
+    \caption[Results for larger systems (N=3--7)]{Larger Ising systems variants of Fig. \ref{fig:fidelity_diff}. (a) 3-qubit, (b) 4-qubit, (c) 5-qubit, (d) 6-qubit, (e) 7-qubit systems.}
+    \label{fig:larger_isings_4b}
 \end{figure}
+
+\qquad Internal meter dynamics reduce speed up relative to coherent case, interestingly increasing system size appears to reduce this effect. Most likely due to larger systems suffering more from non-adiabatic effects, thus the relative contribution of internal meter dynamics is reduced. This is an interesting effect that warrants further investigation, and may suggest that meter coupling could be more effective for larger systems where non-adiabatic effects are more pronounced.
 
 \begin{figure}[htbp]
     \centering
@@ -231,35 +208,35 @@ Although this term implies a modification of coherences, practically it results 
     \caption[Fidelity increase for larger systems]{\textbf{Possible Graphing for Larger Systems need more Data points}. (a) Fidelity increase, (b) Fidelity increase mesh.}
     \label{fig:larger_systems_fidelity}
 \end{figure}
-
+%%
+\qquad 
 \newpage
 
 %----------------------------------------------------------------------------------
 
-\subsection{Annealing Gap Profiles for Random Ising Instances}\label{sec:appendix_gap_statistics}
-
+\section{Annealing Gap Profiles for Random Ising Instances}\label{sec:appendix_gap_statistics}
+\qquad We present the energy gap statistics for the $100,000$ random Ising instances. These could be used to generate less crude annealing schedules however our experience is they lead in minimal improvement over the average optimal schedule, and thus we have not included them in the main text. Large gap statistics would need to be generated to extract trends for minimum gap location and size. However, these are highly Ising / optimization problem dependent. 
 \begin{table}[htbp]
     \centering
-    \caption{Summary statistics for energy gaps in random Ising spin chains ($J_{ij}\in[0,1]$) for $N=3,4,5$ qubits, averaged over 100,000 samples.}
-
     \begin{tabular}{lccc}
         \hline
         Metric & $N=3$ & $N=4$ & $N=5$ \\
         \hline
         Number of samples & 100,000 & 100,000 & 100,000 \\
         Global minimum gap & 0.000004 & 0.000003 & 0.000007 \\
-        Mean minimum gap & 0.386832 & 0.330356 & 0.315373 \\
-        Std of minimum gap & 0.247364 & 0.226742 &  0.215391 \\
-        Mean min gap location ($s$) & 0.779116 & 0.811245 & 0.738956 \\
-        Std of min gap location & 0.142281 & 0.153428 & 0.154786 \\
-        Coeff. of variation at min & 0.599441 & 0.646809 & 0.613260 \\
-        10th percentile minimum & 0.080262 & 0.063752 & 0.065522 \\
-        25th percentile minimum & 0.203811 & 0.168526 & 0.175475 \\
+        Mean minimum gap & 0.387 & 0.330 & 0.315 \\
+        Std of minimum gap & 0.247 & 0.227 &  0.215 \\
+        Mean min gap location ($s$) & 0.779 & 0.811 & 0.739 \\
+        Std of min gap location & 0.142 & 0.153 & 0.155 \\
+        Coeff. of variation at min & 0.599 & 0.647 & 0.613 \\
+        10th percentile minimum & 0.080 & 0.064 & 0.065 \\
+        25th percentile minimum & 0.203 & 0.168 & 0.175 \\
         \hline
     \end{tabular}
+    \caption{Summary statistics for energy gaps in random Ising spin chains ($J_{ij}\in[0,1]$) for $N=3,4,5$ qubits, averaged over 100,000 samples.}
 \end{table}
 \newpage
-\subsection{Average Annealing Schedules for different Instances}\label{sec:appendix_larger_annealings}
+\section{Average Annealing Schedules for different Instances}\label{sec:appendix_larger_annealings}
 
 \qquad Below we extend the average optimal schedules for different random Ising instances with $N=3,4,5$ qubits, each averaged over 100,000 samples. The plots highlight the performance of the average optimal schedule compared to both the linear schedule and the individual optimal schedules.
 \begin{figure}[htbp]
@@ -317,8 +294,9 @@ Although this term implies a modification of coherences, practically it results 
     \label{fig:optimal_ramp_average}
 \end{figure}
 
+\qquad Over these small instances we see that we maintain a constant improvement over the linear schedule except in the very short time regime where diabtic transitions occur regardless of the schedule. In the quasi-static regime of $T_{eff}\approx9$ we maintain an 8\% in fidelity performance gain.
 
-\subsection{Impact of different coupling regimes} \label{sec:appendix_different_regimes}
+\section{Impact of different coupling regimes} \label{sec:appendix_different_regimes}
 
 \qquad As part of investigating regimes of meter impact we investigate different regimes of coupling strengths. Throughout this thesis we have remained in the ferromagnetic regime i.e. $J_{ij}\in[0,1]$. Here we present results for both antiferromagnetic couplings $J_{ij}\in[-1,0]$ and mixed couplings $J_{ij}\in[-1,1]$. These coupling strengths are allowed in QUBO formulated annealing problems and thus there effect is included. The results are presented in the following figures, which are variants of Figs. \ref{fig:fidelity_contour} and \ref{fig:fidelity_diff} from the main text 
 
@@ -358,332 +336,17 @@ Although this term implies a modification of coherences, practically it results 
 \end{figure}
 
 
-\qquad These regimes display that the ferromagnetic regime represents the worst case results for meter coupling and non commuting effects. Both the antiferromagnetic and mixed coupling regimes display significantly higher fidelities across the parameter space. Thus, we the ferromagnetic regime is the most challenging for meter coupling, and thus the results presented in the main text are suggestive of an average lower bound on performance across all coupling regimes.
+\qquad These regimes display that the ferromagnetic regime represents the worst case results for meter coupling and non commuting effects. Both the antiferromagnetic and mixed coupling regimes display significantly higher fidelities across the parameter space. Thus, we the ferromagnetic regime is the most challenging for meter coupling, and thus the results presented in the main text are suggestive of an average lower bound on performance across all coupling regimes. However, specific optimization Ising Hamiltonian may present a more challenging coupling regime, and thus the performance of meter coupling may be more limited for specific problems. This is an interesting avenue for further research, and may suggest that meter coupling could be more effective for certain classes of problems with specific coupling regimes.
 
-%----------------------------------------------------------------------------------
-
-\subsection{Derivation of Meter Non-Commuting Effects} \label{sec:appendix_non_commuting}
-
-\qquad In the commuting case $[X_M, H_M] = 0$, the meter remains in an eigenstate of $X_M$ throughout evolution, leading to a clean decomposition into two unitary branches with rescaled Hamiltonians $(1 \pm x_0)H_S(t)$. However, when $[X_M, H_M] \neq 0$, this picture breaks down fundamentally. The meter state evolves dynamically, entangling with the system in a time-dependent manner that cannot be captured by a simple two-branch description. For the full system-meter Hamiltonian with $H_M = \omega \sigma_x$ and coupling $X_M = \sigma_z$:
-
-\begin{equation}
-    H_{\text{tot}}(t) = H_S(t) \otimes \mathds{1}_M + x_0 H_S(t) \otimes \sigma_z + \mathds{1}_S \otimes \omega \sigma_x.
-\end{equation}
-
-\qquad The Hamiltonian does \emph{not} decompose into independent sectors. Unlike the commuting case where $H_{\text{tot}}$ is block-diagonal in the meter basis, the transverse field $\omega \sigma_x$ couples the meter branches at every instant, creating a continuously evolving entangled state. To understand the dynamics, we work in the instantaneous eigenbasis of $H_S(t) = \sum_n E_n(t) |n(t)\rangle \langle n(t)|$. For a fixed system eigenstate $|n(t)\rangle$, the meter experiences an effective $2 \times 2$ non diagonal Hamiltonian:
-\begin{equation}
-    H_{\text{meter}}^{(n)}(t) = E_n(t) (1 + x_0 \sigma_z) + \omega \sigma_x = \begin{pmatrix} E_n(t)(1+x_0) & \omega \\ \omega & E_n(t)(1-x_0) \end{pmatrix}.
-\end{equation}
-
-The off-diagonal elements $\omega$ indicate that the meter's $|0\rangle$ and $|1\rangle$ states (eigenstates of $\sigma_z$) are continuously mixing. Diagonalizing yields instantaneous eigenvalue
-
-\begin{equation}
-    \lambda_{n,\pm}(t) = E_n(t) \pm \Omega_n(t), \quad \text{where} \quad \Omega_n(t) = \sqrt{(x_0 E_n(t))^2 + \omega^2}.
-\end{equation}
-
-The corresponding eigenvectors are
-\begin{equation}
-    |\psi_{n,\pm}(t)\rangle = \cos\theta_n(t) |0\rangle \pm \sin\theta_n(t) |1\rangle,
-\end{equation}
-where the mixing angle evolves as
-\begin{equation}
-    \tan(2\theta_n(t)) = \frac{\omega}{x_0 E_n(t)}.
-\end{equation}
-
-This time-dependent mixing angle is us describing the evolution by two static branches. Instead, the meter state precesses between the $|0\rangle$ and $|1\rangle$ states with a frequency governed by $\Omega_n(t)$. To find the reduced system dynamics after tracing out the meter, we must account for the full time-evolution of the coupled system-meter state. Starting with the meter in $|0\rangle$ (eigenstate of $\sigma_z$ with eigenvalue $+1$), the joint state evolves as
-
-\begin{equation}
-    |\Psi(t)\rangle = \sum_n c_n(t) |n(t)\rangle \otimes |\chi_n(t)\rangle,
-\end{equation}
-
-where $|\chi_n(t)\rangle$ is the meter state conditioned on the system being in eigenstate $|n(t)\rangle$. $|\chi_n(t)\rangle$  undergoes Rabi oscillations. The reduced density matrix after tracing out the meter becomes
-
-\begin{equation}
-    \rho_S(t) = \sum_{n,m} c_n(t)c_m^*(t) |n(t)\rangle\langle m(t)| \cdot \langle\chi_m(t)|\chi_n(t)\rangle.
-\end{equation}
-
-The overlap $\langle\chi_m(t)|\chi_n(t)\rangle$ encodes the decoherence when $m \neq n$, the meter states decorrelate due to their different Rabi frequencies $\Omega_m(t) \neq \Omega_n(t)$, leading to dephasing that depends on the accumulated phase difference.
-
-To determine the impact on the speedup, we calculate the time-dependent expectation value of the coupling operator $\langle \sigma_z \rangle(t)$. For a meter initialized in $|0\rangle$ (the $+1$ eigenstate of $\sigma_z$), the dynamics in each system energy sector are described by Rabi oscillations. The instantaneous expectation value is
-
-\begin{equation}
-    \langle\sigma_z\rangle_n(t) = \frac{(x_0 E_n(t))^2}{\Omega_n(t)^2} + \frac{\omega^2}{\Omega_n(t)^2}\cos\left(2\int_0^t \Omega_n(s)\,ds\right).
-\end{equation}
-
-Therefore The effective rescaling factor $1 + x_0\langle\sigma_z\rangle_n(t)$ oscillates in time, unlike the constant rescaling $(1 \pm x_0)$ in the commuting case. Different energy levels experience different Rabi frequencies $\Omega_n(t)$, causing the meter to decorrelate between system eigenstates at different rates. The cosine interference pattern from the two-branch description is destroyed because the meter is no longer in a coherent superposition of $|0\rangle$ and $|1\rangle$—it has been driven into a mixed state by the transverse field. Averaging over the phase removes the cosine term, yielding
-
-\begin{equation}
-    \overline{\langle\sigma_z\rangle}_n(t) = \frac{(x_0 E_n(t))^2}{(x_0 E_n(t))^2 + \omega^2}.
-\end{equation}
-
-This provides the time-averaged effective rescaling
-
-\begin{equation}
-    H_{\text{eff}}(t) = \left(1 + x_0 \overline{\langle\sigma_z\rangle}(t)\right) H_S(t).
-\end{equation}
-
-%----------------------------------------------------------------------------------
-\color{red}
-\subsection{Effect of Energy Rescaling on Quantum Phases}
-\color{black}
-\qquad The energy rescaling induced by the meter interaction affects the dynamical and geometric phases accumulated during the evolution. For a system evolving in the subspace corresponding to the meter eigenvalue $m_k$. The effective Hamiltonian is $H_{eff}^{[k]}(t) = (1+m_k)H_S(t)$. The instantaneous eigenstates $|n(t)\rangle$ of $H_S(t)$ satisfy $H_S(t)|n(t)\rangle = E_n(t)|n(t)\rangle$. Since $H_{eff}^{[k]}(t)$ is simply proportional to $H_S(t)$, it shares the same eigenstates, with rescaled eigenvalues $E_n^{[k]}(t) = (1+m_k)E_n(t)$. The dynamical phase accumulated by the $n$-th eigenstate over a time $T$ is given by the time integral of the energy
-
-\begin{equation}
-    \Phi_{dyn}^{[k]}(T) = -\frac{1}{\hbar} \int_0^T E_n^{[k]}(t) \, dt = -\frac{1}{\hbar} (1+m_k) \int_0^T E_n(t) \, dt = (1+m_k) \Phi_{dyn}(T).
-\end{equation}
-
-Thus, the dynamical phase is directly amplified by the rescaling factor $(1+m_k)$. This rapid phase accumulation corresponds to the faster unitary rotation speeds discussed in the main text. The geometric phase (Berry phase), however, depends only on the path traversed by the eigenstates in Hilbert space, not on the energy eigenvalues.
-
-\begin{equation}
-    \gamma_n = \int_0^T i \langle n(t) | \frac{d}{dt} n(t) \rangle \, dt.
-\end{equation}
-
-Since the eigenstates $|n(t)\rangle$ of the rescaled Hamiltonian $(1+m_k)H_S(t)$ are identical to those of the original Hamiltonian $H_S(t)$ at every instant $t$, the geometric connection $\langle n(t) | \dot{n}(t) \rangle$ remains unchanged. Consequently, the geometric phase accumulated over the trajectory is invariant under the energy rescaling $\gamma_n^{[k]} = \gamma_n$ This shows the speedup is purely a dynamical effect, accelerating the along the adiabatic path without altering the path's geometry itself.
-
-%----------------------------------------------------------------------------------
-
-\subsection{Relation Between Engineered Dephasing and the Lindblad Master Equation}
-
-This appendix clarifies how the notion of \emph{engineered dephasing} can be expressed in the standard open–quantum–systems framework based on the Lindblad master equation.The general Markovian master equation for an open quantum system is
-
-\begin{equation}
-    \frac{d\rho}{dt}= -i[H,\rho] + \sum_k \gamma_k \left(L_k \rho L_k^\dagger - \tfrac{1}{2}\{L_k^\dagger L_k,\rho\}\right)
-\end{equation}
-
-where $L_k$ are Lindblad (jump) operators and $\gamma_k$ are decoherence rates. Pure dephasing arises when the Lindblad operator is Hermitian $L = L^\dagger$, in which case the dissipator simplifies to $ \mathcal{D}_L[\rho]= \gamma(L\rho L - \rho).$\cite{breuer2002theory} For a qubit with $L = \sigma_z$, a direction calculation gives
-
-\begin{equation}
-    \mathcal{D}_{\sigma_z}[\rho] = \gamma
-    \begin{pmatrix}
-        0 & -2\rho_{01} \\
-        -2\rho_{10} & 0
-    \end{pmatrix}.
-\end{equation}
-
-Thus the populations remain constant while the coherences decay exponentially Engineered dephasing corresponds to deliberately choosing a Hermitian Lindblad operator $L$ and rate $\gamma$ with a distribution to suppress coherences in a desired basis. A general dephasing channel can be written as
-
-\begin{equation}
-    \rho \;\mapsto\; \int d\phi\, p(\phi)\, e^{-i\phi L}\rho\, e^{i\phi L},
-\end{equation}
-
-which is equivalent to the Lindblad form above when $p(\phi)$ is sufficiently narrow. The system meter construction implements an \emph{effective} dephasing channel. The interaction Hamiltonian used in the paper is $ H_{\mathrm{int}}(t)= H_S(t) \otimes X_M,$ where $H_S(t)$ is the instantaneous system Hamiltonian and $X_M$ acts on the meter. Because $ [H_S(t), H_{\mathrm{int}}(t)] = 0,$ the coupling is QND-like and induces dephasing in the eigenbasis of $H_S(t)$.The effective dephasing operator is $L_{\mathrm{eff}} = H_S(t).$
-
-\qquad The noise statistics are determined by the initial meter state and its evolution under two slightly different Hamiltonians. The engineered dephasing rate $\gamma_{\mathrm{eff}}$ depends on the coupling strength $x_0$ and the instantaneous energy differences. After tracing out the meter, the system evolves as
-
-\begin{equation}
-    \rho_S(t)
-    = \frac{1}{2}U_+(t)\rho_S(0)U_+^\dagger(t)
-    + \frac{1}{2}U_-(t)\rho_S(0)U_-^\dagger(t).
-\end{equation}
-
-This is a dephasing channel with a discrete phase-kick distribution
-
-\begin{equation}
-    p(\phi) = \tfrac{1}{2}\delta(\phi - \phi_+) 
-            + \tfrac{1}{2}\delta(\phi - \phi_-),
-\end{equation}
-
-where the phases are $\phi_\pm^{(n)}(t) = (1\pm x_0)\int_0^t E_n(s)\,ds.$\cite{NielsenChuang2010} For two instantaneous eigenstates $|m(t)\rangle$ and $|n(t)\rangle$ with energies $E_m(t)$ and $E_n(t)$, the relative phase difference between the two branches is
-
-\begin{equation}
-    \Delta\phi_{mn}(t) = 2x_0 \int_0^t \big(E_m(s) - E_n(s)\big)\,ds.
-\end{equation}
-
-This phase difference suppresses the off-diagonal elements of $\rho_S(t)$.To leading order, the coherence decays as $
-\rho_{mn}(t) \approx \rho_{mn}(0)\,\exp\!\left[-\Gamma_{mn}(t)\right],$ with an effective dephasing rate
-
-\begin{equation}
-    \Gamma_{mn}(t)
-    \sim 2x_0^2 \int_0^t \big(E_m(s) - E_n(s)\big)^2 ds.
-\end{equation}
-
-Thus the engineered coupling strength $x_0$ plays the role of the Lindblad rate parameter $\gamma$. \cite{PoyatosReservoirEngineering}
-
-
-
-%----------------------------------------------------------------------------------
-
-\subsection{Analytical Derivation of Speedup, Optimal Schedule Speed Up for same fidelity}
-\qquad The total annealing time $\tau$ can be found by integrating the inverse velocity, following the derivation by Roland and Cerf\cite{LocalAdiabticQuantumSearch}
-
-\begin{equation}
-    \tau = \int_0^1 \frac{dt}{ds} ds = \int_0^1 \frac{1}{\dot{s}} ds.
-\end{equation}
-
-Consider a general annealing problem. The behaviour of the gap near this minimum can be approximated \textbf{Use either LZ approximation or based on stat knowledge of gap.}
-
- \color{red}
-\subsection{Mechanism of Fidelity Reduction}
-\color{black}
-
-\qquad In the commuting case, Fig. \ref{fig:fidelity_contour} demonstrates that fidelity contours follow lines of constant effective time $T_{\text{eff}} = T(1+x_0)$. This scaling property means that an evolution with coupling $x_0$ for time $T$ achieves the same fidelity as an uncoupled evolution ($x_0=0$) for time $T(1+x_0)$. Mathematically, this arises because the evolution operator is:
-\begin{equation}
-    U(t) = \mathcal{T}\exp\left[-i\int_0^T (1+x_0)H_S(t)dt\right],
-\end{equation}
-which can be recast as evolving under $H_S(t)$ for an effective duration $T_{\text{eff}} = T(1+x_0)$, provided the functional form of the Hamiltonian remains unchanged. However, when $[X_M, H_M] \neq 0$, this simple scaling relationship breaks down. The effective rescaling factor becomes time-dependent:
-\begin{equation}
-    T_{\text{eff}}(t, \omega) = \int_0^t \left[1 + x_0 \langle\sigma_z\rangle(s)\right] ds,
-\end{equation}
-where $\langle\sigma_z\rangle(t)$ oscillates according to:
-\begin{equation}
-    \langle\sigma_z\rangle(t) = \frac{(x_0 E(t))^2}{\Omega(t)^2} + \frac{\omega^2}{\Omega(t)^2}\cos\left(2\int_0^t \Omega(s)ds\right),
-\end{equation}
-with $\Omega(t) = \sqrt{(x_0 E(t))^2 + \omega^2}$. 
-
-\qquad This means the system no longer evolves along a single rescaled trajectory. Instead, the effective evolution rate fluctuates in time, and different regions of the parameter space (different energy levels) experience different time-averaged rescaling factors. At the minimum gap where $E(t) \to E_{\min}$, the time-averaged effective time becomes:
-\begin{equation}
-    \overline{T_{\text{eff}}} = T\left[1 + x_0 \frac{(x_0 E_{\min})^2}{(x_0 E_{\min})^2 + \omega^2}\right] < T(1+x_0).
-\end{equation}
-
-\qquad Therefore, the fidelity contours in the non-commuting case do not follow the simple $T(1+x_0)$ lines. The deviation from these contours, shown quantitatively in Fig. \ref{fig:fidelity_diff}, directly reflects the reduction in the effective coupling strength due to meter state precession. The universally negative $\Delta F$ confirms that the system always achieves less speedup than predicted by the ideal $T(1+x_0)$ scaling—the contours are effectively "bent" toward longer times, requiring more actual evolution time $T$ to achieve the same fidelity as the commuting case would predict.
-
-    \subsubsection{Meter Precession and Fidelity Reduction}
-
-\qquad To understand the physical mechanism behind the fidelity reduction observed in Fig. \ref{fig:fidelity_diff}, we analyse the effective energy rescaling in the presence of the non-commuting term $H_M = \omega \sigma_x$, following the analysis in \cite{DephasingPaper}. In the ideal QND limit ($\omega=0$), the system energy gaps are rescaled by a constant factor $(1+x_0)$, leading to a direct linear speedup. However, when $\omega \neq 0$, the transverse field induces mixing between the meter branches.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[t]{0.48\textwidth}
-        \centering
-        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:NonCommutationRescaling_a}
-        \vspace{-1.2ex}
-        \includegraphics[width=0.95\textwidth]{NonCommutation/LZRescale.png}
-    \end{subfigure}%
-    \hfill
-    \begin{subfigure}[t]{0.48\textwidth}
-        \centering
-        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:NonCommutationRescaling_b}
-        \vspace{-1.2ex}
-        \includegraphics[width=0.95\textwidth]{NonCommutation/QARescale.png}
-    \end{subfigure}
-    \caption[Effective energy rescaling factor for non-commuting dynamics]{Impact of non-commuting meter dynamics on protocol performance. The plots show the effective energy rescaling factor $1+x_0\langle\sigma_z\rangle(t)$ relative to the ideal QND case as a function of duration $T$ and $\omega$. (a) shows the Landau-Zener qubit, and (b) shows the 3-qubit Ising outcome. The universally negative values indicate that introducing a non-commuting term $[X_M, H_M] \neq 0$ strictly reduces the effectiveness of the speedup.}
-    \label{fig:NonCommutationRescaling}
-\end{figure}
-
-\qquad Fig. \ref{fig:NonCommutationRescaling} illustrates the effective energy rescaling factor compared to the ideal case. The rescaling is no longer constant but exhibits fast oscillations that are modulated that decays near the avoided crossing. These oscillations are the signature of coherent Rabi cycling of the meter state, driven by the transverse field $\omega$. As the system evolves, the meter attempts to track the instantaneous energy eigenstates, but the non-commuting term $\omega \sigma_x$ induces precession away from the ideal rescaling axis.
-
-\qquad Analytical derivation (detailed in Appendix \ref{sec:appendix_non_commuting}) shows that the local speedup is determined by the instantaneous expectation value $\langle \sigma_z \rangle(t)$. The non-commuting dynamics lead to a time-averaged polarization $\overline{\langle \sigma_z \rangle} < 1$, effectively diluting the coupling strength $x_0$. A useful way to understand the behaviour observed in Fig.\ref{fig:fidelity_diff} is to examine how the engineered system--meter coupling modifies the evolution of the off--diagonal density matrix elements.  Tracing out the meter yields a reduced system evolution of the form
-
-\begin{equation}
-    \rho_S(t) = \tfrac12 U_{+}(t)\rho_S(0)U_{+}^\dagger(t) + \tfrac12 U_{-}(t)\rho_S(0)U_{-}^\dagger(t),
-\end{equation}
-where $U_{\pm}(t)$ correspond to evolution under the rescaled Hamiltonians $(1\pm x_0)H_S(t)$.  In the instantaneous energy eigenbasis of $H_S(t)$, the off--diagonal elements evolve as
-
-\begin{equation}\label{eq:rho_offdiag}
-\rho_{mn}(t) = \rho_{mn}(0)\, e^{-i\Delta\phi_{mn}(t)} \cos\!\big(x_0\Delta\phi_{mn}(t)\big),
-\end{equation}
-
-with $\Delta\phi_{mn}(t)=\int_0^t(E_m(s)-E_n(s))\,ds$.  The cosine factor arises from interference between the two unitary branches and leads to partial suppression of coherences.
-
-\subsubsection{Derivation of the Interference Factor}
-
-\qquad The interference factor in Eq.~(\ref{eq:rho_offdiag}) emerges directly from the structure of the Kraus decomposition. When the meter is initialized in a superposition state $|+\rangle = (|0\rangle + |1\rangle)/\sqrt{2}$ (equal superposition of $\sigma_z$ eigenstates with eigenvalues $\pm 1$), the system--meter state evolves as
-\begin{equation}
-    |\Psi(t)\rangle = \frac{1}{\sqrt{2}}\left( U_{+}(t)|\psi_S(0)\rangle \otimes |0\rangle + U_{-}(t)|\psi_S(0)\rangle \otimes |1\rangle \right),
-\end{equation}
-where $U_{\pm}(t) = \mathcal{T}\exp\left(-i\int_0^t (1\pm x_0) H_S(s)\, ds\right)$ are the propagators for the rescaled Hamiltonians. Tracing over the meter degrees of freedom yields
-\begin{equation}
-    \rho_S(t) = \text{Tr}_M\left[|\Psi(t)\rangle\langle\Psi(t)|\right] = \frac{1}{2}\left( U_{+}\rho_S(0)U_{+}^\dagger + U_{-}\rho_S(0)U_{-}^\dagger \right).
-\end{equation}
-
-\qquad In the instantaneous energy eigenbasis $\{|n(t)\rangle\}$ of $H_S(t)$, the propagators act diagonally on adiabatically evolved states, contributing phases $\phi_n^{(\pm)}(t) = (1\pm x_0)\int_0^t E_n(s)\,ds$. For an off-diagonal element $\rho_{mn}$, the two branches contribute
-\begin{align}
-    \rho_{mn}(t) &= \frac{1}{2}\rho_{mn}(0)\left( e^{-i(\phi_m^{(+)} - \phi_n^{(+)})} + e^{-i(\phi_m^{(-)} - \phi_n^{(-)})} \right) \nonumber \\
-    &= \frac{1}{2}\rho_{mn}(0)\left( e^{-i(1+x_0)\Delta\phi_{mn}} + e^{-i(1-x_0)\Delta\phi_{mn}} \right) \nonumber \\
-    &= \rho_{mn}(0)\, e^{-i\Delta\phi_{mn}} \cos(x_0 \Delta\phi_{mn}),
-\end{align}
-where $\Delta\phi_{mn} = \int_0^t (E_m(s) - E_n(s))\,ds$ is the accumulated phase difference between energy levels.
-
-\subsubsection{Connection to Landau-Zener Gap}
-
-\qquad For the Landau-Zener model (Eq.~\ref{LandauZenerEquation}), the instantaneous energy gap between ground and excited states is given by
-\begin{equation}
-    \Delta(t) = E_+(t) - E_-(t) = \sqrt{(vt)^2 + g^2},
-\end{equation}
-which defines the instantaneous Rabi frequency $\Omega(t) = \Delta(t)/2 = \frac{1}{2}\sqrt{(vt)^2 + g^2}$. The accumulated phase difference for the two-level system becomes
-\begin{equation}
-    \Delta\phi_{01}(t) = \int_0^t \Delta(s)\,ds = \int_0^t \sqrt{(vs)^2 + g^2}\,ds.
-\end{equation}
-When the meter has its own non-commuting dynamics $H_M = \omega\sigma_x$, the meter--system interaction generates an effective energy scale. The combined system--meter Hamiltonian in the meter subspace induces Rabi oscillations at a modified frequency
-\begin{equation}
-    \Omega_{\text{eff}}(t) = \sqrt{E(t)^2 + \omega^2},
-\end{equation}
-where $E(t) = vt/2$ is the longitudinal energy scale from the Landau-Zener drive. The interference factor then takes the form
-\begin{equation}\label{eq:interference_factor}
-    C(T, \omega) = \cos\left(2x_0 \int_0^T \Omega_{\text{eff}}(s)\,ds\right) = \cos\left(2x_0 \int_0^T \sqrt{E(s)^2 + \omega^2}\,ds\right).
-\end{equation}
-The factor of 2 arises from the full phase accumulated over both branches of the evolution.
-
-\subsubsection{Numerical Validation and Figure Generation}
-
-\qquad The theoretical predictions are validated numerically by computing both the ground-state fidelity and the analytical interference factor across a grid of annealing times $T \in [1, 10]$ and meter frequencies $\omega \in [0, 10]$ with coupling $x_0 = 1$. For each $(T, \omega)$ point, the simulation proceeds as follows:
-
-Fig.~\ref{fig:interference_analysis} displays the results of this analysis. The fidelity map exhibits characteristic ripple patterns at small $\omega$ and short $T$, which align precisely with the zero-crossings of the analytical interference factor $C(T, \omega) = 0$ (white dashed contours). These contours occur when the accumulated phase satisfies $2x_0 \int_0^T \Omega_{\text{eff}}(s)\,ds = (2n+1)\pi/2$ for integer $n$, corresponding to complete destructive interference between the two evolution branches.
-
-\qquad The physical interpretation is that for small $\omega$, the rapid Rabi oscillations induced by the meter's transverse field are not fully averaged out over the annealing time $T$. The cosine term oscillates between $\pm 1$, alternately enhancing and suppressing the effective dephasing. As $\omega$ increases, the dominant effect becomes the algebraic suppression of the system--meter coupling. The effective mixing angle $\theta(t) = \arctan(\omega/E(t))$ determines the projection of the meter state onto the $\sigma_z$ axis, yielding $\sin\theta(t) = \omega/\sqrt{E(t)^2 + \omega^2}$. This produces an envelope proportional to $1/(\omega^2 + E(t)^2)$ that smoothly suppresses fidelity as $\omega$ increases, visible as the dominant dark gradient in Fig.~\ref{fig:fidelity_diff}.
-
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[t]{0.32\textwidth}
-        \centering
-        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:interference_analysis_a}
-        \vspace{-1.2ex}
-        \includegraphics[width=\textwidth]{NonCommutation/WNonFidDiff.png}
-    \end{subfigure}%
-    \hfill
-    \begin{subfigure}[t]{0.32\textwidth}
-        \centering
-        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:interference_analysis_b}
-        \vspace{-1.2ex}
-        \includegraphics[width=\textwidth]{NonCommutation/InterferenceFactor.png}
-    \end{subfigure}%
-    \hfill
-    \begin{subfigure}[t]{0.32\textwidth}
-        \centering
-        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:interference_analysis_c}
-        \vspace{-1.2ex}
-        \includegraphics[width=\textwidth]{NonCommutation/WNonCommuting.png}
-    \end{subfigure}
-    \caption[Interference effects in non-commuting meter regime]{Analysis of interference effects in the non-commuting meter regime. (a) Fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ showing ripple modulations at small $\omega$. (b) Analytical interference factor $C(T, \omega) = \cos(2x_0\int\Omega_{\text{eff}}\,ds)$ with zero-crossing contours (black dashed). (c) Fidelity map with $C=0$ contours overlaid (white dashed), demonstrating the correspondence between numerical fidelity ripples and analytical predictions.}
-    \label{fig:interference_analysis}
-\end{figure}
-
-\newpage
-\chapter{Coherence Diagnostic for Single-Qubit Meter Coupling}\label{App:CoherenceDiagnostic}
-
-\qquad To rigorously distinguish between coherence dephasing and population dephasing in the context of single-qubit meter coupling, we implement a diagnostic protocol that tracks the evolution of three key quantities throughout the annealing protocol:
-
-\begin{enumerate}
-    \item \textbf{Computational-basis coherence}: $C_{\mathrm{comp}}^{(k)}(t) = \sum_{m \neq n} |\rho_{mn}^{(k)}(t)|$, measuring superposition within the computational basis of target qubit $k$.
-    
-    \item \textbf{Energy-basis coherence}: $C_{\mathrm{energy}}(t) = \sum_{m \neq n} |\rho_{mn}^{\mathrm{energy}}(t)|$, measuring superposition between instantaneous energy eigenstates of the full system.
-    
-    \item \textbf{Ground state population}: $P_{\mathrm{ground}}(t) = \langle \psi_{\mathrm{ground}} | \rho(t) | \psi_{\mathrm{ground}} \rangle$, serving as a direct proxy for success probability.
-\end{enumerate}
-
-\qquad We compare three scenarios: (i) no meter (baseline adiabatic annealing), (ii) single-qubit meter coupling to $\sigma_z^{(k)}$, and (iii) full-system meter coupling to $x_0 H_S(t)$. The protocol evolves a 3-qubit random Ising instance over annealing time $T=5$ with 20 time snapshots for trajectory tracking.
-
-\qquad The diagnostic results unambiguously demonstrate the predicted failure mechanism:
-\begin{itemize}
-    \item \textbf{Full-system meter}: Dramatically suppresses $C_{\mathrm{energy}}(t)$ while maintaining $P_{\mathrm{ground}}(t)$, achieving improved ground state population. This directly addresses the source of diabatic errors.
-    
-    \item \textbf{Single-qubit meter}: Effectively reduces $C_{\mathrm{comp}}^{(k)}(t)$ but leaves $C_{\mathrm{energy}}(t)$ largely unchanged. Despite dephasing computational-basis coherences, it fails to suppress the energy-eigenstate coherences where diabatic transitions actually occur.
-    
-    \item \textbf{No meter}: Baseline showing moderate ground state population growth, unaffected by either form of dephasing.
-\end{itemize}
-
-\qquad The integrated measure $\int_0^T C_{\mathrm{energy}}(t') dt'$ quantifies cumulative energy-basis dephasing. For the single-qubit case, this integral remains nearly equivalent to the no-meter baseline, confirming that the mechanism fails to suppress the relevant energy-level coherences. By contrast, the full-system meter produces a dramatic reduction in this integral, correlating directly with improved fidelity.
-
-\qquad This diagnostic analysis definitively resolves the question: single-qubit meter coupling fails not because dephasing itself is harmful, but because it induces dephasing in the computational basis rather than in the energy eigenbasis where quantum errors arise. The fundamental requirement—that the coupling operator commute with the system Hamiltonian to restrict dynamics to the energy eigenspace—cannot be satisfied by single-qubit local operators in multi-qubit systems with entangling interactions.
 
 \newpage
 \chapter{Additional Papers and Reproduced Results}
-\quad To investigate a broad range of Shortcuts to Adiabaticity (STA) protocols, we reproduced results from several key papers in the field. We include abrief note on the various methods applied and the results achieved, we compare the advantages and disadvantages of these methods in comparison to those of the meter coupling used within this thesis. These papers are summarised as follows Counterdiabatic Optimised Local Driving (COLD) \cite{COLD2023}, 
-Reservoir Engineering Shortcuts to Adiabticity \cite{ResEngSTA},
+\quad To investigate a broad range of Shortcuts to Adiabaticity (STA) protocols, we reproduced results from several key papers in the field. We include abrief note on the various methods applied, and the results achieved, we compare the advantages and disadvantages of these methods in comparison to those of the meter coupling used within this thesis. These papers are summarized as follows Counterdiabatic Optimized Local Driving (COLD)\cite{COLD2023}, 
+Reservoir Engineering Shortcuts to Adiabaticity\cite{ResEngSTA},
 
-\subsection{Counterdiabatic Optimised Local Driving}
+\section{Counterdiabatic Optimized Local Driving}
 
-\qquad Counterdiabatic Optimised Local Driving (COLD) represents a hybrid approach that combines the analytical framework of Local Counterdiabatic Driving (LCD) with numerical quantum optimal control techniques\cite{COLD2023}. The method addresses a fundamental challenge in shortcuts to adiabaticity: achieving fast, high-fidelity state preparation while maintaining experimental accessibility through local control fields. Unlike standard CD protocols that require knowledge of the full instantaneous eigenspectrum and often demand non-local interactions, COLD optimises the adiabatic path itself to maximise the effectiveness of approximate, experimentally feasible counterdiabatic terms. We use the counterdiabatic driving formalism to build COLD. For a system evolving under a time-dependent Hamiltonian $H_0(t)$, exact CD requires adding a term that suppresses all diabatic transitions
+\qquad Counterdiabatic Optimized Local Driving (COLD) represents a hybrid approach that combines the analytical framework of Local Counterdiabatic Driving (LCD) with numerical quantum optimal control techniques\cite{COLD2023}. The method addresses a fundamental challenge in shortcuts to adiabaticity: achieving fast, high-fidelity state preparation while maintaining experimental accessibility through local control fields. Unlike standard CD protocols that require knowledge of the full instantaneous eigenspectrum and often demand non-local interactions, COLD optimizes the adiabatic path itself to maximize the effectiveness of approximate, experimentally feasible counterdiabatic terms. We use the counterdiabatic driving formalism to build COLD. For a system evolving under a time-dependent Hamiltonian $H_0(t)$, exact CD requires adding a term that suppresses all diabatic transitions
 
 \begin{equation}
     H_{\text{CD}}(t) = H_0(t) + i\hbar\sum_n |\partial_t n(t)\rangle\langle n(t)|,
@@ -695,7 +358,7 @@ where $|n(t)\rangle$ are the instantaneous eigenstates of $H_0(t)$. This can be 
     H_{\text{CD}}(\lambda) = H_0(\lambda) + \dot{\lambda}G_\lambda,
 \end{equation}
 
-where $\lambda$ parameterises the evolution path. The gauge potential satisfies the closed-form equation $[G_\lambda, H_0] = 0$, which generally lacks easy solutions for many-body systems. Local Counterdiabatic Driving uses an approximate gauge potential instead from a restricted set of local operators $\{O_{\text{LCD}}^{(j)}\}$. The ansatz $A_\lambda = \sum_j \alpha_j O_{\text{LCD}}^{(j)}$ is optimised by minimising the Hilbert-Schmidt norm of $G_\lambda$, equivalent to minimising the action:
+where $\lambda$ parameterizes the evolution path. The gauge potential satisfies the closed-form equation $[G_\lambda, H_0] = 0$, which generally lacks easy solutions for many-body systems. Local Counterdiabatic Driving uses an approximate gauge potential instead from a restricted set of local operators $\{O_{\text{LCD}}^{(j)}\}$. The ansatz $A_\lambda = \sum_j \alpha_j O_{\text{LCD}}^{(j)}$ is optimised by minimising the Hilbert-Schmidt norm of $G_\lambda$, equivalent to minimising the action:
 
 \begin{equation}
     S = \int d\lambda \, \text{Tr}[G_\lambda^\dagger G_\lambda].
@@ -722,9 +385,9 @@ where $\beta$ represents optimisable control parameters, $f(\lambda, \beta)$ is 
 where the LCD coefficients $\alpha_j(\lambda, \beta)$ are recalculated for each choice of control parameters. The key insight is that by varying $\beta$, one modifies the instantaneous eigenspectrum of $H_\beta$, thereby changing the adiabatic landscape to favour configurations where the local LCD terms provide maximum suppression of diabatic transitions. The optimisation proceeds by minimising a cost function, typically $C(\beta) = 1 - |\langle\psi_T|\psi_f(\beta)\rangle|$, where $|\psi_T\rangle$ is the target ground state and $|\psi_f(\beta)\rangle$ is the final state after evolution under $H_{\text{COLD}}$. Standard optimisation algorithms such as Powell minimisation or dual annealing are employed. Critically, COLD can be combined with advanced optimal control techniques like CRAB (Chopped Randomised Basis), yielding COLD-CRAB, which makes the parameter landscape bigger through randomisation while maintaining the benefits of approximate CD.
 
 
-\qquad The orginal paper applies it to quantum annealing protocols, state preparation in Ising models, and the generation of entangled multipartite states. To validate our implementation of COLD and compare it with the engineered dephasing approach discussed in Section 3, we reproduced key results from Ref.\cite{COLD2023} focusing on quantum annealing protocols and state preparation in Ising models. We present five key figures that illustrate the performance advantages of COLD across different scenarios and system sizes.
+\qquad The original paper applies it to quantum annealing protocols, state preparation in Ising models, and the generation of entangled multipartite states. To validate our implementation of COLD and compare it with the engineered dephasing approach discussed in Section 3, we reproduced key results from Ref.\cite{COLD2023} Focusing on quantum annealing protocols and state preparation in Ising models. We present five key figures that illustrate the performance advantages of COLD across different scenarios and system sizes.
 
-\subsubsection{Two-Spin Annealing Protocol}
+\subsection{Two-Spin Annealing Protocol}
 \qquad Cold is demonstrated on the two spin quantum annealing problem with Hamiltonian.
 \begin{equation}
     H_0(t) = -2J\sigma_1^z\sigma_2^z - h(\sigma_1^z + \sigma_2^z) + 2h\lambda(t)(\sigma_1^x + \sigma_2^x),
@@ -747,13 +410,13 @@ The scaling function used is given by $\lambda(t) = \sin^2(\pi t/2T)$, which sat
         \vspace{-1.5ex}
         \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{COLD/Fig1b.png}}
     \end{subfigure}
-    \caption[COLD optimization for two-spin Hamiltonian]{Optimization of annealing protocol for the two-spin Hamiltoninan. (a) fidelity of the final state as a function of total annealing time $T$ for three cases: bare annealing (no LCD), first-order LCD, and combined first-and second-order LCD. }
+    \caption[COLD optimization for two-spin Hamiltonian]{Optimization of annealing protocol for the two-spin Hamiltonian. (a) fidelity of the final state as a function of total annealing time $T$ for three cases: bare annealing (no LCD), first-order LCD, and combined first-and second-order LCD. }
     \label{fig:COLD_fig1}
 \end{figure}
 
 \qquad
 
-\subsubsection{BPO versus COLD in Five-Spin Systems}
+\subsection{BPO versus COLD in Five-Spin Systems}
 
     \begin{figure}[H]
     \centering
@@ -777,7 +440,7 @@ The scaling function used is given by $\lambda(t) = \sin^2(\pi t/2T)$, which sat
 \qquad
 
 
-\subsection{Reservoir Engineering Shortcuts to Adiabaticity}
+\section{Reservoir Engineering Shortcuts to Adiabaticity}
 
 
 \newpage

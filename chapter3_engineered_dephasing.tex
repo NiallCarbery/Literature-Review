@@ -24,7 +24,7 @@ where $X_M$ is a meter observable and $H_M$ governs the meter dynamics. The resu
 
 \section{Dephasing Effects}
 
-\qquad We now demonstrate the aforementioned dephasing effects by applying it to the density matrix formalism of a simplified 'toy' Landau Zener model. The meter coupling induces dephasing, this is shown through a single qubit initialized in the superposition state $|+\rangle = \tfrac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$. Then selecting the meter observable as $X_M=x_0\sigma_z$ and assume negligible intrinsic meter dynamics ($H_M=0$), while keeping the system Hamiltonian $H_S(t)$ general. Here, $x_0$ represents the coupling strength of the QND-like interaction. The resulting Hamiltonian is given by
+\qquad We now demonstrate the aforementioned dephasing effects by studying in a general manner. The meter coupling induces dephasing, this is shown through a single qubit initialized in the superposition state $|+\rangle = \tfrac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$. Then selecting the meter observable as $X_M=x_0\sigma_z$ and assuming negligible intrinsic meter dynamics ($H_M=0$), while keeping the system Hamiltonian $H_S(t)$ general. Here, $x_0$ represents the coupling strength of the QND-like interaction. The resulting Hamiltonian is given by
 %%
 \begin{equation}
     H(t)=H_S(t)\otimes\mathds{1}_M + x_0 H_S(t)\otimes\sigma_z
@@ -112,17 +112,17 @@ For branches where $(1 + x_0 m_j) > 1$, the effective adiabatic parameter is red
 where the meter couples through the interaction $H_{\rm int} = H_S(t) \otimes \sigma_z$, and we set $H_M = 0$ for simplicity. The joint system is prepared in the product state $|+\rangle \otimes |+\rangle$, with both the system qubit and meter in equal superpositions of their respective basis states. The evolution proceeds via linear interpolation across the interval $t \in [-10/v, +10/v]$ with parameters $v = g = 1$. After tracing out the meter degrees of freedom, we track the off-diagonal density-matrix element $|\rho_{01}(t)|$ throughout the evolution.
 
 \qquad Comparing the dephased evolution against the coherent case ($H_{\rm int} = 0$). Over the full evolution there is a net suppression of coherence amplitude relative to the meter-free scenario, confirming the dephasing of the meter-induced dynamics as show by the density-matrix analysis.
-
+%%
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[t]{0.48\textwidth}
+    \begin{subfigure}[t]{0.5\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:landau_zener_results_a}
         \vspace{-1.5ex}
         \raisebox{0ex}{\includegraphics[width=0.95\textwidth,trim=0 0 0 0,clip]{Dephasing/Dephasing1a.png}}
     \end{subfigure}%
     \hfill
-    \begin{subfigure}[t]{0.48\textwidth}
+    \begin{subfigure}[t]{0.5\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:landau_zener_results_b}
         \vspace{-1.5ex}
@@ -163,14 +163,14 @@ Where we have used $X_M|m_i\rangle = m_i|m_i\rangle$. The energy gap $g(s)$ in t
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[t]{0.48\textwidth}
+    \begin{subfigure}[t]{0.5\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:fidelity_contour_a}
         \vspace{-1.5ex}
         \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{Dephasing/Dephasing2a.png}}
     \end{subfigure}%
     \hfill
-    \begin{subfigure}[t]{0.48\textwidth}
+    \begin{subfigure}[t]{0.5\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:fidelity_contour_b}
         \vspace{-1.5ex}
@@ -191,7 +191,7 @@ Since energy rescaling in the Landau-Zener model is mathematically equivalent to
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.45\textwidth]{Dephasing/Dephasing3.png}
+    \includegraphics[width=0.5\textwidth]{Dephasing/Dephasing3.png}
     \caption[Infidelity versus annealing time for various coupling strengths]{Infidelity ($I=1-F$) of the final state versus annealing time $T$ for the Landau-Zener protocol at various coupling strengths $x_0$. The discrete markers represent the QND-like protocol, while the dotted lines depict the theoretical Landau-Zener prediction with the time variable rescaled to $T(1+x_0)$.}
     \label{fig:lz_scaling}
 \end{figure}
@@ -200,14 +200,14 @@ Since energy rescaling in the Landau-Zener model is mathematically equivalent to
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[t]{0.48\textwidth}
+    \begin{subfigure}[t]{0.5\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:fidelity_diff_a}
         \vspace{-1.5ex}
         \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{Dephasing/Dephasing4a.png}}
     \end{subfigure}%
     \hfill
-    \begin{subfigure}[t]{0.48\textwidth}
+    \begin{subfigure}[t]{0.5\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:fidelity_diff_b}
         \vspace{-1.5ex}
