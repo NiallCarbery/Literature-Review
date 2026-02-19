@@ -5,9 +5,7 @@
 
 \qquad Any physical auxiliary system will possess internal dynamics that do not commute perfectly with the coupling observable. When $[H_M, X_M] \neq 0$, three effects arise: (i) the meter undergoes coherent precession away from its initial state, (ii) the system becomes entangled with the meter, and (iii) the effective energy rescaling becomes time-dependent rather than constant. This chapter provides a self-contained, step-by-step analytical treatment of these effects for a qubit meter, derives a closed-form expression for the degraded effective rescaling, and validates the predictions against exact numerical simulations.
 
-\qquad This is physically motivated by 
-
-\qquad The central result is a strict performance bound: the time-averaged speedup in the non-commuting case is always less than the commuting-case value $(1+x_0)$, with the deficit controlled by the dimensionless ratio $\omega / (x_0 E(t))$ between the meter's intrinsic energy scale and the system--meter coupling energy. This ratio governs a smooth crossover from the ideal QND regime ($\omega \to 0$) to a fully decoupled regime ($\omega \to \infty$) in which the meter averages out and provides no speedup at all.
+\qquad This is physically motivated by annealing implementations on ion-trap devices where we can achieve a global coupling of the meter to the system Hamiltonian but more likely at the cost of the meter having its own intrinsic dynamics. We analytically confirm the $\omega =0$ still results in the maximum speedup.
 
 %----------------------------------------------------------------------------------
 
@@ -78,7 +76,7 @@ We can test this of in two limits, for $\omega \to 0$ $\theta_n \to 0$, so $|+_n
 \section{Rabi Oscillations and Meter Polarisation}\label{sec:rabi_oscillations}
 %----------------------------------------------------------------------------------
 
-\qquad Having established the effective meter Hamiltonian in each sector, we now solve for the meter's time evolution explicitly. Consider the meter initialised in $|0\rangle$, the $+1$ eigenstate of $\sigma_z$. Within sector $n$, the meter evolves under $\tilde{H}_{\text{meter}}^{(n)}(t)$. To make the calculation tractable, we first treat the case where $E_n(t)$ varies slowly compared to the Rabi frequency $\Omega_n(t)$---the adiabatic-meter approximation. This is justified when the system's annealing timescale $T$ is much longer than $1/\Omega_n$.
+\qquad Having established the effective meter Hamiltonian in each sector, we now solve for the meter's time evolution explicitly. Consider the meter initialised in $|0\rangle$, the $+1$ eigenstate of $\sigma_z$. Within sector $n$, the meter evolves under $\tilde{H}_{\text{meter}}^{(n)}(t)$. To make the calculation tractable, we first treat the case where $E_n(t)$ varies slowly compared to the Rabi frequency $\Omega_n(t)$---the adiabatic-meter (i.e. $E_n(t)$ changes slowly compared to the meter's Rabi frequency $\Omega(t)$)approximation. This is justified when the system's annealing timescale $T$ is much longer than $1/\Omega_n$.
 
 \subsection{Decomposition into Meter Eigenstates}
 
@@ -88,230 +86,48 @@ We can test this of in two limits, for $\omega \to 0$ $\theta_n \to 0$, so $|+_n
     |0\rangle = \cos\theta_n(0)\,|+_n(0)\rangle - \sin\theta_n(0)\,|-_n(0)\rangle.
 \end{equation}
 %%
-This follows directly from inverting Eq.~\eqref{eq:meter_eigenstates}. Each component then acquires a dynamical phase under the eigenvalues $\pm\Omega_n(t)$:
+This follows directly from inverting Eq.~\eqref{eq:meter_eigenstates}. Under the adiabatic-meter approximation, each component tracks the instantaneous eigenstate and acquires a dynamical phase under the eigenvalues $\pm\Omega_n(t)$:
 %%
 \begin{equation}\label{eq:meter_time_evolution}
-    |\chi_n(t)\rangle = \cos\theta_n\,e^{-i\Phi_n^{+}(t)}\,|+_n(t)\rangle - \sin\theta_n\,e^{-i\Phi_n^{-}(t)}\,|-_n(t)\rangle,
-\end{equation}
-%%
-where $\Phi_n^{\pm}(t) = \pm\int_0^t \Omega_n(s)\,ds$ are the accumulated phases. The relative phase between the two components is
-%%
-\begin{equation}\label{eq:relative_phase}
-    \Delta\Phi_n(t) = \Phi_n^{+}(t) - \Phi_n^{-}(t) = 2\int_0^t \Omega_n(s)\,ds.
+    |\chi_n(t)\rangle = \cos\theta_n(0)\,e^{-i\Phi_n^{+}(t)}\,|+_n(t)\rangle - \sin\theta_n(0)\,e^{-i\Phi_n^{-}(t)}\,|-_n(t)\rangle,
 \end{equation}
 
-\subsection{Expectation Value of $\sigma_z$}
+\subsection[Expectation Value of sigma\_z]{Expectation Value of $\sigma_z$}
 
-\qquad The quantity that controls the effective system rescaling is the meter polarisation $\langle\sigma_z\rangle_n(t) = \langle\chi_n(t)|\sigma_z|\chi_n(t)\rangle$. We compute this by expanding $\sigma_z$ in the $\{|+_n\rangle, |-_n\rangle\}$ basis. Using Eq.~\eqref{eq:meter_eigenstates},
+\qquad The quantity that controls the effective system rescaling is the meter polarisation $\langle\sigma_z\rangle_n(t) = \langle\chi_n(t)|\sigma_z|\chi_n(t)\rangle$. A crucial point is that the amplitudes in Eq.~\eqref{eq:meter_time_evolution} are set by the \emph{initial} mixing angle $\theta_n(0)$, while the matrix elements of $\sigma_z$ in the instantaneous eigenbasis depend on $\theta_n(t)$. Using Eq.~\eqref{eq:meter_eigenstates} at time~$t$,
 %%
-\begin{align}\label{eq:sigma_z_in_eigenbasis}
-    \langle +_n | \sigma_z | +_n \rangle &= \cos^2\theta_n - \sin^2\theta_n = \cos 2\theta_n, \nonumber\\
-    \langle -_n | \sigma_z | -_n \rangle &= \sin^2\theta_n - \cos^2\theta_n = -\cos 2\theta_n, \nonumber\\
-    \langle +_n | \sigma_z | -_n \rangle &= -2\cos\theta_n\sin\theta_n = -\sin 2\theta_n.
-\end{align}
+\begin{equation}\label{eq:sigma_z_in_eigenbasis}
+    \langle +_n(t) | \sigma_z | +_n(t) \rangle = \cos 2\theta_n(t) \quad
+    \langle -_n(t) | \sigma_z | -_n(t) \rangle = -\cos 2\theta_n(t)  \quad
+    \langle +_n(t) | \sigma_z | -_n(t) \rangle = -\sin 2\theta_n(t)
+\end{equation}
 %%
-Substituting Eq.~\eqref{eq:meter_time_evolution} and using Eq.~\eqref{eq:sigma_z_in_eigenbasis},
+Substituting Eq.~\eqref{eq:meter_time_evolution} (with coefficients $\cos\theta_n(0)$, $\sin\theta_n(0)$) and using Eq.~\eqref{eq:sigma_z_in_eigenbasis},
 %%
 \begin{align}\label{eq:sigma_z_expectation_full}
-    \langle\sigma_z\rangle_n(t) &= \cos^2\theta_n\,\cos 2\theta_n + \sin^2\theta_n\,\cos 2\theta_n - 2\cos\theta_n\sin\theta_n\,(-\sin 2\theta_n)\cos\!\big(\Delta\Phi_n(t)\big) \nonumber\\
-    &= \cos 2\theta_n + \sin^2(2\theta_n)\cos\!\big(\Delta\Phi_n(t)\big),
+    \langle\sigma_z\rangle_n(t) &= \cos^2\!\theta_n(0)\,\cos 2\theta_n(t) - \sin^2\!\theta_n(0)\,\cos 2\theta_n(t) + \sin 2\theta_n(0)\,\sin 2\theta_n(t)\,\cos\!\big(\Delta\Phi_n(t)\big) \nonumber\\
+    &= \cos 2\theta_n(0)\,\cos 2\theta_n(t) + \sin 2\theta_n(0)\,\sin 2\theta_n(t)\,\cos\!\big(\Delta\Phi_n(t)\big),
 \end{align}
 %%
-where we used $\cos^2\theta_n + \sin^2\theta_n = 1$ and $2\cos\theta_n\sin\theta_n\sin 2\theta_n = \sin^2(2\theta_n)$. Now, from Eq.~\eqref{eq:mixing_angle}, the trigonometric identities give
+where the diagonal terms combine via $\cos^2\!\theta_n(0) - \sin^2\!\theta_n(0) = \cos 2\theta_n(0)$, and the cross terms give $2\cos\theta_n(0)\sin\theta_n(0)\sin 2\theta_n(t) = \sin 2\theta_n(0)\sin 2\theta_n(t)$. Now, from Eq.~\eqref{eq:mixing_angle}, the trigonometric identities at any time~$t$ are
 %%
 \begin{equation}\label{eq:trig_identities}
-    \cos 2\theta_n = \frac{x_0\,E_n(t)}{\Omega_n(t)}, \qquad \sin 2\theta_n = \frac{\omega}{\Omega_n(t)}.
+    \cos 2\theta_n(t) = \frac{x_0\,E_n(t)}{\Omega_n(t)}, \qquad \sin 2\theta_n(t) = \frac{\omega}{\Omega_n(t)},
 \end{equation}
 %%
-Substituting these into Eq.~\eqref{eq:sigma_z_expectation_full} yields the meter dynamics
+with the same expressions at $t=0$ using $E_n(0)$ and $\Omega_n(0) \equiv \sqrt{(x_0 E_n(0))^2 + \omega^2}$. Substituting into Eq.~\eqref{eq:sigma_z_expectation_full} yields the central result for the meter dynamics:
 %%
 \begin{equation}\label{eq:sigma_z_final}
-    \langle\sigma_z\rangle_n(t) = \frac{(x_0\,E_n(t))^2}{\Omega_n(t)^2} + \frac{\omega^2}{\Omega_n(t)^2}\,\cos\!\left(2\int_0^t \Omega_n(s)\,ds\right),
+    \langle\sigma_z\rangle_n(t) = \frac{x_0^2\,E_n(0)\,E_n(t)}{\Omega_n(0)\,\Omega_n(t)} + \frac{\omega^2}{\Omega_n(0)\,\Omega_n(t)}\,\cos\!\left(2\int_0^t \Omega_n(s)\,ds\right),
 \end{equation}
 %%
-with $\Omega_n(t) = \sqrt{(x_0 E_n(t))^2 + \omega^2}$. Physcially, the first term, $(x_0 E_n)^2/\Omega_n^2$, is the static (time-averaged) component. It represents the projection of the meter's precession axis onto the $\sigma_z$ direction and is always less than unity when $\omega \neq 0$. The second term is an oscillatory component at twice the Rabi frequency. Its amplitude $\omega^2/\Omega_n^2$ is largest when $\omega \gg x_0 E_n$ and vanishes in the commuting limit $\omega \to 0$.
-
-\subsection{Verification of Limiting Cases}
-
-\qquad As a consistency check, we verify the two limits:
-\begin{enumerate}
-    \item \textbf{Commuting limit} ($\omega = 0$): $\Omega_n = |x_0 E_n|$, and Eq.~\eqref{eq:sigma_z_final} gives $\langle\sigma_z\rangle_n = 1$ for all $t$. The meter remains fully polarised, recovering the constant rescaling factor $(1+x_0)$.
-    \item \textbf{Decoupled limit} ($\omega \gg x_0 E_n$): $\Omega_n \approx \omega$, and Eq.~\eqref{eq:sigma_z_final} gives $\langle\sigma_z\rangle_n \approx \cos(2\omega t)$, which has zero time average. The coupling averages out and the system evolves as if the meter were absent.
-\end{enumerate}
-
-%%==========================================================================
-\section{Time-Averaged Effective Rescaling}\label{sec:time_averaged_rescaling}
-%%==========================================================================
-
-\qquad The oscillatory term in Eq.~\eqref{eq:sigma_z_final} averages to zero over timescales long compared to the Rabi period $\pi/\Omega_n$. For an annealing protocol of total duration $T \gg 1/\Omega_n$, the relevant quantity is therefore the time-averaged meter polarisation:
-%%
-\begin{equation}\label{eq:time_averaged_sigma_z}
-    \overline{\langle\sigma_z\rangle}_n(t) = \frac{(x_0\,E_n(t))^2}{(x_0\,E_n(t))^2 + \omega^2}.
-\end{equation}
-%%
-The effective rescaling factor that the system experiences in sector $n$ is
-%%
-\begin{equation}\label{eq:effective_rescaling}
-    r_n(t) \equiv 1 + x_0\,\overline{\langle\sigma_z\rangle}_n(t) = 1 + \frac{x_0^3\,E_n(t)^2}{x_0^2\,E_n(t)^2 + \omega^2}.
-\end{equation}
-%%
-Comparing with the commuting-case rescaling $r_n^{(\text{ideal})} = 1 + x_0$, the deficit is
-%%
-\begin{equation}\label{eq:rescaling_deficit}
-    \delta r_n(t) \equiv r_n^{(\text{ideal})} - r_n(t) = \frac{x_0\,\omega^2}{x_0^2\,E_n(t)^2 + \omega^2} > 0.
-\end{equation}
-%%
-This deficit is strictly positive for any $\omega \neq 0$, establishing that \emph{any} non-commuting meter dynamics reduce the effective speedup relative to the ideal QND case. The deficit is largest at points where the system energy is smallest---precisely at the avoided crossing where the minimum gap $\Delta_{\min}$ occurs and where the adiabatic condition is most stringent. Quantitatively, at the minimum gap,
-%%
-\begin{equation}\label{eq:deficit_at_gap}
-    \delta r_n\big|_{E_n=E_{\min}} = \frac{x_0\,\omega^2}{x_0^2\,E_{\min}^2 + \omega^2},
-\end{equation}
-%%
-which approaches $x_0$ (complete loss of the coupling benefit) when $\omega \gg x_0 E_{\min}$.
-
-\qquad Eq.~\eqref{eq:time_averaged_sigma_z} identifies the competition parameter $\eta_n(t) \equiv \omega / (x_0 E_n(t))$ that governs the crossover between regimes:
-\begin{itemize}
-    \item $\eta_n \ll 1$ (QND-like regime): The meter adiabatically tracks the $\sigma_z$ eigenstate, and $\overline{\langle\sigma_z\rangle}_n \approx 1 - \eta_n^2$. The correction to the ideal speedup is quadratically small.
-    \item $\eta_n \sim 1$ (crossover): The meter spends comparable time in $|0\rangle$ and $|1\rangle$, and the effective rescaling is intermediate.
-    \item $\eta_n \gg 1$ (decoupled regime): $\overline{\langle\sigma_z\rangle}_n \approx 1/\eta_n^2 \to 0$. The meter precesses rapidly and averages out.
-\end{itemize}
-
-%%==========================================================================
-\section{Reduced System Dynamics and Entanglement}\label{sec:reduced_dynamics}
-%%==========================================================================
-
-\qquad The preceding sections described the meter's dynamics conditioned on the system being in a specific energy eigenstate. In reality, the system generically occupies a superposition of eigenstates. This section traces out the meter to obtain the reduced system density matrix and shows how system--meter entanglement emerges.
-
-\subsection{General Structure of the Joint State}
-
-\qquad Let the system begin in state $|\psi_S(0)\rangle = \sum_n c_n(0)\,|n(0)\rangle$ and the meter in $|0\rangle$. Because the meter Hamiltonian in each sector is different (via the $n$-dependent longitudinal field $x_0 E_n(t)$), the joint state at time $t$ takes the entangled form
-%%
-\begin{equation}\label{eq:joint_state_entangled}
-    |\Psi(t)\rangle = \sum_n c_n(t)\,|n(t)\rangle \otimes |\chi_n(t)\rangle,
-\end{equation}
-%%
-where $c_n(t)$ are the (adiabatically evolving) system amplitudes and $|\chi_n(t)\rangle$ is the meter state conditioned on sector $n$, given by Eq.~\eqref{eq:meter_time_evolution}.
-
-\subsection{Reduced Density Matrix}
-
-\qquad Tracing over the meter yields
-%%
-\begin{equation}\label{eq:reduced_density_matrix}
-    \rho_S(t) = \mathrm{Tr}_M\big[|\Psi(t)\rangle\langle\Psi(t)|\big] = \sum_{n,m} c_n(t)\,c_m^*(t)\;\langle\chi_m(t)|\chi_n(t)\rangle\;|n(t)\rangle\langle m(t)|.
-\end{equation}
-%%
-The matrix elements of $\rho_S$ are therefore modulated by the \emph{meter overlap} $\langle\chi_m(t)|\chi_n(t)\rangle$. For the diagonal elements ($n = m$), the overlap is unity by normalisation, so the populations are unaffected. For the off-diagonal elements ($n \neq m$), the overlap encodes the distinguishability of the meter states in different sectors.
-
-\subsection{Decoherence from Differential Rabi Frequencies}
-
-\qquad Expanding the overlap using Eq.~\eqref{eq:meter_time_evolution},
-%%
-\begin{align}\label{eq:meter_overlap}
-    \langle\chi_m(t)|\chi_n(t)\rangle &= \cos\theta_m\cos\theta_n\,e^{-i(\Phi_n^+ - \Phi_m^+)} + \sin\theta_m\sin\theta_n\,e^{-i(\Phi_n^- - \Phi_m^-)} \nonumber\\
-    &\quad + \text{cross terms with mixed }\pm\text{ phases}.
-\end{align}
-%%
-When $n \neq m$, the Rabi frequencies differ ($\Omega_n \neq \Omega_m$), and the accumulated phases diverge with time. The modulus of the overlap therefore decays, leading to decoherence of the system's off-diagonal density matrix elements. This is \emph{independent} of whether the system itself experiences transitions---it is a purely entanglement-driven effect.
-
-\qquad The von Neumann entropy of the meter's reduced state, $S_M(t) = -\mathrm{Tr}[\rho_M(t)\log\rho_M(t)]$, provides a direct, basis-independent measure of this system--meter entanglement. In the commuting case $S_M = 0$ for all $t$; in the non-commuting case $S_M > 0$ whenever the system occupies a superposition of energy eigenstates.
-
-%% --- SUGGESTED FIGURE 1 ---
-%% \begin{figure}[htbp]
-%%     \centering
-%%     \includegraphics[width=0.7\textwidth]{NonCommutation/MeterEntropy.png}
-%%     \caption[System--meter entanglement entropy]{Von Neumann entropy $S_M(t)$ of the meter's reduced state as a function of time for several values of $\omega$. The entropy is zero in the commuting case ($\omega = 0$) and grows with increasing $\omega$, peaking near the avoided crossing where the system populates a superposition of eigenstates. Parameters: Landau-Zener model, $x_0 = 1$, $T = 10$.}
-%%     \label{fig:meter_entropy}
-%% \end{figure}
-
-%%==========================================================================
-\section{Effective Speedup Bound}\label{sec:speedup_bound}
-%%==========================================================================
-
-\qquad We are now in a position to state the main quantitative result. In the commuting case, Chapter~\ref{Ch2:SpeedingUpQuantumAnnealing} showed that fidelity contours follow lines of constant effective time $T_{\text{eff}} = T(1+x_0)$. The evolution operator is
-%%
-\begin{equation}\label{eq:commuting_evolution}
-    U(t) = \mathcal{T}\exp\!\left[-i\int_0^T (1+x_0)\,H_S(t)\,dt\right],
-\end{equation}
-%%
-which is equivalent to evolving under $H_S$ for an effective duration $T(1+x_0)$. When $\omega \neq 0$, the rescaling factor becomes time-dependent (Eq.~\ref{eq:effective_rescaling}), and the effective duration must be computed as an integral:
-%%
-\begin{equation}\label{eq:effective_time_nc}
-    T_{\text{eff}}(\omega) = \int_0^T \!\left[1 + x_0\,\overline{\langle\sigma_z\rangle}(s)\right] ds = T + x_0\int_0^T \frac{x_0^2 E(s)^2}{x_0^2 E(s)^2 + \omega^2}\,ds,
-\end{equation}
-%%
-where we have used the time-averaged polarisation from Eq.~\eqref{eq:time_averaged_sigma_z}. Since $\overline{\langle\sigma_z\rangle}(t) \leq 1$ with equality only when $\omega = 0$, we obtain the bound
-%%
-\begin{equation}\label{eq:speedup_bound}
-    \boxed{T_{\text{eff}}(\omega) < T_{\text{eff}}(\omega=0) = T(1+x_0) \qquad \text{for all } \omega > 0.}
-\end{equation}
-%%
-The deficit in the effective time is
-%%
-\begin{equation}\label{eq:time_deficit}
-    \Delta T_{\text{eff}} \equiv T(1+x_0) - T_{\text{eff}}(\omega) = x_0\int_0^T \frac{\omega^2}{x_0^2 E(s)^2 + \omega^2}\,ds > 0.
-\end{equation}
-%%
-This integral is dominated by the region near the minimum gap, where $E(s)$ is smallest and the integrand approaches unity. Physically, the speedup is most degraded precisely where it is most needed.
-
-\qquad The time-averaged effective speedup ratio is therefore
-%%
-\begin{equation}\label{eq:speedup_ratio}
-    \frac{T_{\text{eff}}(\omega)}{T} = 1 + x_0 - \frac{x_0\omega^2}{T}\int_0^T \frac{ds}{x_0^2 E(s)^2 + \omega^2} \;\leq\; 1 + x_0.
-\end{equation}
-
-%% --- SUGGESTED FIGURE 2 ---
-%% \begin{figure}[htbp]
-%%     \centering
-%%     \includegraphics[width=0.65\textwidth]{NonCommutation/SpeedupRatio.png}
-%%     \caption[Effective speedup ratio versus $\omega$]{Effective speedup ratio $T_{\text{eff}}(\omega)/T$ as a function of the meter frequency $\omega$ for the Landau-Zener model at several annealing times. The dashed line marks the ideal value $(1+x_0)$. The ratio decreases monotonically with $\omega$, with the sharpest decline controlled by the competition parameter $\omega/(x_0 E_{\min})$. Parameters: $x_0 = 1$, $g = 1$.}
-%%     \label{fig:speedup_ratio}
-%% \end{figure}
+with $\Omega_n(t) = \sqrt{(x_0 E_n(t))^2 + \omega^2}$. The first term is the static component, set by the product $\cos 2\theta_n(0)\,\cos 2\theta_n(t)$. Crucially, it depends on \emph{both} the initial energy $E_n(0)$ and the instantaneous energy $E_n(t)$---a feature absent in the constant-energy case. The second term is an oscillatory component at twice the Rabi frequency. Its amplitude $\omega^2/(\Omega_n(0)\Omega_n(t))$ is largest when $\omega$ dominates both the initial and instantaneous coupling energies, and vanishes in the commuting limit $\omega \to 0$.
 
 %%==========================================================================
 \section{Oscillatory Interference Effects}\label{sec:interference}
 %%==========================================================================
 
 \qquad The time-averaged analysis of Section~\ref{sec:time_averaged_rescaling} captures the dominant effect of non-commuting dynamics but neglects the oscillatory term in Eq.~\eqref{eq:sigma_z_final}. At finite annealing times, the Rabi oscillations are not fully averaged out, and their signature appears as ripple modulations in the fidelity landscape. This section derives an analytical expression for this interference effect, connecting it to the two-branch structure of the Kraus decomposition established in Appendix~\ref{DephasingEffectsDerivation}.
-
-\subsection{Two-Branch Kraus Decomposition (Commuting Case)}
-
-\qquad Recall from Chapter~\ref{Ch2:SpeedingUpQuantumAnnealing} that when $\omega = 0$ and the meter is initialised in $|+\rangle = (|0\rangle + |1\rangle)/\sqrt{2}$, tracing out the meter gives
-%%
-\begin{equation}\label{eq:kraus_commuting}
-    \rho_S(t) = \tfrac{1}{2}\,U_+(t)\,\rho_S(0)\,U_+^\dagger(t) \;+\; \tfrac{1}{2}\,U_-(t)\,\rho_S(0)\,U_-^\dagger(t),
-\end{equation}
-%%
-where $U_\pm(t) = \mathcal{T}\exp\!\big(\!-i\!\int_0^t (1 \pm x_0)\,H_S(s)\,ds\big)$ are propagators for the two rescaled Hamiltonians. We now derive the interference factor that governs the off-diagonal coherences.
-
-\subsection{Off-Diagonal Evolution Step by Step}
-
-\qquad Working in the adiabatic limit, the propagators act diagonally in the instantaneous eigenbasis: $U_\pm(t)|n(0)\rangle \approx e^{-i\phi_n^\pm(t)}|n(t)\rangle$, where the accumulated phases are
-%%
-\begin{equation}\label{eq:branch_phases}
-    \phi_n^{(\pm)}(t) = (1 \pm x_0)\int_0^t E_n(s)\,ds.
-\end{equation}
-%%
-Consider the off-diagonal element $\rho_{mn}(t) = \langle m(t)|\rho_S(t)|n(t)\rangle$ with $m \neq n$. Substituting the Kraus decomposition,
-%%
-\begin{align}\label{eq:offdiag_calculation}
-    \rho_{mn}(t) &= \tfrac{1}{2}\,\rho_{mn}(0)\,e^{-i(\phi_m^{(+)} - \phi_n^{(+)})} + \tfrac{1}{2}\,\rho_{mn}(0)\,e^{-i(\phi_m^{(-)} - \phi_n^{(-)})} \nonumber\\[6pt]
-    &= \tfrac{1}{2}\,\rho_{mn}(0)\left[e^{-i(1+x_0)\Delta\phi_{mn}} + e^{-i(1-x_0)\Delta\phi_{mn}}\right],
-\end{align}
-%%
-where $\Delta\phi_{mn}(t) \equiv \int_0^t \bigl(E_m(s) - E_n(s)\bigr)\,ds$ is the accumulated phase difference between energy levels. The sum of two complex exponentials can be simplified by factoring out the average phase:
-%%
-\begin{align}
-    e^{-i(1+x_0)\Delta\phi_{mn}} + e^{-i(1-x_0)\Delta\phi_{mn}} &= e^{-i\Delta\phi_{mn}}\!\left[e^{-ix_0\Delta\phi_{mn}} + e^{+ix_0\Delta\phi_{mn}}\right] \nonumber\\
-    &= 2\,e^{-i\Delta\phi_{mn}}\cos\!\big(x_0\,\Delta\phi_{mn}\big).
-\end{align}
-%%
-Substituting back,
-%%
-\begin{equation}\label{eq:rho_offdiag_result}
-    \rho_{mn}(t) = \rho_{mn}(0)\;e^{-i\Delta\phi_{mn}(t)}\;\cos\!\big(x_0\,\Delta\phi_{mn}(t)\big).
-\end{equation}
-%%
-The first exponential is the standard dynamical phase that would be present without any meter coupling. The cosine factor is the \emph{interference factor} arising from the coherent superposition of the two evolution branches. When $\cos(x_0\,\Delta\phi_{mn}) = 0$, the two branches destructively interfere and the coherence between levels $m$ and $n$ is fully suppressed.
 
 \subsection{Interference Factor for the Landau-Zener Model}
 
@@ -341,23 +157,13 @@ The factor of 2 arises because the full phase accumulation involves both branche
 
 \qquad We now compare the analytical predictions derived above against exact numerical simulations of the full system--meter Schr\"odinger equation. The simulations use two test systems from Chapter~\ref{Ch2:SpeedingUpQuantumAnnealing}: (i) the Landau-Zener qubit (Eq.~\ref{LandauZenerEquation}) and (ii) a 3-qubit random Ising chain (Eq.~\ref{IsingProblemEquation}). In both cases the meter is a qubit with $X_M = \sigma_z$ and $H_M = \omega\sigma_x$, initialised in $|0\rangle$, with coupling $x_0 = 1$.
 
-\subsection{Effective Energy Rescaling}
-
-\qquad Fig.~\ref{fig:NonCommutationRescaling} displays the deviation of the effective rescaling factor $1 + x_0\langle\sigma_z\rangle(t)$ from its ideal value $(1+x_0) = 2$ as a function of annealing time $T$ and meter frequency $\omega$. Several features confirm the analytical predictions:
-\begin{itemize}
-    \item The deviation is universally negative for all $\omega > 0$, consistent with the bound in Eq.~\eqref{eq:speedup_bound}.
-    \item Fast oscillations are visible at small $\omega$, corresponding to the Rabi oscillation term in Eq.~\eqref{eq:sigma_z_final}.
-    \item The oscillations decay near the avoided crossing, where $E_n(t) \to E_{\min}$ and the Rabi frequency $\Omega_n$ drops, increasing the oscillation period beyond the local time window.
-    \item The rescaling deficit grows monotonically with $\omega$, as predicted by Eq.~\eqref{eq:rescaling_deficit}.
-\end{itemize}
-
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
         \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:NonCommutationRescaling_a}
         \vspace{-1.2ex}
-        \includegraphics[width=0.95\textwidth]{NonCommutation/LZRescale.png}
+            \includegraphics[width=0.95\textwidth]{NonCommutation/SigmaZTimeTrace.png}
     \end{subfigure}%
     \hfill
     \begin{subfigure}[t]{0.48\textwidth}
@@ -370,24 +176,11 @@ The factor of 2 arises because the full phase accumulation involves both branche
     \label{fig:NonCommutationRescaling}
 \end{figure}
 
-%% --- SUGGESTED FIGURE 3 ---
-%% \begin{figure}[htbp]
-%%     \centering
-%%     \includegraphics[width=0.7\textwidth]{NonCommutation/SigmaZTimeTrace.png}
-%%     \caption[Time trace of meter polarisation]{Instantaneous meter polarisation $\langle\sigma_z\rangle(t)$ as a function of time for the Landau-Zener model at several values of $\omega$. Solid lines: exact numerical results. Dashed lines: the analytical expression from Eq.~\eqref{eq:sigma_z_final}. The horizontal dotted line marks the ideal QND value $\langle\sigma_z\rangle = 1$. As $\omega$ increases, the oscillation amplitude grows and the time-averaged value decreases toward zero. Parameters: $x_0 = 1$, $T = 10$, $g = 1$.}
-%%     \label{fig:sigma_z_time_trace}
-%% \end{figure}
+\qquad Fig.~\ref{fig:NonCommutationRescaling} displays the deviation of the effective rescaling factor $1 + x_0\langle\sigma_z\rangle(t)$ from its ideal value $(1+x_0) = 2$ as a function of annealing time $T$ and meter frequency $\omega$. Several features confirm the analytical predictions. The deviation is universally negative for all $\omega > 0$, consistent with the bound in Eq.~\eqref{eq:speedup_bound}. Fast oscillations are visible at small $\omega$, corresponding to the Rabi oscillation term in Eq.~\eqref{eq:sigma_z_final}. The oscillations decay near the avoided crossing, where $E_n(t) \to E_{\min}$ and the Rabi frequency $\Omega_n$ drops, increasing the oscillation period beyond the local time window. The rescaling deficit grows monotonically with $\omega$.
 
 \subsection{Interference Patterns in the Fidelity Landscape}
 
-\qquad Fig.~\ref{fig:interference_analysis} provides a direct test of the interference factor derived in Section~\ref{sec:interference}. Three panels are presented:
-\begin{enumerate}
-    \item[\textbf{(a)}] The fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ reveals characteristic ripple modulations at small $\omega$ and short $T$. These ripples are superimposed on the monotonic fidelity decrease predicted by the time-averaged analysis.
-    \item[\textbf{(b)}] The analytical interference factor $C(T, \omega)$ from Eq.~\eqref{eq:interference_factor_general}, plotted with its zero-crossing contours (black dashed lines). The contours are defined by $2x_0\int_0^T \Omega_{\text{eff}}(s)\,ds = (2n+1)\pi/2$.
-    \item[\textbf{(c)}] The full fidelity map overlaid with the $C = 0$ contours (white dashed lines). The zero-crossings of the analytical interference factor align precisely with the numerical fidelity ripples, confirming that the oscillatory structure arises from coherent interference between the two evolution branches.
-\end{enumerate}
-
-\qquad The physical interpretation is as follows. At small $\omega$, the Rabi oscillations of the meter are slow enough that they are not averaged out over the annealing time $T$. The cosine term in Eq.~\eqref{eq:sigma_z_final} alternates between $+1$ and $-1$, periodically enhancing and suppressing the effective dephasing. As $\omega$ increases, the oscillation frequency grows and the oscillatory contribution averages away, leaving only the monotonic suppression from the time-averaged term. The transition between these regimes is governed by the condition $\Omega_n T \sim 1$.
+\qquad Fig.~\ref{fig:interference_analysis} provides a direct test of the interference factor derived in Section~\ref{sec:interference}. Three panels are presented. The fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ reveals characteristic ripple modulations at small $\omega$ and short $T$. These ripples are superimposed on the monotonic fidelity decrease predicted by the time-averaged analysis. The analytical interference factor $C(T, \omega)$ from Eq.~\eqref{eq:interference_factor_general}, plotted with its zero-crossing contours (black dashed lines). The contours are defined by $2x_0\int_0^T \Omega_{\text{eff}}(s)\,ds = (2n+1)\pi/2$. The full fidelity map overlaid with the $C = 0$ contours (white dashed lines). The zero-crossings of the analytical interference factor align precisely with the numerical fidelity ripples, confirming that the oscillatory structure arises from coherent interference between the two evolution branches.
 
 \begin{figure}[htbp]
     \centering
@@ -415,50 +208,4 @@ The factor of 2 arises because the full phase accumulation involves both branche
     \label{fig:interference_analysis}
 \end{figure}
 
-%% --- SUGGESTED FIGURE 4 ---
-%% \begin{figure}[htbp]
-%%     \centering
-%%     \begin{subfigure}[t]{0.48\textwidth}
-%%         \centering
-%%         \includegraphics[width=\textwidth]{NonCommutation/BlochSphere_w01.png}
-%%         \caption{$\omega = 0.1$}
-%%     \end{subfigure}%
-%%     \hfill
-%%     \begin{subfigure}[t]{0.48\textwidth}
-%%         \centering
-%%         \includegraphics[width=\textwidth]{NonCommutation/BlochSphere_w10.png}
-%%         \caption{$\omega = 10$}
-%%     \end{subfigure}
-%%     \caption[Bloch sphere trajectories of meter state]{Bloch sphere trajectories of the meter state during Landau-Zener evolution. (a) Weak transverse field ($\omega = 0.1$): the meter remains near the north pole ($|0\rangle$), executing small precession loops. (b) Strong transverse field ($\omega = 10$): the meter executes wide orbits that span the equator, averaging $\langle\sigma_z\rangle$ toward zero. The trajectory colour encodes time from blue (initial) to red (final).}
-%%     \label{fig:bloch_sphere}
-%% \end{figure}
-
-%%==========================================================================
-\section{Discussion}\label{sec:ch5_discussion}
-%%==========================================================================
-
-\qquad The results of this chapter establish a clear, quantitative picture of how non-commuting meter dynamics degrade the QND-like speedup protocol. The key findings are:
-
-\begin{enumerate}
-    \item \textbf{The commuting-case speedup is a strict upper bound.} Any non-zero meter Hamiltonian that does not commute with the coupling observable reduces the effective speedup factor below $(1+x_0)$. This is not an artefact of approximation; the bound $T_{\text{eff}}(\omega) < T(1+x_0)$ follows from the positivity of the rescaling deficit (Eq.~\ref{eq:rescaling_deficit}).
-
-    \item \textbf{The degradation is controlled by a single dimensionless parameter.} The competition ratio $\eta = \omega/(x_0 E)$ determines the crossover from the ideal QND regime ($\eta \ll 1$) to the decoupled regime ($\eta \gg 1$). This provides a concrete design criterion: for the protocol to be effective, the meter's intrinsic energy scale $\omega$ must be kept well below $x_0 E_{\min}$, where $E_{\min}$ is the minimum energy scale of the system (proportional to the minimum gap).
-
-    \item \textbf{The worst degradation occurs at the avoided crossing.} Since $E(t)$ is smallest at the minimum gap, the time-averaged polarisation $\overline{\langle\sigma_z\rangle}$ dips most severely in the region where the adiabatic condition is most stringent. This concentrates the performance loss precisely where the speedup is most valuable.
-
-    \item \textbf{Oscillatory interference effects produce fidelity ripples at finite $T$.} The Rabi oscillations of the meter create a cosine modulation of the effective rescaling. At short annealing times, these oscillations are not fully averaged, producing characteristic ripple patterns in the $(T, \omega)$ fidelity landscape that are quantitatively captured by the analytical interference factor $C(T, \omega)$.
-\end{enumerate}
-
-\qquad These findings have direct implications for experimental implementations. In any physical realisation of the QND-like protocol, the auxiliary meter system will have residual internal dynamics. The analysis presented here shows that these dynamics are not merely a nuisance to be minimised post hoc, but rather impose a fundamental constraint: the meter must be engineered such that $\omega \ll x_0 \Delta_{\min}$ in order to preserve the majority of the theoretical speedup. For systems with exponentially small gaps, this condition becomes increasingly difficult to satisfy, suggesting that the practical utility of the protocol is ultimately limited by the ability to construct high-quality meter systems.
-
-%% --- SUGGESTED FIGURE 5 ---
-%% \begin{figure}[htbp]
-%%     \centering
-%%     \includegraphics[width=0.7\textwidth]{NonCommutation/PhaseDiagram.png}
-%%     \caption[Performance regimes in the $(\omega, x_0 E_{\min})$ plane]{Phase diagram of protocol performance in the $(\omega, x_0 E_{\min})$ plane. The colourmap shows the ratio of the achieved effective speedup to the ideal value $(1+x_0)$, computed from Eq.~\eqref{eq:time_averaged_sigma_z}. The dashed line marks $\omega = x_0 E_{\min}$ (the crossover $\eta = 1$). Below this line, the protocol retains more than half its ideal benefit; above it, the speedup is substantially degraded. This diagram provides a practical design criterion for meter engineering.}
-%%     \label{fig:phase_diagram}
-%% \end{figure}
-
-\newpage
-\printbibliography[heading=subbibliography, title={References}]
-%% \end{figure}
+\qquad The physical interpretation is as follows. At small $\omega$, the Rabi oscillations of the meter are slow enough that they are not averaged out over the annealing time $T$. The cosine term in Eq.~\eqref{eq:sigma_z_final} alternates between $+1$ and $-1$, periodically enhancing and suppressing the effective dephasing. As $\omega$ increases, the oscillation frequency grows and the oscillatory contribution averages away, leaving only the monotonic suppression from the time-averaged term. The transition between these regimes is governed by the condition $\Omega_n T \sim 1$.
