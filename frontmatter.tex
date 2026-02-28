@@ -40,11 +40,11 @@
 \doublespacing
 \section*{Abstract}
 
-\qquad Quantum annealing represents a promising heuristic approach to solving combinatorial optimization problems by encoding solutions as ground states of a problem Hamiltonian. However, the requirement for adiabatic evolution leads to prohibitively long computation times, particularly near avoided crossings where energy gaps become exponentially small. We base this thesis around recent developments in expanding this energy gap in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper} via adding an external degree of freedom. The methods developed in this paper are examined in detail and extended to larger systems. From there they are compared to other developments in literature on quantum optimal control and shortcuts to adiabaticity (STA).
+\qquad Quantum annealing represents a promising heuristic approach to solving combinatorial optimization problems by encoding solutions as ground states of a problem Hamiltonian. However, the requirement for adiabatic evolution leads to prohibitively long computation times, particularly near avoided crossings where energy gaps become exponentially small. We base this thesis around recent developments in expanding this energy gap in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper} via adding an external degree of freedom. The methods developed in this paper are examined in detail and extended to larger systems. From there they are compared to other developments in literature on quantum optimal control and shortcuts to adiabaticity (STA), as well as consider  the effect of imperfections in implementing this protocol.
 
 \vspace{2.5cm}
 \section*{Acknowledgements}
-\qquad I would like to thank Dr. Steve Campbell for his guidance and support throughout the project. I will always be grateful for the underpinning he provided through my educational journey, within and outside research. His insights and feedback were invaluable in shaping the direction of this thesis, and direction made the thesis as coherent as possible. Similarily  I would also like to acknowledge my peers for their times we have spent discussing life and physics, which has been a highlight of my time at UCD. Finally, I would like to thank my family for their unwavering support and encouragement throughout my studies.
+\qquad I would like to thank Dr. Steve Campbell for his guidance and support throughout the project. I will always be grateful for the underpinning he provided through my educational journey, within and outside research. His insights and feedback were invaluable in shaping the direction of this thesis, and direction made the thesis as coherent as possible. Similarly,  I would also like to acknowledge my peers for their times we have spent discussing life and physics, which has been a highlight of my time at UCD. Finally, I would like to thank my family for their unwavering support and encouragement throughout my studies.
 \newpage
 
 
@@ -56,6 +56,7 @@
     \begin{tabular}{p{3cm}  p{8cm}}
     \textbf{STA}\label{acr:STA} & Shortcuts to Adiabaticity \\[7pt]
     \textbf{QND}\label{acr:QND} & Quantum Non-Demolition \\[7pt]
+    \textbf{QUBO}\label{acr:QUBO} & Quadratic Unconstrained Binary Optimization \\[7pt]
     \end{tabular}
 \end{table}
 
@@ -64,7 +65,6 @@
 \qquad I declare that all material in this project is my own work, except where there is clear acknowledgement and appropriate reference to the work of others.
 
 \newpage
-\singlespacing
 \listoffigures
 
 \newpage

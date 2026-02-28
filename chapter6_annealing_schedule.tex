@@ -1,11 +1,11 @@
-% Chapter 4: Modifying the Annealing Schedule
-\chapter{Modifying the Annealing Schedule}\label{Ch3:ModifyingSchedule}
+% Chapter 6: Modifying the Annealing Schedule
+\chapter{Modifying the Annealing Schedule}\label{Ch6:ModifyingSchedule}
 
 \qquad  A linear annealing schedule, $s(t) = t/\tau$, where the evolution parameter varies uniformly from $0$ to $1$. This approach is oblivious to the local spectral properties of the Hamiltonian. The adiabatic theorem dictates that the evolution rate must be minimized where the energy gap $\Delta(s)$ is smallest to prevent diabatic transitions. A linear schedule is therefore constrained by the global minimum gap $\Delta_{\min}$, forcing the evolution to be slow throughout the entire anneal, even in regions where the gap is large and faster evolution would be permissible. We can adjust the evolution rate $ds/dt$ to maintain a constant adiabaticity condition on each infinitesimal time interval, leading to a significant potential speedup\cite{LocalAdiabticQuantumSearch, MoritaNishimori2008}.
 
 \section{Local Adiabatic Condition}
 \qquad The adiabatic condition requires that the rate of change of the Hamiltonian be small relative to the squared energy gap\cite{AlbashLidar2018}. Quantitatively, this can be expressed as:
-\begin{equation}
+\begin{equation}\label{eq:local_adiabatic_condition}
     \left| \frac{\langle 1(s) | \frac{dH}{dt} | 0(s) \rangle}{\Delta(s)^2} \right| \leq \epsilon,
 \end{equation}
 where $\epsilon \ll 1$ is a small dimensionless parameter governing the probability of excitation. Transforming the time derivative using the chain rule $\frac{dH}{dt} = \frac{ds}{dt} \frac{dH}{ds}$, we obtain a condition on the schedule rate $\dot{s}$:
@@ -14,7 +14,7 @@ where $\epsilon \ll 1$ is a small dimensionless parameter governing the probabil
 \end{equation}
 \qquad For the standard linear interpolation $H(s) = (1-s)H_0 + sH_P$, the derivative $dH/ds = H_P - H_0$ is constant. Assuming the matrix element $\mathcal{M}(s) = |\langle 1(s) | H_P - H_0 | 0(s) \rangle|$ varies slowly compared to the rapid changes in the gap $\Delta(s)$ near an avoided crossing, the optimal instantaneous velocity $v(s) = \dot{s}$ scales as the square of the gap
 %%
-\begin{equation}
+\begin{equation}\label{eq:gap_squared_scaling}
     \frac{ds}{dt} \propto \epsilon \Delta(s)^2.
 \end{equation}
 %%
@@ -113,3 +113,7 @@ where $\epsilon \ll 1$ is a small dimensionless parameter governing the probabil
 \end{figure}
 
 \qquad We maintain a significant performance improvement over the linear schedule even with the crude averaging process. However, we do lose some performance compared to the individual optimal schedules in Fig. \ref{fig:optimal_diff}(b). Specifically in regions of long annealing times and high interaction strength $x_0$ we see a drop in performance. This is likely due to the variance in gap locations across different instances, where the average schedule may slow down in regions that are not critical for certain instances, leading to suboptimal performance. We extend this analysis to larger qubit numbers and different coupling geometries in the Appendix \ref{sec:appendix_larger_annealings}.
+
+
+\newpage
+\printbibliography[heading=subbibliography, title={References}]

@@ -163,23 +163,17 @@ Although this term implies a modification of coherences, practically it results 
     \vspace{1ex}
 
     % Second row: 2 panels (N=6,7)
+    \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_6_7_a}
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_4b_d}
         \vspace{-1.2ex}
         \includegraphics[width=0.95\textwidth]{LargerIsings/6-4b.png}
     \end{subfigure}%
     \hfill
     \begin{subfigure}[t]{0.32\textwidth}
         \centering
-        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_6_7_b}
-        \vspace{-1.2ex}
-        \includegraphics[width=0.95\textwidth]{LargerIsings/7-4b.png}
-    \end{subfigure}
-        \hfill
-    \begin{subfigure}[t]{0.32\textwidth}
-        \centering
-        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_6_7_b}
+        \refstepcounter{subfigure}\makebox[\textwidth][l]{\hspace{-2mm}(\thesubfigure)}\label{fig:larger_isings_4b_e}
         \vspace{-1.2ex}
         \includegraphics[width=0.95\textwidth]{LargerIsings/7-4b.png}
     \end{subfigure}
@@ -364,7 +358,7 @@ where $\lambda$ parameterizes the evolution path. The gauge potential satisfies 
     S = \int d\lambda \, \text{Tr}[G_\lambda^\dagger G_\lambda].
 \end{equation}
 
-For real Hamiltonians like Ising models, a natural choice is $O_{\text{LCD}}^{(j)} = \sigma_j^y$, \textbf{Justify choice of LCD operators}. The resulting LCD Hamiltonian
+For real Hamiltonians like Ising models, a natural choice is $O_{\text{LCD}}^{(j)} = \sigma_j^y$, since $\sigma^y$ is the only Pauli matrix that is purely imaginary: the adiabatic gauge potential $A_\lambda$ is anti-Hermitian in the real eigenbasis, and $\sigma^y$ is the unique single-qubit operator that is both traceless and anti-symmetric under transposition, matching the required symmetry of $A_\lambda$ for Hamiltonians with time-reversal symmetry\cite{COLD2023}. The resulting LCD Hamiltonian
 
 \begin{equation}
     H_{\text{LCD}}(\lambda) = H_0(\lambda) + \dot{\lambda}\sum_j \alpha_j(\lambda) \sigma_j^y.
@@ -410,13 +404,15 @@ The scaling function used is given by $\lambda(t) = \sin^2(\pi t/2T)$, which sat
         \vspace{-1.5ex}
         \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{COLD/Fig1b.png}}
     \end{subfigure}
-    \caption[COLD optimization for two-spin Hamiltonian]{Optimization of annealing protocol for the two-spin Hamiltonian. (a) fidelity of the final state as a function of total annealing time $T$ for three cases: bare annealing (no LCD), first-order LCD, and combined first-and second-order LCD. }
+    \caption[COLD optimization for two-spin Hamiltonian]{Optimization of annealing protocol for the two-spin Hamiltonian. (a) Fidelity of the final state as a function of total annealing time $T$ for three cases: bare annealing (no LCD), first-order LCD, and combined first- and second-order LCD. (b) Corresponding optimal control landscape showing the COLD-optimised path parameter $\beta$ as a function of $T$.}
     \label{fig:COLD_fig1}
 \end{figure}
 
-\qquad
+\qquad The results confirm that first-order LCD alone provides a modest improvement over bare annealing, while the addition of second-order terms yields substantially higher fidelities at short annealing times. The COLD optimisation further improves upon LCD by reshaping the adiabatic path to maximise the effectiveness of the approximate counterdiabatic terms.
 
 \subsection{BPO versus COLD in Five-Spin Systems}
+
+\qquad To assess scalability, we compare COLD against Bare Path Optimisation (BPO), which optimises the annealing path without counterdiabatic corrections, for a five-spin Ising chain. BPO modifies only the schedule $\lambda(t)$ to minimise the final infidelity, whereas COLD simultaneously optimises the path and applies LCD corrections. This comparison isolates the contribution of the approximate counterdiabatic terms.
 
     \begin{figure}[H]
     \centering
@@ -433,14 +429,32 @@ The scaling function used is given by $\lambda(t) = \sin^2(\pi t/2T)$, which sat
         \vspace{-1.5ex}
         \raisebox{0ex}{\includegraphics[width=0.75\textwidth,trim=0 0 0 0,clip]{COLD/Fig2b.png}}
     \end{subfigure}
-    \caption{}
+    \caption[BPO versus COLD for five-spin Ising chain]{Comparison of Bare Path Optimisation (BPO) and COLD for a five-spin Ising chain. (a) Fidelity as a function of annealing time $T$ for BPO, first-order LCD, and COLD protocols. (b) Fidelity improvement of COLD over BPO, demonstrating that the counterdiabatic corrections provide a consistent advantage, particularly at intermediate annealing durations where diabatic transitions are most problematic.}
     \label{fig:COLD_fig2}
 \end{figure}
 
-\qquad
+\qquad The COLD protocol consistently outperforms BPO across all annealing durations, with the largest gains occurring at intermediate $T$ where the system is neither deeply adiabatic nor fully diabatic. This demonstrates that approximate counterdiabatic terms provide genuine value beyond what path optimisation alone can achieve.
+
+\subsection{Comparison with Engineered Dephasing}
+
+\qquad Both COLD and the engineered dephasing protocol studied in this thesis aim to enhance adiabatic transfer fidelity, but they operate through fundamentally different mechanisms and carry distinct implementation requirements. COLD actively modifies the system Hamiltonian by adding local counterdiabatic driving fields ($\sigma^y$ terms) and optimising the annealing path, requiring precise knowledge of the LCD coefficients $\alpha_j(\lambda)$ at each point in the schedule. In contrast, the meter-based dephasing protocol couples the system to an auxiliary qubit via a QND-like interaction, achieving speedup through passive energy rescaling without modifying the system's internal Hamiltonian.
+
+\qquad From a practical standpoint, COLD requires only single-body control fields but demands a classical optimisation loop to determine the optimal path parameters. The dephasing protocol requires two- and three-body interaction terms ($\sigma_z\sigma_z$ and $\sigma_z\sigma_z\sigma_z$) but involves no optimisation---the speedup is determined analytically by the coupling strength $x_0$. Both approaches are complementary: COLD could in principle be combined with meter-induced dephasing, using the optimised schedule from COLD while simultaneously coupling to a meter for additional energy rescaling.
 
 
 \section{Reservoir Engineering Shortcuts to Adiabaticity}
+
+\qquad Menu et al.\cite{ResEngSTA} proposed a protocol for fast adiabatic transfer by coupling a qubit undergoing Landau-Zener dynamics to an ancillary system (meter) that is itself coupled to a thermal bath. The spin--ancilla interaction takes the form of a time-dependent QND Hamiltonian, diagonal in the spin's instantaneous eigenbasis, making it a direct precursor to the engineered dephasing protocol studied in this thesis.
+
+\qquad The key distinction from the Sveistrys et al.~protocol\cite{DephasingPaper} is the inclusion of dissipative dynamics: the meter thermalises with an external reservoir at rate $\gamma$ and temperature $T_{\text{bath}}$. Two regimes emerge depending on the ratio of the meter's decay rate to the system's characteristic timescale:
+\begin{itemize}
+    \item \textbf{Fast-decay regime} ($\gamma \gg x_0 E$): The ancilla decays rapidly compared to the system--meter coupling timescale. In this limit, the ancilla can be adiabatically eliminated, yielding an effective master equation for the spin that describes pure dephasing in the instantaneous energy eigenbasis. The dephasing rate increases with bath temperature, and the fidelity of adiabatic transfer improves at higher temperatures---a counterintuitive result where thermal noise enhances coherent quantum control.
+    \item \textbf{Slow-decay regime} ($\gamma \sim x_0 E$): The ancilla's dynamics occurs on a timescale comparable to the spin evolution. Here, the coupling effectively cools the spin through the ancilla--bath channel, suppressing diabatic transitions via an incoherent mechanism. This regime yields significantly higher fidelities than the fast-decay case, particularly at low bath temperatures.
+\end{itemize}
+
+\qquad The protocol demonstrates that reservoir engineering provides a complementary pathway to shortcuts-to-adiabaticity that does not require knowledge of the instantaneous eigenspectrum (unlike counterdiabatic driving) and can be implemented with physically accessible couplings. A notable practical feature is that the protocol remains effective under a stroboscopic (pulsed) implementation, where the QND coupling is applied periodically rather than continuously, making it robust against moderate experimental imperfections.
+
+\qquad From the perspective of this thesis, the reservoir engineering protocol shares the QND-coupling structure ($H_{\text{int}} = x_0 H_S(t) \otimes \sigma_z$) with our meter-based protocol but adds the thermal bath as an additional degree of freedom. The engineered dephasing protocol of Sveistrys et al.~can be viewed as the $\gamma \to 0$ (closed-system) limit of the reservoir engineering approach, where the speedup arises purely from coherent energy rescaling rather than from dissipative dephasing. The reservoir engineering results therefore provide an important context: they show that even when genuine dissipation is present, the QND-type coupling structure is beneficial, and they motivate the study of closed-system limits where the mechanism simplifies to pure energy rescaling.
 
 
 \newpage

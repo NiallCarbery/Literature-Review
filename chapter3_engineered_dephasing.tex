@@ -1,15 +1,15 @@
 % Chapter 3: Speeding up Quantum Annealing Using Engineered Dephasing
-\chapter{Speeding up Quantum Annealing Using Engineered Dephasing}\label{Ch2:SpeedingUpQuantumAnnealing}
+\chapter{Speeding up Quantum Annealing Using Engineered Dephasing}\label{Ch3:SpeedingUpQuantumAnnealing}
 
-\qquad The work of Sveistrys et al. in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper} proposes an approach to improve quantum annealing efficiency by exploiting controlled dephasing in the system. The fundamental mechanism involves intentionally coupling the quantum system to an ancillary degree of freedom in a manner that induces dephasing, which reduces the rate of undesired transitions away from the target state and enhances the success probability of reaching the problem ground state.
+\qquad The work of Sveistrys et al. in \textit{Speeding Up Quantum Annealing with Engineered Dephasing}\cite{DephasingPaper} proposes an approach to improve quantum annealing efficiency by exploiting controlled dephasing in the system. The fundamental mechanism involves intentionally coupling the quantum system to an ancillary degree of freedom in a manner that induces dephasing (off-diagonals of density matrix are reduced with respect to the instantaneous energy eigenbasis), which reduces the rate of undesired transitions away from the target state and enhances the success probability of reaching the problem ground state.
 
-\qquad The methodology considers a time-dependent quantum system with Hamiltonian $H_S(t)$ evolving through an annealing schedule. The approach employs a quantum non-demolition (QND) measurement interaction with an auxiliary measurement apparatus, producing dephasing effects in the instantaneous energy eigenbasis of $H_S(t)$. The composite system Hamiltonian takes the form
+\qquad The methodology considers a time-dependent quantum system with Hamiltonian $H_S(t)$ evolving through an annealing schedule. The approach employs a quantum non-demolition (QND) measurement interaction with an auxiliary measurement apparatus, producing dephasing effects in the instantaneous energy eigenbasis of $H_S(t)$. Engineering a dissipative interaction is difficult as it must follow the time dependent energy eigenbasis of the system. This is made easy when an auxiliary quantum meter is made interact such that it commutes with the system Hamiltonian. The composite system Hamiltonian takes the form
 %%
 \begin{equation}
     H(t) = H_S(t) + X_M \otimes H_S(t) + H_M,
 \end{equation}
 %%
-where $X_M$ is a meter observable and $H_M$ governs the meter dynamics. The resulting interaction continuously monitors the instantaneous energy without causing transitions among energy levels, thereby inducing selective dephasing in the energy representation.
+where $X_M$ is a meter observable and $H_M$ governs the meter dynamics. The resulting interaction continuously monitors the instantaneous energy without causing transitions among energy levels, thereby inducing selective dephasing in the energy representation. 
 
 \qquad The dephasing reduces the non-adiabatic couplings between energy eigenstates of $H_S(t)$, the spectral gaps are modified. The maximum performance gain occurs when the system and measurement apparatus evolve without entanglement. The magnitude of the speed-up scales linearly with the coupling strength of the meter interaction. Resulting in a constant speed up factor in time. This work's findings are reproduced and generalized to larger system sizes in the sections that follow. The subsequent discussion develops the underlying concepts systematically, beginning with formal definitions and mathematical derivations.
 
@@ -24,14 +24,14 @@ where $X_M$ is a meter observable and $H_M$ governs the meter dynamics. The resu
 
 \section{Dephasing Effects}
 
-\qquad We now demonstrate the aforementioned dephasing effects by studying in a general manner. The meter coupling induces dephasing, this is shown through a single qubit initialized in the superposition state $|+\rangle = \tfrac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$. Then selecting the meter observable as $X_M=x_0\sigma_z$ and assuming negligible intrinsic meter dynamics ($H_M=0$), while keeping the system Hamiltonian $H_S(t)$ general. Here, $x_0$ represents the coupling strength of the QND-like interaction. The resulting Hamiltonian is given by
+\qquad We now demonstrate the aforementioned dephasing effects by studying them in a general manner. The meter coupling induces dephasing, this is shown through a single qubit meter initialized in the superposition state $|+\rangle = \tfrac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$. Then selecting the meter observable as $X_M=x_0\sigma_z$ and assuming negligible intrinsic meter dynamics ($H_M=0$), while keeping the system Hamiltonian $H_S(t)$ general. Here, $x_0$ represents the coupling strength of the QND-like interaction. The resulting Hamiltonian is given by
 %%
 \begin{equation}
     H(t)=H_S(t)\otimes\mathds{1}_M + x_0 H_S(t)\otimes\sigma_z
     = (1+x_0)H_S(t)\otimes|0\rangle\langle0| + (1-x_0)H_S(t)\otimes|1\rangle\langle1|.
 \end{equation}
 %%
-The derivation in detail is within Appendix \ref{DephasingEffectsDerivation}, by considering that the interaction is diagonal in the meter basis. Then written as a time evolution operator, the total Hamiltonian decomposes into two branches corresponding to the meter states $|0\rangle$ and $|1\rangle$. The total operator form of the master equation turns to be,
+The derivation in detail is within Appendix \ref{DephasingEffectsDerivation}, by considering that the interaction is diagonal in the meter basis. Then written as a time evolution operator, the total Hamiltonian decomposes into two branches corresponding to the meter states $|0\rangle$ and $|1\rangle$ reminding that this corresponds to $\pm 1$ eigenvalues. The total operator form of the master equation turns to be,
 %%
 \begin{equation}
     \frac{d}{dt}\rho_S(t) = -\frac{i}{\hbar}[H_S(t),\rho_S(t)] + i\frac{x_0}{2\hbar}[H_S(t),\rho^{[1+x_0]}_S(t)-\rho^{[1-x_0]}_S(t)].
@@ -43,7 +43,7 @@ Typically, assuming standard initial conditions and ensemble averaging, this sec
     \frac{d}{dt}(\rho_S(t))_{mn} = -\frac{i}{\hbar}([H_S(t),\rho_S(t)])_{mn} + i\frac{x_0}{2\hbar}(E_m(t)-E_n(t))((\rho^{[1+x_0]}_S(t))_{mn}-(\rho^{[1-x_0]}_S(t))_{mn})
 \end{equation}
 %%
-\qquad Equation (\ref{density_matrix_correct_evolution}) indicates that the meter interaction introduces a corrective term to the density matrix's evolution. At leading order, this correction specifically targets the off-diagonal elements in the instantaneous energy frame via the prefactor $(E_m - E_n)$. 
+\qquad Equation (\ref{density_matrix_correct_evolution}) indicates that the meter interaction introduces a corrective term to the density matrix's evolution. At leading order, this correction specifically targets the off-diagonal elements in the instantaneous energy frame via the prefactor $(E_m - E_n)$. This analytical form holds for strong interactions, non Markovian effects, and non-adiabatic evolutions due to an exact Kraus decomposition due to the 
 
 %----------------------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ For branches where $(1 + x_0 m_j) > 1$, the effective adiabatic parameter is red
 
 \section{Landau Zener Example}
 
-\qquad The coupling to the meter is shown to generate coherence suppression in the instantaneous energy eigenbasis. To quantify the magnitude and evolution of this dephasing action, the Landau-Zener model is used. The system Hamiltonian takes the form
+\qquad The coupling to the meter is shown to generate coherence suppression in the instantaneous energy eigenbasis. To quantify the magnitude and evolution of this dephasing action, the Landau-Zener model is used.This is  The system Hamiltonian takes the form
 %%
 \begin{equation} \label{LandauZenerEquation}
     H_S(t) = \frac{vt}{2}\sigma_z + \frac{g}{2}\sigma_x,
@@ -217,4 +217,4 @@ Since energy rescaling in the Landau-Zener model is mathematically equivalent to
     \label{fig:fidelity_diff}
 \end{figure}
 
-\qquad To test this, we simulate the same systems with a fixed coupling $x_0=1$ and vary the strength $\omega$ of the meter's transverse field $H_M = \omega \sigma_x$. We compute the fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ relative to the ideal commuting case. As shown in Fig. \ref{fig:fidelity_diff}, this difference is universally negative across all annealing times $T$ and  $\omega$. This consistent reduction in fidelity supports the conjecture that the presence of non-commuting meter dynamics degrades performance relative to the ideal limit, confirming $1+m_{max}$ as the maximum achievable speedup.
+\qquad To test this, we simulate the same systems with a fixed coupling $x_0=1$ and vary the strength $\omega$ of the meter's transverse field $H_M = \omega \sigma_x$. We compute the fidelity difference $\Delta F = F(T, \omega) - F(T, 0)$ relative to the ideal commuting case. As shown in Fig. \ref{fig:fidelity_diff}, this difference is universally negative across all annealing times $T$ and  $\omega$. This consistent reduction in fidelity supports the conjecture that the presence of non-commuting meter dynamics degrades performance relative to the ideal limit, confirming $1+m_{max}$ as the maximum achievable speedup. These effects are preserved for the non commuting term $\sigma_y$.
