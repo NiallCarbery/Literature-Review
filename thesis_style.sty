@@ -28,9 +28,14 @@
 
 % Title formatting
 \usepackage{titlesec}
-% Chapter: slightly smaller display title with reduced vertical separation
-\titleformat{\chapter}[display]{}{}{0pt}{\normalfont\Large\bfseries}
-\titlespacing*{\chapter}{0pt}{-50pt}{2pt}
+% Chapter: using hang format to allow inline continuation, compact spacing
+\titleformat{\chapter}[hang]{\normalfont\Large\bfseries}{\thechapter}{1em}{}
+\titlespacing*{\chapter}{0pt}{20pt}{10pt}
+
+% Remove page breaks before chapters but ensure we're in vertical mode
+\makeatletter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{\par\vspace{20pt}}{}{}
+\makeatother
 
 % Section: a bit smaller than before, modest spacing
 \titleformat{\section}[hang]{\normalfont\large\bfseries}{\thesection}{1em}{}

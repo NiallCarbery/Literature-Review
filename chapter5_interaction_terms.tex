@@ -68,34 +68,3 @@
     \item \textbf{Wheel}: A star graph supplemented by a ring among the outer qubits, giving $2(N-1)$ edges. Qubit $0$ connects to all others, and qubits $1, \ldots, N-1$ form a closed ring.
 \end{itemize}
 In each case, the coupling strengths $J_{ij}$ and local fields $h_i$ are drawn uniformly from $[0, 1]$ as in the original study. The Ising problem Hamiltonian retains the form of Eq. (\ref{IsingProblemEquation}), but with $J_{ij} = 0$ for qubit pairs not connected by an edge in the chosen geometry. The all-to-all case studied in the paper corresponds to $N(N-1)/2$ edges and serves as a baseline for comparison.
-
-\subsection{QND-like Protocol: Geometry Independence}
-
-\qquad For the full QND-like protocol, where $H_{\text{int}}(t) = H_S(t) \otimes X_M$, the interaction commutes with the system Hamiltonian at all times by construction. The energy rescaling mechanism is therefore exact: every eigenvalue of $H_S(t)$ is uniformly scaled by the factor $(1 + x_0)$, regardless of the underlying graph topology. As a result, the TTS speedup ratio $\mathcal{T}/\mathcal{T}^{\text{coh}}$ converges to the theoretical prediction of $1/(1+x_0)$ for all four geometries studied, consistent with the all-to-all case. The averaged QND-like TTS ratios across the chain, ring, star, and wheel geometries closely track the values obtained from the random all-to-all graph in the original study (Fig.~\ref{fig:geometry_tts}). This confirms that the QND-like speedup is a universal property of the protocol, independent of the problem graph structure, as the commuting interaction guarantees pure energy rescaling without introducing geometry-dependent relaxation pathways.
-
-\subsection{Constrained Protocol: Geometry Dependence}\label{subsec:constrained_geometry}
-
-\qquad In the constrained QND-like protocol, the situation is qualitatively different. Here, the interaction $H_{\text{int}}(t) = f(t) H_f \otimes X_M$ couples only the problem Hamiltonian to the meter, and this interaction does not commute with the full system Hamiltonian $H_S(t)$. The non-vanishing commutator $[f(t)H_f, (1-f(t))H_0] \neq 0$ introduces relaxation transitions alongside the intended energy rescaling, and the severity of these unwanted transitions depends on the structure of $H_f$.
-
-\qquad Numerical results for the TTS speedup ratio as a function of system size $N$ are presented in Fig.~\ref{fig:geometry_tts}. The chain and ring geometries exhibit favourable performance, with TTS ratios decreasing toward $\sim 0.4$ as $N$ increases, indicating a meaningful speedup that improves with system size. The wheel geometry shows intermediate performance, stabilising around $\sim 0.5$. In contrast, the star geometry displays markedly degraded performance: the TTS ratio increases from approximately $0.79$ at $N=3$ to $0.94$ at $N=8$, approaching unity and indicating a near-complete loss of speedup for larger systems. This stands in direct contrast to the all-to-all constrained results from the original paper, which maintain a roughly constant TTS ratio around $0.6$--$0.65$ for $N \geq 5$.
-
-\qquad The poor scaling of the star geometry under the constrained protocol can be attributed to two interrelated structural factors:
-
-\begin{enumerate}
-    \item \textbf{Asymmetric coupling concentration.} In the star graph, all $N-1$ edges pass through the central hub qubit. As $N$ grows, additional leaf qubits are introduced with no direct mutual coupling in $H_f$. The energy rescaling provided by the constrained interaction $f(t) H_f \otimes X_M$ therefore only amplifies gaps associated with transitions involving the hub qubit. Transitions between leaf qubits, which are coupled indirectly through the transverse field $H_0$ but not through $H_f$, receive no protection from the meter coupling.
-
-    \item \textbf{Growing mismatch between $H_f$ and $H_S(t)$.} The transverse field $H_0 = \sum_i \sigma_x^{(i)}$ acts uniformly on all $N$ qubits, whereas the star-topology $H_f$ couples only through the central node. As the system size increases, the non-commuting component $[f(t)H_f, (1-f(t))H_0]$ grows relative to the beneficial energy rescaling, because the transverse terms on the leaf qubits remain entirely uncompensated. The consequent relaxation rate increases in tandem with the coupling strength, consistent with the saturation mechanism identified for the general constrained protocol: the unwanted relaxation becomes stronger alongside the desired energy rescaling effects\cite{DephasingPaper}.
-\end{enumerate}
-
-\qquad In contrast, the chain and ring topologies distribute edges across all qubits, ensuring that the constrained coupling rescales energy gaps more uniformly throughout the spectrum. The ring's closed boundary condition provides an additional edge, slightly improving homogeneity relative to the chain. The wheel geometry benefits from its dual structure, the star core provides strong hub-mediated coupling while the outer ring ensures direct leaf-to-leaf interactions, resulting in performance that interpolates between the star and the more distributed topologies.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.75\textwidth]{InteractionTerms/GeometryTTS.png}
-    \caption[TTS speedup ratio for different interaction graph geometries]{Time-to-Solution speedup ratio $\mathcal{T}/\mathcal{T}^{\mathrm{coh}}$ versus system size $N$ for different interaction graph geometries. The QND-like protocol (squares) achieves the theoretical prediction $1/(1+x_0)$ (green dashed line) regardless of geometry. The constrained protocol (circles) shows strong geometry dependence: chain and ring topologies maintain a substantial speedup, while the star geometry degrades toward no speedup as $N$ increases. Dashed curves with reduced opacity denote the all-to-all random results from the original study. All data are averaged over 100 random Ising instances with $x_0 = 2.0$.}
-    \label{fig:geometry_tts}
-\end{figure}
-
-\qquad These results highlight a practical consideration for implementing constrained QND-like protocols on hardware with restricted connectivity: the topology of the interaction graph plays a critical role in determining the achievable speedup. Architectures with more uniformly distributed couplings, such as chains or rings, preserve significantly more of the speedup afforded by the energy rescaling mechanism. Conversely, highly centralised topologies like the star graph are ill-suited for the constrained protocol, as the hub bottleneck creates an increasingly unfavourable balance between energy rescaling and relaxation as the system scales.
-
-\newpage

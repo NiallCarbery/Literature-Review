@@ -1,5 +1,5 @@
 % Chapter 6: Modifying the Annealing Schedule
-\chapter{Modifying the Annealing Schedule}\label{Ch6:ModifyingSchedule}
+\chapter{Modifying the Annealing Schedule / Comparison to other speedup methods}\label{Ch6:ModifyingSchedule}
 
 \qquad  A linear annealing schedule, $s(t) = t/\tau$, where the evolution parameter varies uniformly from $0$ to $1$. This approach is oblivious to the local spectral properties of the Hamiltonian. The adiabatic theorem dictates that the evolution rate must be minimized where the energy gap $\Delta(s)$ is smallest to prevent diabatic transitions. A linear schedule is therefore constrained by the global minimum gap $\Delta_{\min}$, forcing the evolution to be slow throughout the entire anneal, even in regions where the gap is large and faster evolution would be permissible. We can adjust the evolution rate $ds/dt$ to maintain a constant adiabaticity condition on each infinitesimal time interval, leading to a significant potential speedup\cite{LocalAdiabticQuantumSearch, MoritaNishimori2008}.
 

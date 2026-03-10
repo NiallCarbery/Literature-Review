@@ -2,7 +2,7 @@
 \chapter{Theoretical Foundations}\label{Ch2:TheoreticalFoundations}
 
 \section{Quantum Annealing Problems}
-\qquad We will focus on combinatorial optimization problems expressible through the Quadratic Unconstrained Binary Optimization (QUBO) framework. QUBO formulations have proven versatile across practical applications spanning traffic-flow, logistics and finance.\cite{BaltimoreQA,TrafficFlowOptimizationQA, FinancePortfolioQA} This includes NP-hard classed problems including MAXCUT, graph colouring, and vertex cover.\cite{ClassofQuboProblems} At its core, a QUBO problem involves finding the minimum of a quadratic objective function with respect to binary variables $x_i \in \{0,1\}$ (i.e. classical bits) and a symmetric $N \times N$ matrix $Q$
+\qquad There are a broad class of optimization problems, however, we will focus on combinatorial optimization problems expressible through the Quadratic Unconstrained Binary Optimization (QUBO) framework. QUBO formulations have proven versatile across practical applications spanning traffic-flow, logistics and finance.\cite{BaltimoreQA,TrafficFlowOptimizationQA, FinancePortfolioQA} This includes NP-hard classed problems including MAXCUT, graph colouring, and vertex cover.\cite{ClassofQuboProblems} At its core, a QUBO problem involves finding the minimum of a quadratic objective function with respect to binary variables $x_i \in \{0,1\}$ (i.e. classical bits) and a symmetric $N \times N$ matrix $Q$
 %%
 \begin{equation}\label{QUBOEquation}
     f(x) = \sum_{i=1}^{N} \sum_{j=1}^{N} Q_{ij} x_i x_j.
@@ -14,10 +14,10 @@
     H_P = \sum_{i} h_i \sigma_i^z + \sum_{i<j} J_{ij} \sigma_i^z \sigma_j^z.
 \end{equation}
 %%
-\qquad Here, $\sigma_i^z$ denote pauli-z operators on qubit $i$, with $h_i$ representing local field strengths and $J_{ij}$ encoding inter-qubit coupling interactions. The solution landscape of the original optimization problem becomes the ground state configuration of this Hamiltonian in the $Z$-basis measurement.
+\qquad Here, $\sigma_i^z$ denote pauli-z operators on qubit $i$, with $h_i$ representing local field strengths and $J_{ij}$ encoding inter-qubit coupling interactions. The solution landscape of the original optimization problem becomes the ground state configuration of this Hamiltonian in the $Z$-basis. 
 
 \section{Quantum Annealing}
-\qquad Since directly accessing the ground state of the problem Hamiltonian $H_P$ is challenging, quantum annealing begins by preparing the system in the ground state of a simple initial Hamiltonian $H_0$, then gradually transitions the system to $H_P$. The initial Hamiltonian is typically chosen to be a transverse field form $H_T = \sum_i \sigma_i^x$, whose ground state comprises an equal superposition across all possible computational basis configurations. The annealing evolution is governed by a time-dependent interpolation
+\qquad Since directly accessing the ground state of the problem Hamiltonian $H_P$ is challenging, quantum annealing begins by preparing the system in the ground state of a simple initial Hamiltonian $H_0$, then gradually transitions the system to $H_P$. The initial Hamiltonian is typically chosen to be a transverse field form $H_T = \sum_i \sigma_i^x$, whose ground state comprises an equal superposition across all possible computational basis configurations. (e.g., ($|+\rangle^{\otimes N}), where (|+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$)).\footnote{The non-commuting mixer/driver Hamiltonian allows for quantum tunneling, which is a potential source of speed-up. \cite{NASAQASpeedUp2018}} Therefore, the annealing evolution is governed by a time-dependent interpolation
 %%
 \begin{equation}
     H(t) = (1-\lambda(t))H_0 + \lambda(t)H_P,
