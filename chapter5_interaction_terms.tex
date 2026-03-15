@@ -3,15 +3,15 @@
 
 \section{Constrained QND-like Protocol}
 
-\qquad The full QND-like protocol requires an interaction Hamiltonian of the form $H_S(t) \otimes X_M$. For a QUBO problem Hamiltonian $H_P$, this necessitates simultaneous coupling to both the problem terms and the transverse driver $H_0$. Specifically, if $X_M = \sigma_z$, this implies engineering three-body terms like $\sigma_x \sigma_z$ (from the transverse field) alongside problem-based coupling. A more experimentally feasible "constrained" protocol restricts the coupling solely to the problem Hamiltonian $H_f$
-
+\qquad The full QND-like protocol requires an interaction Hamiltonian of the form $H_S(t) \otimes X_M$. For a QUBO annealing problem, this necessitates simultaneous coupling to both the problem terms $H_P$ and the transverse driver $H_0$. Specifically, if $X_M = \sigma_z$, this implies engineering multi-body terms like $\sigma_x \sigma_z$ alongside problem-based coupling $\sigma_z \sigma_z \sigma_z$. We test the effectiveness of the protocol by eliminating permutations of the possible many-body couplings motivated by the complexity of implementing some of these terms. We find that the elimination o any permutations of these terms removes any performance gain provided by the QND-like protocol except for the one proposed by \textit{Sveistrys et al.}. The more experimentally feasible "constrained" protocol restricts the coupling solely to the problem Hamiltonian $H_f$
+%%
 \begin{equation}
     H_{\text{int}}(t) = f(t) H_f \otimes X_M.
 \end{equation}
+%%
+\qquad This approach eliminates the difficult $\sigma_x \sigma_z$ terms, requiring only interactions of the form $\sigma_z \sigma_z$ and $\sigma_z \sigma_z \sigma_z$. However, omitting the driver term means the interaction no longer commutes with the total Hamiltonian, $[H_{\text{int}}(t), H_S(t)] \neq 0$, thereby introducing relaxation effects alongside the intended energy rescaling.
 
-\qquad This approach eliminates the difficult $\sigma_x \sigma_z$ terms, requiring only variable-coupler interactions ($\sigma_z \sigma_z$ and $\sigma_z \sigma_z \sigma_z$). However, omitting the driver term means the interaction no longer commutes with the total Hamiltonian, $[H_{\text{int}}(t), H_S(t)] \neq 0$, thereby introducing relaxation effects alongside the intended energy rescaling.
-
-\qquad Numerical results for this constrained protocol (Fig. \ref{fig:constrained_results_b}) reveal a saturation in performance. Unlike the ideal case, where fidelity improves linearly with interaction strength, the constrained protocol's fidelity plateaus near $x_0 \approx 2.0$. This limitation arises because stronger coupling increases the rate of deleterious relaxation transitions, eventually competing with the advantages of the widened energy gap. Thus, while the constrained protocol offers a speedup, it is bounded and cannot be indefinitely enhanced by increasing interaction strength.
+\qquad Numerical results for this constrained protocol (Fig. \ref{fig:constrained_results_b}) reveal a saturation in performance. Unlike the ideal case, where fidelity improves linearly with interaction strength, the constrained protocol's fidelity plateaus near $x_0 \approx 2.0$. This limitation arises because stronger coupling increases the rate of relaxation transitions, eventually competing with the advantages of the widened energy gap. Thus, while the constrained protocol offers a speedup, it is bounded and cannot be indefinitely enhanced by increasing interaction strength.
 
 \begin{figure}[htbp]
     \centering
@@ -38,33 +38,51 @@
 
 \qquad To assess the practical utility of the engineered dephasing protocol, we employ the Time-to-Solution (TTS) metric and investigate a constrained implementation that relaxes the rigorous hardware requirements of the full QND interaction.
 
-\qquad The Time-to-Solution (TTS) serves as a robust benchmark for quantum annealing, balancing the trade-off between the duration of a single anneal and the probability of reaching the ground state. Given that verifying a candidate solution is typically efficient, a probabilistic algorithm is effective provided it yields the correct result with a finite probability $p_{\text{single}}$. The TTS, denoted $T_p$, quantifies the expected total time required to achieve a solution with a target confidence level $p$ (typically set to 0.95)
-
+\qquad The Time-to-Solution (TTS) is a benchmark for quantum annealing, balancing the trade-off between the duration of a single anneal and the probability of reaching the ground state. Given that verifying a candidate solution is typically efficient, a probabilistic algorithm is effective provided it yields the correct result with a finite probability $p_{\text{single}}$. The TTS, denoted $T_p$, quantifies the expected total time required to achieve a solution with a target confidence level $p$ (typically set to 0.95)
+%%
 \begin{equation}
     T_p = \min_T \frac{T \log(1-p)}{\log(1-p_{\text{single}}(T))}.
 \end{equation}
-
+%%
 \qquad Based on the energy rescaling derived in previous sections, the success probability for the QND-like protocol scales as $p_{\text{single}}^{\text{QND}}(T) = p_{\text{single}}^{\text{coh}}((1+m)T)$, where $m$ is the meter eigenvalue. Consequently, the ratio of the TTS for the QND-modified system to the standard coherent system is expected to perform as
-
+%%
 \begin{equation}
     \frac{T_p^{\text{QND}}}{T_p^{\text{coh}}} = \frac{1}{1+m}.
 \end{equation}
-
-\qquad Numerical verification of this scaling is presented in Fig. \ref{fig:constrained_results_a} for random Ising instances. With a coupling strength of $x_0 = 2.0$, the observed speedup ratio converges to the theoretical prediction of $(1+x_0)^{-1} \approx 0.33$ for system sizes $N > 3$. Minor deviations in smaller systems act as artifacts of finite sampling within the minimization procedure over annealing time $T$.
+%%
+\qquad Numerical verification of this scaling is presented in Fig. \ref{fig:constrained_results_a} for random Ising instances. With a coupling strength of $x_0 = 2.0$, the observed speedup ratio converges to the theoretical prediction of $(1+x_0)^{-1} \approx 0.33$ for system sizes $N > 3$. This is the extent at which \textit{Sveistrys et al.}\cite{DephasingPaper} explore the constrained protocol, we extend this analysis and point to a subtlety that the geometry of the problem Hamiltonian is a variable in the speedup performance provided by the constrained protocol. We also note that the speedup is not observed for smaller system sizes, which can be attributed to finite-size effects and the dominance of non-adiabatic transitions in these regimes.
 
 %----------------------------------------------------------
 
-\section{Interaction Graph Geometry}\label{sec:geometry}
+\section{Effect of Problem Geometry}\label{sec:geometry}
 
-\qquad The analysis presented in the original paper\cite{DephasingPaper} considers random Ising Hamiltonians with all-to-all connectivity, where every pair of qubits is coupled. However, many physical quantum annealing architectures impose constraints on qubit connectivity, limiting couplings to specific graph topologies. We extend the investigation by studying how the geometry of the interaction graph in the problem Hamiltonian $H_f$ affects the performance of both the QND-like and constrained QND-like protocols. Four representative geometries are considered: the \textit{chain}, \textit{ring}, \textit{star}, and \textit{wheel} graphs.
+\qquad The analysis presented in the original paper\cite{DephasingPaper} considers random Ising Hamiltonians with all-to-all connectivity, where every pair of qubits is coupled. However, many physical quantum annealing architectures impose constraints on qubit connectivity, limiting couplings to specific graph topologies. Similarly many QUBO optimization problems do not exploit all of these couplings and therefore reduce to a simpler geometry. We extend the investigation by studying how the geometry of the interaction graph in the problem Hamiltonian $H_f$ affects the performance of both the QND-like and constrained QND-like protocols. Four representative geometries are considered the chain, ring, star, and wheel graphs. The four interaction geometries studied are defined as follows. For a system of $N$ qubits labelled $0, 1, \ldots, N-1$ we consider the geometeries of a chain, ring, star and wheel graph as shown in the figure below. Each geometry is characterized by a specific pattern of edges that define which pairs of qubits interact as in table \ref{tab:geometries}.
+%%
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l l l}
+        \toprule
+        \textbf{Geometry} & \textbf{Edge Definition} & \textbf{Number of Edges} \\
+        \midrule
+        Chain & $(i, i+1)$ for $i = 0, \ldots, N-2$ & $N-1$ \\
+        Ring & Chain plus $(0, N-1)$ & $N$ \\
+        Star & $(0, j)$ for $j = 1, \ldots, N-1$ & $N-1$ \\
+        Wheel & Star plus ring among $1, \ldots, N-1$ & $2(N-1)$ \\
+        \bottomrule
+    \end{tabular}
+    \caption{Interaction graph geometries and their edge definitions for $N$ qubits.}
+    \label{tab:geometries}
+\end{table}
+%%
+\qquad In each case, the coupling strengths $J_{ij}$ and local fields $h_i$ are drawn uniformly from $[0, 1]$ as in the original study. The Ising problem Hamiltonian retains the form of Eq. (\ref{IsingProblemEquation}), but with $J_{ij} = 0$ for qubit pairs not connected by an edge in the chosen geometry. The all-to-all case studied in the paper corresponds to $N(N-1)/2$ edges and serves as a baseline for comparison.
 
-\subsection{Graph Definitions}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Geometries/Geometries.png}
+    \caption[Shape of Figure Geometries]{Shape of Figure Geometries}
+\end{figure}
 
-\qquad The four interaction geometries studied are defined as follows. For a system of $N$ qubits labelled $0, 1, \ldots, N-1$:
-\begin{itemize}
-    \item \textbf{Chain}: Sequential nearest-neighbour couplings, with edges $(i, i+1)$ for $i = 0, \ldots, N-2$. This yields $N-1$ edges.
-    \item \textbf{Ring}: A chain with the addition of a periodic boundary edge $(0, N-1)$, giving $N$ edges in total.
-    \item \textbf{Star}: A central hub qubit (qubit $0$) coupled to all others, with edges $(0, j)$ for $j = 1, \ldots, N-1$. This also yields $N-1$ edges, but with highly asymmetric connectivity.
-    \item \textbf{Wheel}: A star graph supplemented by a ring among the outer qubits, giving $2(N-1)$ edges. Qubit $0$ connects to all others, and qubits $1, \ldots, N-1$ form a closed ring.
-\end{itemize}
-In each case, the coupling strengths $J_{ij}$ and local fields $h_i$ are drawn uniformly from $[0, 1]$ as in the original study. The Ising problem Hamiltonian retains the form of Eq. (\ref{IsingProblemEquation}), but with $J_{ij} = 0$ for qubit pairs not connected by an edge in the chosen geometry. The all-to-all case studied in the paper corresponds to $N(N-1)/2$ edges and serves as a baseline for comparison.
+Once again we investigate the performance gain 
+All other protocols of reducing the interaction types end up performing worse than allowing the system to anneal with no meter
+
+\section{Optimization of Constrained Annealing based on energy gap / Where do the diabatic transitions occur}

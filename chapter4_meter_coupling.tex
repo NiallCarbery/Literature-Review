@@ -30,31 +30,25 @@
 \section{Joint Hamiltonian and the Role of Non-Commutation}\label{sec:joint_hamiltonian}
 %----------------------------------------------------------------------------------
 
-\qquad We understand the We begin by writing the full system--meter Hamiltonian from Chapter~\ref{Ch3:SpeedingUpQuantumAnnealing} in its most general form,
+\qquad We try to understand this behaviour by writing the full system--meter Hamiltonian from Chapter~\ref{Ch3:SpeedingUpQuantumAnnealing} in its most general form,
 %%
 \begin{equation}\label{eq:total_hamiltonian_nc}
     H(t) = H_S(t) \otimes \mathds{1}_M + x_0\, H_S(t) \otimes X_M + \mathds{1}_S \otimes H_M,
 \end{equation}
 %%
-where $H_S(t)$ is the time-dependent system Hamiltonian, $X_M$ is the meter observable that couples to the system, $x_0$ is the coupling strength, and $H_M$ governs the free meter dynamics. Throughout this chapter we specialise to a qubit meter with $X_M = \sigma_z, H_M = \omega\,\sigma_x$ so that $[H_M, X_M] = [\omega\sigma_x, \sigma_z] = -2i\omega\sigma_y \neq 0$ for any $\omega \neq 0$. The parameter $\omega$ therefore quantifies the departure from the ideal commuting regime. The total Hamiltonian becomes
+where $H_S(t)$ is the time-dependent system Hamiltonian, $X_M$ is the meter observable that couples to the system, $x_0$ is the coupling strength, and $H_M$ governs the free meter dynamics as before. Throughout this chapter we specialise to a qubit meter with $X_M = \sigma_z, H_M = \omega\,\sigma_x$ dynamics so that $[H_M, X_M] = [\omega\sigma_x, \sigma_z] = -2i\omega\sigma_y \neq 0$ for any $\omega \neq 0$. $\omega$ allows us to quantify the difference from an ideal commuting regime. The total Hamiltonian becomes \color{red} Shorten this \color{black}
 %%
 \begin{equation}\label{eq:total_hamiltonian_explicit}
     H_{\text{tot}}(t) = H_S(t) \otimes \mathds{1}_M + x_0\, H_S(t) \otimes \sigma_z + \mathds{1}_S \otimes \omega\,\sigma_x.
 \end{equation}
 %%
-It is instructive to contrast this with the commuting case ($\omega = 0$). When $\omega = 0$, the Hamiltonian is diagonal in the $\sigma_z$ eigenbasis of the meter,
-%%
-\begin{equation}\label{eq:commuting_decomposition}
-    H_{\text{tot}}(t)\big|_{\omega=0} = (1+x_0)\,H_S(t) \otimes |0\rangle\langle 0| + (1-x_0)\,H_S(t) \otimes |1\rangle\langle 1|,
-\end{equation}
-%%
-and the evolution splits into two non-interacting branches, each with a constant rescaling factor $(1 \pm x_0)$. The meter, once initialized in $|0\rangle$, remains there for all time. In contrast, when $\omega \neq 0$, the off-diagonal $\omega\sigma_x$ term mixes $|0\rangle$ and $|1\rangle$ at every instant, continuously coupling the two branches. The Hamiltonian is no longer block-diagonal in the meter basis, and no time-independent basis disentangles the system from the meter.
+In the commuting case ($\omega = 0$), the Hamiltonian is diagonal in the $\sigma_z$ eigenbasis of the meter, From Ch. \ref{Ch3:SpeedingUpQuantumAnnealing} we know the evolution splits into two non-interacting branches, each with a constant rescaling factor $(1 \pm x_0)$. The meter, once initialized in $|0\rangle$, remains there for all time. In contrast, when $\omega \neq 0$, the off-diagonal $\omega\sigma_x$ term mixes $|0\rangle$ and $|1\rangle$ at every instant, continuously coupling the two branches. The Hamiltonian is no longer block-diagonal in the meter basis, and no time-independent basis disentangles the system from the meter.
 
 %----------------------------------------------------------------------------------
 \section{Meter Dynamics in Each Energy Sector}\label{sec:meter_dynamics}
 %----------------------------------------------------------------------------------
 
-\qquad To develop an analytical picture, we work in the instantaneous eigenbasis of the system Hamiltonian, $H_S(t) = \sum_n E_n(t)\,|n(t)\rangle\langle n(t)|$. Within each energy sector labelled by $n$, the system eigenvalue $E_n(t)$ acts as a parameter, and the meter sees an effective $2 \times 2$ Hamiltonian. We derive this sector Hamiltonian in three steps. We act with the projector $|n(t)\rangle\langle n(t)| \otimes \mathds{1}_M$ on Eq.~\eqref{eq:total_hamiltonian_explicit}. Using $H_S(t)|n(t)\rangle = E_n(t)|n(t)\rangle$, the three terms contribute $H_S(t) \otimes \mathds{1}_M \;\rightarrow\; E_n(t)\,\mathds{1}_M$, $x_0\,H_S(t) \otimes \sigma_z \;\rightarrow\; x_0\,E_n(t)\,\sigma_z$, $\mathds{1}_S \otimes \omega\,\sigma_x \;\rightarrow\; \omega\,\sigma_x.$ Adding these yields the effective meter Hamiltonian in sector $n$
+\qquad To develop an analytical picture, we work in the instantaneous eigenbasis of the system Hamiltonian, $H_S(t) = \sum_n E_n(t)\,|n(t)\rangle\langle n(t)|$. Within each energy sector labelled by $n$, the system eigenvalue $E_n(t)$ acts as a parameter, and the meter sees an effective $2 \times 2$ Hamiltonian. We derive this sector Hamiltonian in three steps. We act with the projector $|n(t)\rangle\langle n(t)| \otimes \mathds{1}_M$ on Eq.~\eqref{eq:total_hamiltonian_explicit}. Using $H_S(t)|n(t)\rangle = E_n(t)|n(t)\rangle$. This yields the effective meter Hamiltonian in sector $n$
 %%
 \begin{equation}\label{eq:meter_hamiltonian_sector}
     H_{\text{meter}}^{(n)}(t) = E_n(t)\,\mathds{1}_M + x_0\,E_n(t)\,\sigma_z + \omega\,\sigma_x.
@@ -66,118 +60,38 @@ and the evolution splits into two non-interacting branches, each with a constant
     \tilde{H}_{\text{meter}}^{(n)}(t) = \begin{pmatrix} +x_0\,E_n(t) & \omega \\ \omega & -x_0\,E_n(t) \end{pmatrix}.
 \end{equation}
 %%
-\qquad The diagonal entries $\pm x_0 E_n(t)$ are the energy splittings produced by the system meter coupling, and the off-diagonal entry $\omega$ is the transverse field that drives transitions between the meter states. This is precisely the Hamiltonian of a spin $\tfrac{1}{2}$ particle in a time-dependent longitudinal field $x_0 E_n(t)$ and a constant transverse field $\omega$. The eigenvalues of Eq.~\eqref{eq:meter_matrix} follow from the standard formula for a $2 \times 2$ Hermitian matrix
+\qquad The diagonal entries $\pm x_0 E_n(t)$ are the energy splittings produced by the system meter coupling, and the off-diagonal entry $\omega$ is the transverse field that drives transitions between the meter states. This is precisely the Hamiltonian of a spin $\tfrac{1}{2}$ particle in a time-dependent longitudinal field $x_0 E_n(t)$ and a constant transverse field $\omega$. The eigenvalues and normalized eigenstates given as
 %%
-\begin{equation}\label{eq:meter_eigenvalues}
-    \lambda_{n,\pm}(t) = \pm\,\Omega_n(t), \qquad \Omega_n(t) \equiv \sqrt{\big(x_0\,E_n(t)\big)^2 + \omega^2}.
-\end{equation}
-%%
-Here $\Omega_n(t)$ is the instantaneous Rabi frequency of the meter in sector $n$. The corresponding normalised eigenstates are
-%%
-\begin{equation}\label{eq:meter_eigenstates}
+\begin{align}\label{eq:meter_eigenvalues}
+    \lambda_{n,\pm}(t) = \pm\,\Omega_n(t) &= \pm \sqrt{\big(x_0\,E_n(t)\big)^2 + \omega^2} \nonumber \\
     |+_n(t)\rangle = \cos\theta_n(t)\,|0\rangle + \sin\theta_n(t)\,|1\rangle, \qquad
-    |-_n(t)\rangle = -\sin\theta_n(t)\,|0\rangle + \cos\theta_n(t)\,|1\rangle,
-\end{equation}
+    &|-_n(t)\rangle = -\sin\theta_n(t)\,|0\rangle + \cos\theta_n(t)\,|1\rangle,
+\end{align}
 %%
 where the mixing angle $\theta_n(t)$ satisfies
 \begin{equation}\label{eq:mixing_angle}
     \tan\bigl(2\theta_n(t)\bigr) = \frac{\omega}{x_0\,E_n(t)}.
 \end{equation}
 %%
-We can test this of in two limits, for $\omega \to 0$ $\theta_n \to 0$, so $|+_n\rangle \to |0\rangle$ and $|-_n\rangle \to |1\rangle$. The meter eigenstates coincide with the $\sigma_z$ eigenstates, recovering the ideal two-branch decomposition of Eq.~\eqref{eq:commuting_decomposition}. $\omega \gg x_0 E_n$ $\theta_n \to \pi/4$, so both eigenstates become equal-weight superpositions of $|0\rangle$ and $|1\rangle$. The meter's $\sigma_z$ expectation value averages to zero, and the coupling to the system becomes ineffective.
-
-\color{red} Show this \color{black}
-
-\qquad The mixing angle depends on the system's energy $E_n(t)$ through the ratio $\omega / (x_0 E_n(t))$. This means that different energy levels of the system experience different meter dynamics a feature that has no analogue in the commuting case and is the root cause of system meter entanglement.
-
-%----------------------------------------------------------------------------------
-\section{Rabi Oscillations and Meter Polarisation}\label{sec:rabi_oscillations}
-%----------------------------------------------------------------------------------
-
-\qquad Having established the effective meter Hamiltonian in each sector, we now solve for the meter's time evolution explicitly. Consider the meter initialised in $|0\rangle$, the $+1$ eigenstate of $\sigma_z$. Within sector $n$, the meter evolves under $\tilde{H}_{\text{meter}}^{(n)}(t)$. First we look ar $E_n(t)$ where it varies slowly compared to the Rabi frequency $\Omega_n(t)$, the adiabatic-meter (i.e. $E_n(t)$ changes slowly compared to the meter's Rabi frequency $\Omega(t)$) approximation. This is justified when the system's annealing timescale $T$ is much longer than $1/\Omega_n$. The initial meter state $|0\rangle$ is decomposed in the instantaneous eigenbasis of $\tilde{H}_{\text{meter}}^{(n)}(t)$ at $t=0$:
+\qquad As before we initialize the meter in $|0\rangle$, the $+1$ eigenstate of $\sigma_z$ for a positive energy rescaling. Within sector $n$, the meter evolves under $\tilde{H}_{\text{meter}}^{(n)}(t)$. For simplicity, we make an adiabatic approximation such that $E_n(t)$ where it varies slowly compared to the Rabi frequency $\Omega_n(t)$. This is justified when the system's annealing timescale $T$ is much longer than $1/\Omega_n$. The initial meter state $|0\rangle$ is decomposed in the instantaneous eigenbasis of $\tilde{H}_{\text{meter}}^{(n)}(t)$ at $t=0$:
 %%
 \begin{equation}\label{eq:meter_decomposition}
     |0\rangle = \cos\theta_n(0)\,|+_n(0)\rangle - \sin\theta_n(0)\,|-_n(0)\rangle.
 \end{equation}
 %%
-This follows directly from inverting Eq.~\eqref{eq:meter_eigenstates}. Under the adiabatic-meter approximation, each component tracks the instantaneous eigenstate and acquires a dynamical phase under the eigenvalues $\pm\Omega_n(t)$:
+This follows directly from inverting Eq.~\eqref{eq:meter_eigenvalues}. Under the adiabatic-meter approximation, each component tracks the instantaneous eigenstate and acquires a dynamical phase under the eigenvalues $\pm\Omega_n(t)$:
 %%
 \begin{equation}\label{eq:meter_time_evolution}
     |\chi_n(t)\rangle = \cos\theta_n(0)\,e^{-i\Phi_n^{+}(t)}\,|+_n(t)\rangle - \sin\theta_n(0)\,e^{-i\Phi_n^{-}(t)}\,|-_n(t)\rangle,
 \end{equation}
-
-\qquad The quantity that controls the effective system rescaling is the meter polarisation $\langle\sigma_z\rangle_n(t) = \langle\chi_n(t)|\sigma_z|\chi_n(t)\rangle$. A crucial point is that the amplitudes in Eq.~\eqref{eq:meter_time_evolution} are set by the initial mixing angle $\theta_n(0)$, while the matrix elements of $\sigma_z$ in the instantaneous eigenbasis depend on $\theta_n(t)$. Using Eq.~\eqref{eq:meter_eigenstates} at time~$t$,
 %%
-\begin{equation}\label{eq:sigma_z_in_eigenbasis}
-    \langle +_n(t) | \sigma_z | +_n(t) \rangle = \cos 2\theta_n(t) \quad
-    \langle -_n(t) | \sigma_z | -_n(t) \rangle = -\cos 2\theta_n(t)  \quad
-    \langle +_n(t) | \sigma_z | -_n(t) \rangle = -\sin 2\theta_n(t)
-\end{equation}
-%%
-Substituting Eq.~\eqref{eq:meter_time_evolution} (with coefficients $\cos\theta_n(0)$, $\sin\theta_n(0)$) and using Eq.~\eqref{eq:sigma_z_in_eigenbasis},
-%%
-\begin{align}\label{eq:sigma_z_expectation_full}
-    \langle\sigma_z\rangle_n(t) &= \cos^2\!\theta_n(0)\,\cos 2\theta_n(t) - \sin^2\!\theta_n(0)\,\cos 2\theta_n(t) + \sin 2\theta_n(0)\,\sin 2\theta_n(t)\,\cos\!\big(\Delta\Phi_n(t)\big) \nonumber\\
-    &= \cos 2\theta_n(0)\,\cos 2\theta_n(t) + \sin 2\theta_n(0)\,\sin 2\theta_n(t)\,\cos\!\big(\Delta\Phi_n(t)\big),
-\end{align}
-%%
-where the diagonal terms combine via $\cos^2\!\theta_n(0) - \sin^2\!\theta_n(0) = \cos 2\theta_n(0)$, and the cross terms give $2\cos\theta_n(0)\sin\theta_n(0)\sin 2\theta_n(t) = \sin 2\theta_n(0)\sin 2\theta_n(t)$. Now, from Eq.~\eqref{eq:mixing_angle}, the trigonometric identities at any time~$t$ are
-%%
-\begin{equation}\label{eq:trig_identities}
-    \cos 2\theta_n(t) = \frac{x_0\,E_n(t)}{\Omega_n(t)}, \qquad \sin 2\theta_n(t) = \frac{\omega}{\Omega_n(t)},
-\end{equation}
-%%
-with the same expressions at $t=0$ using $E_n(0)$ and $\Omega_n(0) \equiv \sqrt{(x_0 E_n(0))^2 + \omega^2}$. Substituting into Eq.~\eqref{eq:sigma_z_expectation_full} yields the central result for the meter dynamics:
+\qquad The quantity that controls the effective system rescaling is the meter polarisation $\langle\sigma_z\rangle_n(t) = \langle\chi_n(t)|\sigma_z|\chi_n(t)\rangle$. A crucial point is that the amplitudes in Eq.~\eqref{eq:meter_time_evolution} are set by the initial mixing angle $\theta_n(0)$, while the matrix elements of $\sigma_z$ in the instantaneous eigenbasis depend on $\theta_n(t)$.  yields the central result for the meter dynamics:
 %%
 \begin{equation}\label{eq:sigma_z_final}
     \langle\sigma_z\rangle_n(t) = \frac{x_0^2\,E_n(0)\,E_n(t)}{\Omega_n(0)\,\Omega_n(t)} + \frac{\omega^2}{\Omega_n(0)\,\Omega_n(t)}\,\cos\!\left(2\int_0^t \Omega_n(s)\,ds\right),
 \end{equation}
 %%
-with $\Omega_n(t) = \sqrt{(x_0 E_n(t))^2 + \omega^2}$. The first term is the static component, set by the product $\cos 2\theta_n(0)\,\cos 2\theta_n(t)$. Crucially, it depends on both the initial energy $E_n(0)$ and the instantaneous energy $E_n(t)$. The second term is an oscillatory component at twice the Rabi frequency. Its amplitude $\omega^2/(\Omega_n(0)\Omega_n(t))$ is largest when $\omega$ dominates both the initial and instantaneous coupling energies, and vanishes in the commuting limit $\omega \to 0$.
-
-%%==========================================================================
-\section{Time-Averaged Rescaling and Speedup Bound}\label{sec:time_averaged_rescaling}
-%%==========================================================================
-
-\qquad To extract the net effect of the non-commuting dynamics on the speedup, we time-average the meter polarisation in Eq.~\eqref{eq:sigma_z_final}. Over timescales much longer than the Rabi period $2\pi/\Omega_n$, the oscillatory cosine term averages to zero, leaving only the static component
-%%
-\begin{equation}\label{eq:sigma_z_time_avg}
-    \overline{\langle\sigma_z\rangle}_n = \frac{x_0^2\,E_n(0)\,E_n(t)}{\Omega_n(0)\,\Omega_n(t)} = \frac{x_0^2\,E_n(0)\,E_n(t)}{\sqrt{(x_0 E_n(0))^2 + \omega^2}\,\sqrt{(x_0 E_n(t))^2 + \omega^2}}.
-\end{equation}
-%%
-For the ground state ($n=0$), the effective rescaling factor becomes $1 + x_0\,\overline{\langle\sigma_z\rangle}_0$ rather than the ideal $(1+x_0)$. Since $|\overline{\langle\sigma_z\rangle}_0| \leq 1$ for all $\omega > 0$, with equality only at $\omega = 0$, the time-averaged rescaling is strictly reduced by non-commuting meter dynamics. This establishes the following bound on the achievable speedup: \color{red} Show this \color{black}
-%%
-\begin{equation}\label{eq:speedup_bound}
-    \text{Speedup} \leq 1 + x_0\,\overline{\langle\sigma_z\rangle}_0 \leq 1 + x_0 = 1 + m_{\max},
-\end{equation}
-%%
-with equality if and only if $\omega = 0$. The bound $1 + m_{\max}$ derived in Chapter~\ref{Ch3:SpeedingUpQuantumAnnealing} for the commuting case is therefore the global maximum, and any non-commuting meter dynamics strictly degrades the speedup. The degree of degradation is controlled by the ratio $\omega/(x_0 E_n)$: when $\omega \ll x_0 E_n$, the mixing angle $\theta_n \approx 0$ and the polarisation remains close to unity; when $\omega \gg x_0 E_n$, the polarisation falls toward zero and the meter coupling becomes ineffective.
-
-%%==========================================================================
-\section{Oscillatory Interference Effects}\label{sec:interference}
-%%==========================================================================
-
-\qquad The time-averaged analysis of Section~\ref{sec:time_averaged_rescaling} captures the dominant effect of non-commuting dynamics but neglects the oscillatory term in Eq.~\eqref{eq:sigma_z_final}. At finite annealing times, the Rabi oscillations are not fully averaged out, and their signature appears as ripple modulations in the fidelity landscape. This section derives an analytical expression for this interference effect, connecting it to the two-branch structure of the Kraus decomposition established in Appendix~\ref{DephasingEffectsDerivation}.
-
-\qquad When the meter has non-commuting dynamics $H_M = \omega\sigma_x$, the relevant Rabi frequency for sector~$n$ is, from Eq.~\eqref{eq:sigma_z_final},
-%%
-\begin{equation}\label{eq:effective_rabi}
-    \Omega_n(t) = \sqrt{\bigl(x_0\,E_n(t)\bigr)^2 + \omega^2},
-\end{equation}
-%%
-where $E_n(t)$ is the instantaneous system energy eigenvalue. From Eq.~\eqref{eq:sigma_z_final}, the oscillatory part of $\langle\sigma_z\rangle_n$ defines the interference factor
-%%
-\begin{equation}\label{eq:interference_factor_general}
-    C(T, \omega) = \frac{\omega^2}{\Omega_n(0)\,\Omega_n(T)}\,\cos\!\left(2\int_0^T \Omega_n(s)\,ds\right),
-\end{equation}
-%%
-where the factor of 2 is the standard Rabi oscillation phase $2\int\Omega\,ds$ from the rotating-frame evolution. The amplitude prefactor $\omega^2/(\Omega_n(0)\,\Omega_n(T))$ is largest when $\omega$ dominates the coupling energy $x_0 E_n$ and vanishes in the commuting limit $\omega \to 0$. The zeros of the cosine, occurring when $2\int_0^T \Omega_n(s)\,ds = (2k+1)\pi/2$ for integer~$k$, define contours in the $(T, \omega)$ plane along which the oscillatory contribution vanishes.
-
-%%==========================================================================
-\section{Numerical Validation}\label{sec:numerical_validation}
-%%==========================================================================
-
-\qquad We now compare the analytical predictions derived above against exact numerical simulations of the full system--meter Schr\"odinger equation. The simulations use two test systems from Chapter~\ref{Ch3:SpeedingUpQuantumAnnealing}: (i) the Landau-Zener qubit (Eq.~\ref{LandauZenerEquation}) and (ii) a 3-qubit random Ising chain (Eq.~\ref{IsingProblemEquation}). In both cases the meter is a qubit with $X_M = \sigma_z$ and $H_M = \omega\sigma_x$, initialised in $|0\rangle$, with coupling $x_0 = 1$.
+with $\Omega_n(t) = \sqrt{(x_0 E_n(t))^2 + \omega^2}$. The first term depends on both the initial energy $E_n(0)$ and the instantaneous energy $E_n(t)$. The second term is an oscillatory component at twice the Rabi frequency. Its amplitude $\omega^2/(\Omega_n(0)\Omega_n(t))$ is largest when $\omega$ dominates both the initial and instantaneous coupling energies, and vanishes in the commuting limit $\omega \to 0$.
 
 \begin{figure}[htbp]
     \centering
@@ -194,11 +108,37 @@ where the factor of 2 is the standard Rabi oscillation phase $2\int\Omega\,ds$ f
         \vspace{-1.2ex}
         \includegraphics[width=0.95\textwidth]{NonCommutation/QARescale.png}
     \end{subfigure}
-    \caption[Effective energy rescaling factor for non-commuting dynamics]{Deviation of the effective energy rescaling factor $1+x_0\langle\sigma_z\rangle(t)$ from the ideal QND value, as a function of annealing duration $T$ and meter frequency $\omega$. (a) Landau-Zener qubit. (b) 3-qubit random Ising chain. The universally negative values indicate that non-commuting meter dynamics ($\omega > 0$) strictly reduce the speedup, consistent with the bound in Eq.~\eqref{eq:speedup_bound}. The fast oscillatory structure at small $\omega$ reflects the Rabi oscillation term in Eq.~\eqref{eq:sigma_z_final}.}
+    \caption[Meter expectation value]{$\langle\sigma_z\rangle(t)$ for the Landau-Zener model and Ising model}
     \label{fig:NonCommutationRescaling}
 \end{figure}
 
-\qquad Fig.~\ref{fig:NonCommutationRescaling} displays the deviation of the effective rescaling factor $1 + x_0\langle\sigma_z\rangle(t)$ from its ideal value $(1+x_0) = 2$ as a function of annealing time $T$ and meter frequency $\omega$. Several features confirm the analytical predictions. The deviation is universally negative for all $\omega > 0$, consistent with the bound in Eq.~\eqref{eq:speedup_bound}. Fast oscillations are visible at small $\omega$, corresponding to the Rabi oscillation term in Eq.~\eqref{eq:sigma_z_final}. The oscillations decay near the avoided crossing, where $E_n(t) \to E_{\min}$ and the Rabi frequency $\Omega_n$ drops, increasing the oscillation period beyond the local time window. The rescaling deficit grows monotonically with $\omega$.
+\qquad The total effect of the non-commuting dynamics on the speedup are found by time-averaging the meter polarisation in Eq.~\eqref{eq:sigma_z_final}. Over timescales much longer than the Rabi period $2\pi/\Omega_n$, the oscillatory cosine term averages to zero, leaving only the static component
+%%
+\begin{equation}\label{eq:sigma_z_time_avg}
+    \overline{\langle\sigma_z\rangle}_n = \frac{x_0^2\,E_n(0)\,E_n(t)}{\Omega_n(0)\,\Omega_n(t)} = \frac{x_0^2\,E_n(0)\,E_n(t)}{\sqrt{(x_0 E_n(0))^2 + \omega^2}\,\sqrt{(x_0 E_n(t))^2 + \omega^2}}.
+\end{equation}
+%%
+For the ground state ($n=0$), the effective rescaling factor becomes $1 + x_0\,\overline{\langle\sigma_z\rangle}_0$ rather than the ideal $(1+x_0)$. Since $|\overline{\langle\sigma_z\rangle}_0| \leq 1$ for all $\omega > 0$, with equality only at $\omega = 0$, the time-averaged rescaling is strictly reduced by non-commuting meter dynamics. Agreeing with our numerical simulations. The bound $1 + m_{\max}$ derived in Chapter~\ref{Ch3:SpeedingUpQuantumAnnealing} for the commuting case is therefore the global maximum, and any non-commuting meter dynamics strictly degrades the speedup. The degree of degradation is controlled by the ratio $\omega/(x_0 E_n)$: when $\omega \ll x_0 E_n$, the mixing angle $\theta_n \approx 0$ and the polarisation remains close to one, when $\omega \gg x_0 E_n$, the polarisation falls toward zero and the meter coupling becomes ineffective.
+
+\color{red} TTS of the 1+max speedup \color{black}
+
+%%==========================================================================
+\section{Oscillatory Ripples}\label{sec:interference}
+%%==========================================================================
+
+\qquad The time-averaged term captures the effect of non-commuting dynamics but neglects the oscillatory term in Eq.~\eqref{eq:sigma_z_final}. At finite annealing times, the Rabi oscillations are not fully averaged out, and their signature appears as ripple modulations in the fidelity landscape. This section derives an analytical expression for this interference effect, between two branches. When the meter has non-commuting dynamics $H_M = \omega\sigma_x$, the relevant Rabi frequency for sector~$n$ is $\Omega_n(t) = \sqrt{\bigl(x_0\,E_n(t)\bigr)^2 + \omega^2}$. From Eq.~\eqref{eq:sigma_z_final}, the oscillatory part of $\langle\sigma_z\rangle_n$ defines the interference factor
+%%
+\begin{equation}\label{eq:interference_factor_general}
+    C(T, \omega) = \frac{\omega^2}{\Omega_n(0)\,\Omega_n(T)}\,\cos\!\left(2\int_0^T \Omega_n(s)\,ds\right),
+\end{equation}
+%%
+where the factor of 2 is the standard Rabi oscillation phase $2\int\Omega\,ds$ from the rotating-frame evolution. The amplitude prefactor $\omega^2/(\Omega_n(0)\,\Omega_n(T))$ is largest when $\omega$ dominates the coupling energy $x_0 E_n$ and vanishes in the commuting limit $\omega \to 0$. The zeros of the cosine, occurring when $2\int_0^T \Omega_n(s)\,ds = (2k+1)\pi/2$ for integer~$k$, define contours in the $(T, \omega)$ plane along which the oscillatory contribution vanishes.
+
+\qquad We now compare the analytical predictions derived above against exact numerical simulations of the full system meter Schr\"odinger equation. The simulations use two test systems from Chapter~\ref{Ch3:SpeedingUpQuantumAnnealing}: (i) the Landau-Zener qubit (Eq.~\ref{LandauZenerEquation}) and (ii) a 3-qubit random Ising all to all system (Eq.~\ref{IsingProblemEquation}). In both cases the meter is a qubit with $X_M = \sigma_z$ and $H_M = \omega\sigma_x$, initialised in $|0\rangle$, with coupling $x_0 = 1$. \color{red} Update figures \color{black}
+
+
+
+\qquad Fig.~\ref{fig:NonCommutationRescaling} displays the deviation of the effective rescaling factor $1 + x_0\langle\sigma_z\rangle(t)$ from its ideal value $(1+x_0) = 2$ as a function of annealing time $T$ and meter frequency $\omega$. 
 
 \begin{figure}[htbp]
     \centering
